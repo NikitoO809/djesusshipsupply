@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "servicios": "Servicios",
+    "provisiones": "Provisiones",
+    "gestionDesechos": "Gestión de Desechos",
+    "puertos": "Puertos",
+    "sobreNosotros": "Sobre Nosotros",
+    "contacto": "Contacto",
+    "cotizar": "Cotizar"
+  },
+  "footer": {
+    "empresa": "Empresa",
+    "servicios": "Servicios",
+    "contacto": "Contacto",
+    "tagline": "Servicios marítimos premium en República Dominicana",
+    "rights": "Todos los derechos reservados",
+    "privacidad": "Privacidad",
+    "terminos": "Términos"
+  },
+  "common": {
+    "enConstruccion": "Página en construcción"
+  }
+}

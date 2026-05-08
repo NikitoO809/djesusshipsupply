@@ -1,0 +1,166 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-heading);
+  --font-serif: var(--font-heading);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  /* Brand palette — De Jesús Ship Supply */
+  --color-navy: var(--navy);
+  --color-navy-light: var(--navy-light);
+  --color-navy-dark: var(--navy-dark);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-dark: var(--gold-dark);
+  --color-cream: var(--cream);
+  --color-charcoal: var(--charcoal);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  /* Brand tokens */
+  --navy: #0A2540;
+  --navy-light: #1B3A5C;
+  --navy-dark: #051529;
+  --gold: #C9A961;
+  --gold-light: #D4B976;
+  --gold-dark: #A88A47;
+  --cream: #F8F5EE;
+  --charcoal: #1A1A1A;
+
+  /* shadcn semantic tokens — mapped to brand */
+  --background: #ffffff;
+  --foreground: var(--charcoal);
+  --card: #ffffff;
+  --card-foreground: var(--charcoal);
+  --popover: #ffffff;
+  --popover-foreground: var(--charcoal);
+
+  --primary: var(--navy);
+  --primary-foreground: var(--cream);
+  --secondary: var(--cream);
+  --secondary-foreground: var(--navy);
+  --muted: #f4f1ea;
+  --muted-foreground: #5a6878;
+  --accent: var(--gold);
+  --accent-foreground: var(--navy);
+
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #e7e1d4;
+  --input: #e7e1d4;
+  --ring: var(--gold);
+
+  --chart-1: var(--navy);
+  --chart-2: var(--gold);
+  --chart-3: var(--navy-light);
+  --chart-4: var(--gold-light);
+  --chart-5: var(--charcoal);
+
+  --radius: 0.5rem;
+
+  --sidebar: var(--cream);
+  --sidebar-foreground: var(--navy);
+  --sidebar-primary: var(--navy);
+  --sidebar-primary-foreground: var(--cream);
+  --sidebar-accent: var(--gold);
+  --sidebar-accent-foreground: var(--navy);
+  --sidebar-border: #e7e1d4;
+  --sidebar-ring: var(--gold);
+}
+
+.dark {
+  --background: var(--navy-dark);
+  --foreground: var(--cream);
+  --card: var(--navy);
+  --card-foreground: var(--cream);
+  --popover: var(--navy);
+  --popover-foreground: var(--cream);
+
+  --primary: var(--gold);
+  --primary-foreground: var(--navy-dark);
+  --secondary: var(--navy-light);
+  --secondary-foreground: var(--cream);
+  --muted: #14304f;
+  --muted-foreground: #a9b6c4;
+  --accent: var(--gold);
+  --accent-foreground: var(--navy-dark);
+
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: #1f3e62;
+  --input: #1f3e62;
+  --ring: var(--gold);
+
+  --chart-1: var(--gold);
+  --chart-2: var(--cream);
+  --chart-3: var(--gold-light);
+  --chart-4: #a9b6c4;
+  --chart-5: var(--cream);
+
+  --sidebar: var(--navy-dark);
+  --sidebar-foreground: var(--cream);
+  --sidebar-primary: var(--gold);
+  --sidebar-primary-foreground: var(--navy-dark);
+  --sidebar-accent: var(--navy-light);
+  --sidebar-accent-foreground: var(--cream);
+  --sidebar-border: #1f3e62;
+  --sidebar-ring: var(--gold);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif tracking-tight;
+  }
+}

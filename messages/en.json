@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "servicios": "Services",
+    "provisiones": "Provisions",
+    "gestionDesechos": "Waste Management",
+    "puertos": "Ports",
+    "sobreNosotros": "About Us",
+    "contacto": "Contact",
+    "cotizar": "Get a Quote"
+  },
+  "footer": {
+    "empresa": "Company",
+    "servicios": "Services",
+    "contacto": "Contact",
+    "tagline": "Premium maritime services in the Dominican Republic",
+    "rights": "All rights reserved",
+    "privacidad": "Privacy",
+    "terminos": "Terms"
+  },
+  "common": {
+    "enConstruccion": "Page under construction"
+  }
+}
