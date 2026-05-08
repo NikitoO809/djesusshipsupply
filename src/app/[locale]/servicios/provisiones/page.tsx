@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import {
   Apple,
@@ -16,9 +17,15 @@ import { SectionHeading } from "@/components/sections/SectionHeading";
 import { FeatureGrid } from "@/components/sections/FeatureGrid";
 import { CTASection } from "@/components/sections/CTASection";
 import { FadeIn } from "@/components/sections/FadeIn";
+import { buildPageMetadata, serviceJsonLd } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return buildPageMetadata(locale, "/servicios/provisiones");
 }
 
 export default async function ProvisionesPage({ params }: Props) {
@@ -46,6 +53,14 @@ export default async function ProvisionesPage({ params }: Props) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            serviceJsonLd({ locale, serviceType: "provisions" })
+          ),
+        }}
+      />
       <PageHeader
         kicker={t("kicker")}
         title={t("h1")}

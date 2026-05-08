@@ -1,12 +1,19 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { Mail, MessageCircle, MapPin, Briefcase, ArrowRight } from "lucide-react";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { ContactChannels } from "@/components/sections/ContactChannels";
 import { FadeIn } from "@/components/sections/FadeIn";
+import { buildPageMetadata } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return buildPageMetadata(locale, "/contacto");
 }
 
 export default async function ContactoPage({ params }: Props) {
@@ -20,20 +27,20 @@ export default async function ContactoPage({ params }: Props) {
     {
       icon: Mail,
       label: t("labelOpsEmail"),
-      value: "ops@djesusshipsupply.com",
-      href: "mailto:ops@djesusshipsupply.com",
+      value: "miguelcarmona809v@gmail.com",
+      href: "mailto:miguelcarmona809v@gmail.com",
     },
     {
       icon: Briefcase,
       label: t("labelInfoEmail"),
-      value: "info@djesusshipsupply.com",
-      href: "mailto:info@djesusshipsupply.com",
+      value: "miguelcarmona809v@gmail.com",
+      href: "mailto:miguelcarmona809v@gmail.com",
     },
     {
       icon: MessageCircle,
       label: t("labelWhatsapp"),
-      value: "+1 809 XXX XXXX",
-      href: "https://wa.me/1809",
+      value: "+1 849 276 2491",
+      href: "https://wa.me/18492762491",
     },
     {
       icon: MapPin,

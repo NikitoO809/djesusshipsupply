@@ -128,7 +128,7 @@ export function CustomerConfirmationEmail({ locale, contactName, type }: Props) 
           <div style={footerStyle}>
             <strong style={{ color: navy }}>De Jesús Ship Supply</strong>
             <br />
-            ops@djesusshipsupply.com · djesusshipsupply.com
+            miguelcarmona809v@gmail.com · djesusshipsupply.com
             <br />
             <span style={{ color: "#5a6878" }}>{t.legal}</span>
           </div>

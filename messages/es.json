@@ -18,7 +18,7 @@
     "terminos": "Términos",
     "officeLabel": "Oficina central",
     "officeValue": "Santo Domingo, República Dominicana",
-    "emailOps": "ops@djesusshipsupply.com",
+    "emailOps": "miguelcarmona809v@gmail.com",
     "whatsapp": "WhatsApp 24/7",
     "headingEmpresa": "Empresa",
     "headingServicios": "Servicios",
@@ -39,7 +39,7 @@
     "whyTitle": "Por qué elegirnos",
     "whyKicker": "Nuestra ventaja",
     "why1Title": "Cumplimiento MARPOL certificado",
-    "why1Body": "Manejo de desechos Anexo I (oleosos) y Anexo V (basura) bajo normativa internacional y autorización local.",
+    "why1Body": "Manejo de residuos oleosos y basura sólida bajo normativa internacional y autorización local.",
     "why2Title": "Cobertura nacional",
     "why2Body": "Presencia operativa en los 8 puertos principales de República Dominicana, con logística coordinada para escalas cortas.",
     "why3Title": "Atención 24/7 al buque",
@@ -47,7 +47,7 @@
     "servicesTitle": "Nuestros servicios",
     "servicesKicker": "Operación integral",
     "service1Title": "Gestión de desechos MARPOL",
-    "service1Body": "Recolección, transporte y disposición final de residuos oleosos (Anexo I) y basura sólida (Anexo V) con documentación completa.",
+    "service1Body": "Recolección, transporte y disposición final de residuos oleosos y basura sólida con documentación completa.",
     "service2Title": "Provisiones marítimas",
     "service2Body": "Suministro de víveres frescos, congelados, secos, bonded stores, agua potable y gases técnicos directo a bordo.",
     "ctaTitle": "¿Próxima escala en RD? Cotice en minutos.",
@@ -72,17 +72,17 @@
   },
   "waste": {
     "kicker": "Gestión MARPOL",
-    "h1": "Gestión MARPOL Anexo I y Anexo V",
+    "h1": "Gestión MARPOL de residuos oleosos y basura sólida",
     "subtitle": "Recolección, transporte y disposición final de desechos generados a bordo, con documentación oficial y cumplimiento normativo.",
-    "annex1Tag": "Anexo I",
-    "annex1Title": "Anexo I — Residuos oleosos",
+    "annex1Tag": "Oleosos",
+    "annex1Title": "Residuos oleosos",
     "annex1Body": "Manejo de aguas oleosas, lodos (sludge), residuos de purificadores, agua de sentina y mezclas oleosas. Equipos certificados, transporte sellado y disposición en instalaciones autorizadas.",
     "annex1Includes": "Incluye",
     "annex1Item1": "Recolección a bordo",
     "annex1Item2": "Documentación MARPOL",
     "annex1Item3": "Certificado de disposición final",
-    "annex5Tag": "Anexo V",
-    "annex5Title": "Anexo V — Basura sólida",
+    "annex5Tag": "Sólidos",
+    "annex5Title": "Basura sólida",
     "annex5Body": "Recolección segregada de basura doméstica, plásticos, residuos alimenticios y desechos operacionales según las categorías MARPOL.",
     "annex5Item1": "Contenedores a bordo",
     "annex5Item2": "Segregación en muelle",
@@ -167,7 +167,139 @@
   "forms": {
     "provisiones": {
       "title": "Solicitud de cotización — Provisiones",
-      "subtitle": "Complete los datos del buque y el listado requerido. Le respondemos en menos de 2 horas con disponibilidad y precio."
+      "subtitle": "Complete los datos del buque y el listado requerido. Le respondemos en menos de 2 horas con disponibilidad y precio.",
+      "flow": {
+        "banner": "Recomendamos solicitar con 5 días de anticipación al ETA. Para urgencias, contáctenos por WhatsApp.",
+        "bannerTip": "TIP",
+        "stepper": {
+          "vessel": "Datos del buque",
+          "order": "Tu pedido",
+          "review": "Revisar y enviar"
+        },
+        "methods": {
+          "eyebrow": "Paso 02 · Cómo prefieres pedir",
+          "title": "¿Cómo deseas hacer",
+          "titleEm": "tu pedido",
+          "subtitle": "Elige la opción que mejor se adapte a tu estilo de trabajo. Puedes combinar métodos: subir tu lista propia y añadir productos extra del catálogo.",
+          "recommended": "Recomendado",
+          "catalog": {
+            "title": "Catálogo",
+            "titleEm": "online",
+            "subtitle": "Navegar y seleccionar",
+            "desc": "Explora nuestro catálogo organizado por categorías. Busca, filtra y agrega productos al carrito. Ideal si es tu primera vez o si prefieres ver opciones visualmente.",
+            "time": "3-10 minutos",
+            "cta": "Empezar a seleccionar"
+          },
+          "template": {
+            "title": "Plantilla",
+            "titleEm": "Excel",
+            "subtitle": "Descargar y enviar",
+            "desc": "Descarga nuestra plantilla profesional con todas las categorías. Llénala offline a tu ritmo y súbela cuando esté lista.",
+            "time": "Trabajo offline",
+            "cta": "Ver plantilla"
+          },
+          "upload": {
+            "title": "Mi",
+            "titleEm": "lista propia",
+            "subtitle": "Subir directamente",
+            "desc": "¿Ya tienes tu lista en Excel, PDF o cualquier formato? Súbela directamente. Para clientes recurrentes que ya manejan su sistema. Velocidad máxima.",
+            "time": "30 segundos",
+            "cta": "Subir mi lista"
+          },
+          "combineTitle": "¿Necesitas combinar?",
+          "combineBody": "Puedes subir tu lista propia y luego añadir productos extra del catálogo. La flexibilidad total es nuestra prioridad."
+        },
+        "catalog": {
+          "eyebrow": "Catálogo · {count} productos",
+          "title": "Seleccionar",
+          "titleEm": "productos",
+          "subtitle": "Explora por categoría o busca lo que necesitas. Tu carrito se guarda automáticamente.",
+          "searchPlaceholder": "Buscar producto (ej: 'beef', 'tomato', 'water')...",
+          "noResults": "No se encontraron productos para",
+          "addedBadge": "Agregado",
+          "addBtn": "Agregar",
+          "cart": {
+            "title": "Tu",
+            "titleEm": "pedido",
+            "count": "{products} productos · {categories} categorías",
+            "emptyTitle": "Tu pedido está vacío",
+            "emptyBody": "Selecciona productos del catálogo. Se guardarán automáticamente.",
+            "total": "Total ítems",
+            "review": "Revisar y enviar",
+            "note": "Recibirás cotización en menos de 24 horas"
+          }
+        },
+        "template": {
+          "eyebrow": "Vía 02 · Plantilla Excel",
+          "title": "Trabaja a tu",
+          "titleEm": "ritmo",
+          "subtitle": "Descarga nuestra plantilla, llénala offline y vuelve cuando esté lista.",
+          "cardTitle": "Plantilla de",
+          "cardTitleEm": "Provisiones",
+          "cardDesc": "Excel profesional con todas nuestras categorías de productos. Diseño limpio, fácil de llenar, listo para enviar de vuelta.",
+          "stats": {
+            "categories": "Categorías",
+            "products": "Productos",
+            "sheets": "Hojas"
+          },
+          "steps": {
+            "s1": "Descarga el archivo Excel a tu computadora.",
+            "s2": "Llena la columna QTY de cada producto que necesitas. Deja en blanco lo que no.",
+            "s3": "Vuelve aquí y súbela. Te respondemos con cotización en 24h."
+          },
+          "downloadBtn": "Descargar Plantilla",
+          "alreadyHaveBtn": "Ya la tengo, subir",
+          "comingSoon": "Plantilla próximamente disponible"
+        },
+        "upload": {
+          "eyebrow": "Vía 03 · Tu lista propia",
+          "title": "Sube tu",
+          "titleEm": "archivo",
+          "subtitle": "Acepta cualquier formato de lista. La revisaremos y prepararemos tu cotización.",
+          "dropzoneTitle": "Arrastra tu",
+          "dropzoneTitleEm": "archivo",
+          "dropzoneSub": "o haz clic para seleccionarlo",
+          "dropzoneLimit": "Máximo 10 MB",
+          "received": "Recibido correctamente",
+          "changeBtn": "Cambiar",
+          "removeBtn": "Eliminar",
+          "extrasTitle": "Comentarios adicionales (opcional)",
+          "extrasPlaceholder": "Indica preferencias de marca, instrucciones especiales, productos que requieren revisión, etc.",
+          "combineTitle": "¿Necesitas algo más del catálogo?",
+          "combineDesc": "Añade productos extra a tu pedido — se combinarán con tu lista subida.",
+          "combineBtn": "Agregar del catálogo",
+          "fileTooLarge": "Archivo demasiado grande. Máximo 10 MB."
+        },
+        "review": {
+          "eyebrow": "Paso 03 · Confirmar",
+          "title": "Revisar y",
+          "titleEm": "enviar",
+          "subtitle": "Verifica los datos antes de enviar. Te confirmamos por correo en menos de 24 horas.",
+          "vesselSection": "Datos del buque y contacto",
+          "orderSection": "Tu pedido",
+          "methodLabel": "Método",
+          "methodCatalog": "Catálogo online",
+          "methodTemplate": "Plantilla rellenada",
+          "methodUpload": "Lista propia",
+          "fileLabel": "Archivo",
+          "itemsLabel": "Productos",
+          "extraItemsLabel": "Productos extra del catálogo",
+          "currencyLabel": "Moneda preferida",
+          "notesLabel": "Notas adicionales",
+          "noNotes": "—",
+          "editBtn": "Editar",
+          "successTitle": "Solicitud recibida",
+          "successBody": "Hemos recibido tu requerimiento. Un coordinador te responderá en menos de 24 horas al correo indicado. Para urgencias, contáctanos por WhatsApp."
+        },
+        "common": {
+          "back": "Atrás",
+          "next": "Continuar",
+          "changeMethod": "Cambiar método",
+          "addCatalog": "Agregar del catálogo",
+          "submit": "Enviar solicitud",
+          "submitting": "Enviando..."
+        }
+      }
     },
     "desechos": {
       "title": "Solicitud de cotización — Gestión de desechos",

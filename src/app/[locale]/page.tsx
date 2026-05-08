@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import {
   ShieldCheck,
@@ -12,9 +13,15 @@ import { FeatureGrid } from "@/components/sections/FeatureGrid";
 import { ServiceCard } from "@/components/sections/ServiceCard";
 import { CTASection } from "@/components/sections/CTASection";
 import { FadeIn, Stagger, StaggerItem } from "@/components/sections/FadeIn";
+import { buildPageMetadata } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return buildPageMetadata(locale, "/");
 }
 
 export default async function HomePage({ params }: Props) {
@@ -97,7 +104,7 @@ export default async function HomePage({ params }: Props) {
                 body={t("service2Body")}
                 href={link("/servicios/provisiones")}
                 ctaLabel={t("ctaProvisions")}
-                imageSrc="https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?auto=format&fit=crop&w=1600&q=80"
+                imageSrc="/images/provisiones.jpg"
                 imageAlt="Ship provisions onboard"
                 icon={Apple}
                 tag="Provisions"

@@ -1,11 +1,18 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { PortCard } from "@/components/sections/PortCard";
 import { CTASection } from "@/components/sections/CTASection";
 import { Stagger, StaggerItem } from "@/components/sections/FadeIn";
+import { buildPageMetadata } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return buildPageMetadata(locale, "/puertos");
 }
 
 export default async function PuertosPage({ params }: Props) {

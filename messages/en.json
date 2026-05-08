@@ -18,7 +18,7 @@
     "terminos": "Terms",
     "officeLabel": "Head office",
     "officeValue": "Santo Domingo, Dominican Republic",
-    "emailOps": "ops@djesusshipsupply.com",
+    "emailOps": "miguelcarmona809v@gmail.com",
     "whatsapp": "WhatsApp 24/7",
     "headingEmpresa": "Company",
     "headingServicios": "Services",
@@ -39,7 +39,7 @@
     "whyTitle": "Why choose us",
     "whyKicker": "Our edge",
     "why1Title": "Certified MARPOL compliance",
-    "why1Body": "Annex I (oily) and Annex V (garbage) waste handling under international regulation and local authorization.",
+    "why1Body": "Oily residue and solid garbage handling under international regulation and local authorization.",
     "why2Title": "Nationwide coverage",
     "why2Body": "Operational presence in all 8 main ports of the Dominican Republic, with logistics coordinated for short port calls.",
     "why3Title": "24/7 vessel attention",
@@ -47,7 +47,7 @@
     "servicesTitle": "Our services",
     "servicesKicker": "End-to-end operation",
     "service1Title": "MARPOL waste management",
-    "service1Body": "Collection, transport and final disposal of oily residues (Annex I) and solid garbage (Annex V) with full documentation.",
+    "service1Body": "Collection, transport and final disposal of oily residues and solid garbage with full documentation.",
     "service2Title": "Ship provisions",
     "service2Body": "Supply of fresh, frozen and dry provisions, bonded stores, fresh water and technical gases delivered onboard.",
     "ctaTitle": "Next port call in the DR? Get a quote in minutes.",
@@ -72,17 +72,17 @@
   },
   "waste": {
     "kicker": "MARPOL management",
-    "h1": "MARPOL Annex I and Annex V waste management",
+    "h1": "MARPOL waste management — oily residues and solid garbage",
     "subtitle": "Collection, transport and final disposal of waste generated onboard, with official documentation and full regulatory compliance.",
-    "annex1Tag": "Annex I",
-    "annex1Title": "Annex I — Oily residues",
+    "annex1Tag": "Oily",
+    "annex1Title": "Oily residues",
     "annex1Body": "Handling of oily water, sludge, purifier residues, bilge water and oily mixtures. Certified equipment, sealed transport, and disposal at authorized facilities.",
     "annex1Includes": "Includes",
     "annex1Item1": "Onboard collection",
     "annex1Item2": "MARPOL documentation",
     "annex1Item3": "Final disposal certificate",
-    "annex5Tag": "Annex V",
-    "annex5Title": "Annex V — Solid garbage",
+    "annex5Tag": "Solid",
+    "annex5Title": "Solid garbage",
     "annex5Body": "Segregated collection of domestic waste, plastics, food waste and operational residues following MARPOL categories.",
     "annex5Item1": "Onboard containers",
     "annex5Item2": "Pier-side segregation",
@@ -167,7 +167,139 @@
   "forms": {
     "provisiones": {
       "title": "Quote request — Provisions",
-      "subtitle": "Provide vessel details and required list. We'll respond within 2 hours with availability and pricing."
+      "subtitle": "Provide vessel details and required list. We'll respond within 2 hours with availability and pricing.",
+      "flow": {
+        "banner": "We recommend requesting 5 days before ETA. For urgent calls, reach us on WhatsApp.",
+        "bannerTip": "TIP",
+        "stepper": {
+          "vessel": "Vessel details",
+          "order": "Your order",
+          "review": "Review and send"
+        },
+        "methods": {
+          "eyebrow": "Step 02 · How would you like to order",
+          "title": "How would you like to place",
+          "titleEm": "your order",
+          "subtitle": "Pick the option that best fits your workflow. You can combine methods: upload your own list and add extra products from the catalog.",
+          "recommended": "Recommended",
+          "catalog": {
+            "title": "Online",
+            "titleEm": "catalog",
+            "subtitle": "Browse and select",
+            "desc": "Explore our catalog organized by categories. Search, filter and add products to your cart. Ideal if it's your first time or if you prefer to see options visually.",
+            "time": "3-10 minutes",
+            "cta": "Start selecting"
+          },
+          "template": {
+            "title": "Excel",
+            "titleEm": "template",
+            "subtitle": "Download and send",
+            "desc": "Download our professional template with all categories. Fill it offline at your own pace and upload when ready.",
+            "time": "Offline work",
+            "cta": "View template"
+          },
+          "upload": {
+            "title": "My own",
+            "titleEm": "list",
+            "subtitle": "Upload directly",
+            "desc": "Already have your list in Excel, PDF or any format? Upload it directly. For recurring customers who already manage their own system. Maximum speed.",
+            "time": "30 seconds",
+            "cta": "Upload my list"
+          },
+          "combineTitle": "Need to combine?",
+          "combineBody": "You can upload your own list and then add extra products from the catalog. Total flexibility is our priority."
+        },
+        "catalog": {
+          "eyebrow": "Catalog · {count} products",
+          "title": "Select",
+          "titleEm": "products",
+          "subtitle": "Browse by category or search what you need. Your cart is saved automatically.",
+          "searchPlaceholder": "Search product (e.g. 'beef', 'tomato', 'water')...",
+          "noResults": "No products found for",
+          "addedBadge": "Added",
+          "addBtn": "Add",
+          "cart": {
+            "title": "Your",
+            "titleEm": "order",
+            "count": "{products} products · {categories} categories",
+            "emptyTitle": "Your order is empty",
+            "emptyBody": "Select products from the catalog. They'll be saved automatically.",
+            "total": "Total items",
+            "review": "Review and send",
+            "note": "You'll receive a quote within 24 hours"
+          }
+        },
+        "template": {
+          "eyebrow": "Method 02 · Excel template",
+          "title": "Work at your",
+          "titleEm": "own pace",
+          "subtitle": "Download our template, fill it offline and come back when ready.",
+          "cardTitle": "Provisions",
+          "cardTitleEm": "template",
+          "cardDesc": "Professional Excel with all our product categories. Clean design, easy to fill, ready to send back.",
+          "stats": {
+            "categories": "Categories",
+            "products": "Products",
+            "sheets": "Sheets"
+          },
+          "steps": {
+            "s1": "Download the Excel file to your computer.",
+            "s2": "Fill the QTY column for each product you need. Leave the rest blank.",
+            "s3": "Come back here and upload it. We'll respond with a quote in 24h."
+          },
+          "downloadBtn": "Download template",
+          "alreadyHaveBtn": "I have it, upload",
+          "comingSoon": "Template coming soon"
+        },
+        "upload": {
+          "eyebrow": "Method 03 · Your own list",
+          "title": "Upload your",
+          "titleEm": "file",
+          "subtitle": "Any list format accepted. We'll review it and prepare your quote.",
+          "dropzoneTitle": "Drag your",
+          "dropzoneTitleEm": "file",
+          "dropzoneSub": "or click to select",
+          "dropzoneLimit": "Maximum 10 MB",
+          "received": "Received successfully",
+          "changeBtn": "Change",
+          "removeBtn": "Remove",
+          "extrasTitle": "Additional comments (optional)",
+          "extrasPlaceholder": "Note brand preferences, special instructions, products that need review, etc.",
+          "combineTitle": "Need anything else from the catalog?",
+          "combineDesc": "Add extra products to your order — they'll be combined with your uploaded list.",
+          "combineBtn": "Add from catalog",
+          "fileTooLarge": "File too large. Maximum 10 MB."
+        },
+        "review": {
+          "eyebrow": "Step 03 · Confirm",
+          "title": "Review and",
+          "titleEm": "send",
+          "subtitle": "Check the details before sending. We'll confirm by email within 24 hours.",
+          "vesselSection": "Vessel and contact details",
+          "orderSection": "Your order",
+          "methodLabel": "Method",
+          "methodCatalog": "Online catalog",
+          "methodTemplate": "Filled template",
+          "methodUpload": "Custom list",
+          "fileLabel": "File",
+          "itemsLabel": "Products",
+          "extraItemsLabel": "Extra products from catalog",
+          "currencyLabel": "Preferred currency",
+          "notesLabel": "Additional notes",
+          "noNotes": "—",
+          "editBtn": "Edit",
+          "successTitle": "Request received",
+          "successBody": "We've received your inquiry. A coordinator will respond within 24 hours to the email provided. For urgent matters, reach us on WhatsApp."
+        },
+        "common": {
+          "back": "Back",
+          "next": "Continue",
+          "changeMethod": "Change method",
+          "addCatalog": "Add from catalog",
+          "submit": "Send request",
+          "submitting": "Sending..."
+        }
+      }
     },
     "desechos": {
       "title": "Quote request — Waste management",

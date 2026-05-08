@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { routing } from "@/i18n/routing";
+import { localBusinessJsonLd, SITE_URL } from "@/lib/seo";
 import "../globals.css";
 
 const inter = Inter({
@@ -27,17 +28,11 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
-const SITE_URL = (
-  process.env.SITE_URL ??
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  "https://djesusshipsupply.com"
-).replace(/\/$/, "");
-
 const COPY = {
   es: {
     title: "De Jesús Ship Supply — Servicios marítimos en RD",
     description:
-      "Servicios marítimos premium en República Dominicana: gestión de desechos MARPOL (Anexos I y V) y provisiones para buques en 8 puertos.",
+      "Servicios marítimos premium en República Dominicana: gestión de desechos MARPOL y provisiones para buques en 8 puertos.",
     ogTitle: "De Jesús Ship Supply",
     ogDescription:
       "Gestión de desechos MARPOL y provisiones para buques en los principales puertos de la República Dominicana.",
@@ -47,7 +42,7 @@ const COPY = {
   en: {
     title: "De Jesús Ship Supply — Maritime Services in the DR",
     description:
-      "Premium maritime services in the Dominican Republic: MARPOL waste management (Annexes I & V) and ship provisions across 8 ports.",
+      "Premium maritime services in the Dominican Republic: MARPOL waste management and ship provisions across 8 ports.",
     ogTitle: "De Jesús Ship Supply",
     ogDescription:
       "MARPOL waste management and ship provisions across the major ports of the Dominican Republic.",
@@ -101,18 +96,10 @@ export async function generateMetadata({
       "provisiones para buques",
       "maritime waste management",
       "gestión de desechos marítimos",
-      "Anexo I",
-      "Anexo V",
+      "oily residues",
+      "solid garbage",
     ],
     robots: { index: true, follow: true },
-    alternates: {
-      canonical: `/${supported}`,
-      languages: {
-        es: "/es",
-        en: "/en",
-        "x-default": "/es",
-      },
-    },
     icons: {
       icon: [
         { url: "/icon.svg", type: "image/svg+xml" },
@@ -160,6 +147,12 @@ export default async function LocaleLayout({
       className={`${inter.variable} ${playfair.variable} ${jetbrains.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessJsonLd(locale)),
+          }}
+        />
         <NextIntlClientProvider messages={messages} locale={locale}>
           <Header />
           <main className="flex-1">{children}</main>

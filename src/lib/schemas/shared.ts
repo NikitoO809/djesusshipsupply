@@ -39,14 +39,14 @@ export const PROVISION_CATEGORIES = [
 ] as const;
 
 export const WASTE_TYPES = [
-  "Anexo I — Aguas oleosas / Oily water",
-  "Anexo I — Lodos (sludge)",
-  "Anexo I — Agua de sentina / Bilge water",
-  "Anexo I — Otros oleosos / Other oily",
-  "Anexo V — Basura doméstica / Domestic garbage",
-  "Anexo V — Plásticos / Plastics",
-  "Anexo V — Residuos alimenticios / Food waste",
-  "Anexo V — Otros / Other",
+  "Aguas oleosas / Oily water",
+  "Lodos (sludge)",
+  "Agua de sentina / Bilge water",
+  "Otros oleosos / Other oily",
+  "Basura doméstica / Domestic garbage",
+  "Plásticos / Plastics",
+  "Residuos alimenticios / Food waste",
+  "Otros / Other",
 ] as const;
 
 export const WASTE_MODES = ["Alongside", "Anchorage"] as const;

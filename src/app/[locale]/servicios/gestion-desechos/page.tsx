@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Droplet, Trash2 } from "lucide-react";
 import { PageHeader } from "@/components/sections/PageHeader";
@@ -6,9 +7,15 @@ import { AnnexBlock } from "@/components/sections/AnnexBlock";
 import { Timeline } from "@/components/sections/Timeline";
 import { CTASection } from "@/components/sections/CTASection";
 import { FadeIn } from "@/components/sections/FadeIn";
+import { buildPageMetadata, serviceJsonLd } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return buildPageMetadata(locale, "/servicios/gestion-desechos");
 }
 
 export default async function GestionDesechosPage({ params }: Props) {
@@ -27,6 +34,14 @@ export default async function GestionDesechosPage({ params }: Props) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            serviceJsonLd({ locale, serviceType: "marpol" })
+          ),
+        }}
+      />
       <PageHeader
         kicker={t("kicker")}
         title={t("h1")}
@@ -48,8 +63,8 @@ export default async function GestionDesechosPage({ params }: Props) {
               t("annex1Item3"),
             ]}
             icon={Droplet}
-            imageSrc="https://images.unsplash.com/photo-1583772518530-71efaf48bb33?auto=format&fit=crop&w=1600&q=80"
-            imageAlt="Oily waste handling at port"
+            imageSrc="https://images.unsplash.com/photo-1518623380242-d992d3c57b37?auto=format&fit=crop&w=1600&q=80"
+            imageAlt={t("annex1Title")}
           />
 
           <AnnexBlock
@@ -64,7 +79,7 @@ export default async function GestionDesechosPage({ params }: Props) {
             ]}
             icon={Trash2}
             imageSrc="https://images.unsplash.com/photo-1604187351574-c75ca79f5807?auto=format&fit=crop&w=1600&q=80"
-            imageAlt="Waste segregation containers"
+            imageAlt={t("annex5Title")}
             reverse
           />
         </div>

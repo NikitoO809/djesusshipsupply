@@ -23,3 +23,68 @@ export const quoteProvisionsSchema = z.object({
 
 export type QuoteProvisionsInput = z.input<typeof quoteProvisionsSchema>;
 export type QuoteProvisionsValues = z.output<typeof quoteProvisionsSchema>;
+
+/* ============================================================
+ * Rich provisions schema — used by the new 3-method quote flow
+ * (catalog, upload, template). Backwards compatible: the legacy
+ * `quoteProvisionsSchema` above stays for any existing consumer.
+ * ============================================================ */
+
+export const MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // 10 MB
+
+export const cartItemSchema = z.object({
+  id: z.string().trim().min(1),
+  name: z.string().trim().min(1),
+  unit: z.string().trim(),
+  qty: z.number().int().positive(),
+  category: z.string().trim().min(1),
+  categoryName: z.string().trim().min(1),
+});
+
+export type CartItem = z.infer<typeof cartItemSchema>;
+
+const fileMetaShape = {
+  fileName: z.string().trim().min(1, { message: required }),
+  fileSize: z
+    .number()
+    .int()
+    .nonnegative()
+    .max(MAX_UPLOAD_BYTES, {
+      message: "Archivo supera 10 MB / File exceeds 10 MB",
+    }),
+  fileType: z.string().trim().min(1, { message: required }),
+};
+
+const richBaseShape = {
+  ...baseQuoteShape,
+  currency: z.enum(CURRENCIES, { message: required }),
+  notes: z.string().trim().optional().or(z.literal("")),
+};
+
+const minOneItem = {
+  message:
+    "Agregue al menos un producto al carrito / Add at least one product to the cart",
+};
+
+export const quoteProvisionsRichSchema = z.discriminatedUnion("method", [
+  z.object({
+    method: z.literal("catalog"),
+    items: z.array(cartItemSchema).min(1, minOneItem),
+    ...richBaseShape,
+  }),
+  z.object({
+    method: z.literal("upload"),
+    ...fileMetaShape,
+    extraItems: z.array(cartItemSchema).default([]),
+    ...richBaseShape,
+  }),
+  z.object({
+    method: z.literal("template"),
+    ...fileMetaShape,
+    extraItems: z.array(cartItemSchema).default([]),
+    ...richBaseShape,
+  }),
+]);
+
+export type QuoteProvisionsRichInput = z.input<typeof quoteProvisionsRichSchema>;
+export type QuoteProvisionsRichValues = z.output<typeof quoteProvisionsRichSchema>;

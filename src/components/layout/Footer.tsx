@@ -91,10 +91,10 @@ export async function Footer() {
                 strokeWidth={1.8}
               />
               <a
-                href="mailto:ops@djesusshipsupply.com"
+                href="mailto:miguelcarmona809v@gmail.com"
                 className="hover:text-gold transition-colors break-all"
               >
-                ops@djesusshipsupply.com
+                miguelcarmona809v@gmail.com
               </a>
             </li>
             <li className="flex items-start gap-3">
@@ -102,7 +102,12 @@ export async function Footer() {
                 className="h-4 w-4 text-gold mt-0.5 shrink-0"
                 strokeWidth={1.8}
               />
-              <span>+1 809 XXX XXXX</span>
+              <a
+                href="https://wa.me/18492762491"
+                className="hover:text-gold transition-colors"
+              >
+                +1 849 276 2491
+              </a>
             </li>
             <li className="flex items-start gap-3">
               <MapPin
