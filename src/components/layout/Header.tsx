@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ArrowRight } from "lucide-react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { MobileNav } from "./MobileNav";
 
 export async function Header() {
   const locale = await getLocale();
@@ -50,11 +51,11 @@ export async function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-3 sm:gap-5">
           <LanguageSwitcher />
           <Link
             href={link("/cotizar/provisiones")}
-            className="group hidden sm:inline-flex items-center justify-center gap-1.5 h-10 px-5 rounded-sm bg-gold text-navy hover:bg-gold-light transition-colors text-[11px] uppercase tracking-[0.22em] font-semibold"
+            className="group hidden lg:inline-flex items-center justify-center gap-1.5 h-10 px-5 rounded-sm bg-gold text-navy hover:bg-gold-light transition-colors text-[11px] uppercase tracking-[0.22em] font-semibold"
           >
             {t("cotizar")}
             <ArrowRight
@@ -62,6 +63,11 @@ export async function Header() {
               strokeWidth={2.6}
             />
           </Link>
+          <MobileNav
+            items={navItems}
+            cotizarLabel={t("cotizar")}
+            cotizarHref={link("/cotizar/provisiones")}
+          />
         </div>
       </div>
     </header>
