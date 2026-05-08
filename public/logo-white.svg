@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" width="300" height="80" role="img" aria-label="De Jesús Ship Supply">
+  <defs>
+    <style>
+      .djss-mono { font-family: "Playfair Display", "Times New Roman", Georgia, serif; font-weight: 700; letter-spacing: 0.02em; }
+      .djss-tag { font-family: "Inter", -apple-system, "Segoe UI", sans-serif; font-weight: 600; letter-spacing: 0.32em; }
+    </style>
+  </defs>
+
+  <!-- Mark -->
+  <g transform="translate(8 10)">
+    <rect x="0" y="0" width="60" height="60" rx="4" fill="#0A2540"/>
+    <rect x="0" y="0" width="60" height="60" rx="4" fill="none" stroke="#C9A961" stroke-width="1.25"/>
+    <text x="30" y="40" text-anchor="middle" class="djss-mono" font-size="22" fill="#C9A961">DJSS</text>
+    <line x1="10" y1="48" x2="50" y2="48" stroke="#C9A961" stroke-width="0.75" opacity="0.55"/>
+  </g>
+
+  <!-- Wordmark -->
+  <g transform="translate(80 0)">
+    <text x="0" y="42" class="djss-mono" font-size="26" fill="#FFFFFF">DJSS</text>
+    <line x1="0" y1="50" x2="170" y2="50" stroke="#C9A961" stroke-width="0.75"/>
+    <text x="0" y="65" class="djss-tag" font-size="9" fill="#FFFFFF">SHIP SUPPLY · DR</text>
+  </g>
+</svg>

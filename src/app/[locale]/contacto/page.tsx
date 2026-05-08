@@ -1,8 +1,97 @@
-export default function ContactoPage() {
+import { setRequestLocale, getTranslations } from "next-intl/server";
+import Link from "next/link";
+import { Mail, MessageCircle, MapPin, Briefcase, ArrowRight } from "lucide-react";
+import { PageHeader } from "@/components/sections/PageHeader";
+import { ContactChannels } from "@/components/sections/ContactChannels";
+import { FadeIn } from "@/components/sections/FadeIn";
+
+interface Props {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function ContactoPage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("contact");
+
+  const link = (path: string) => `/${locale}${path}`;
+
+  const channels = [
+    {
+      icon: Mail,
+      label: t("labelOpsEmail"),
+      value: "ops@djesusshipsupply.com",
+      href: "mailto:ops@djesusshipsupply.com",
+    },
+    {
+      icon: Briefcase,
+      label: t("labelInfoEmail"),
+      value: "info@djesusshipsupply.com",
+      href: "mailto:info@djesusshipsupply.com",
+    },
+    {
+      icon: MessageCircle,
+      label: t("labelWhatsapp"),
+      value: "+1 809 XXX XXXX",
+      href: "https://wa.me/1809",
+    },
+    {
+      icon: MapPin,
+      label: t("labelOffice"),
+      value: t("valueOfficeText"),
+    },
+  ];
+
   return (
-    <section className="container mx-auto px-6 py-24">
-      <h1 className="text-4xl font-serif text-navy">Contacto / Contact</h1>
-      <p className="mt-4 text-charcoal/70">Página en construcción.</p>
-    </section>
+    <>
+      <PageHeader
+        kicker={t("kicker")}
+        title={t("h1")}
+        subtitle={t("intro")}
+        imageSrc="https://images.unsplash.com/photo-1520637836862-4d197d17c92a?auto=format&fit=crop&w=2200&q=80"
+        imageAlt="Maritime port with vessels"
+      />
+
+      <section className="bg-background py-24 md:py-32">
+        <div className="container mx-auto px-6">
+          <FadeIn>
+            <div className="max-w-3xl mb-14">
+              <div className="flex items-center gap-3 text-gold-dark text-[11px] uppercase tracking-[0.22em] mb-5">
+                <span className="h-px w-8 bg-gold-dark/50" />
+                <span>{t("kicker")}</span>
+              </div>
+              <h2 className="font-serif text-3xl md:text-4xl text-navy leading-[1.15] tracking-tight">
+                {t("channelsTitle")}
+              </h2>
+            </div>
+          </FadeIn>
+
+          <ContactChannels channels={channels} />
+
+          <div className="mt-16 grid gap-4 sm:grid-cols-2 max-w-2xl">
+            <Link
+              href={link("/cotizar/provisiones")}
+              className="group inline-flex items-center justify-center gap-2 h-13 py-4 px-7 rounded-sm bg-navy text-cream hover:bg-navy-dark transition-colors text-xs uppercase tracking-[0.22em] font-semibold"
+            >
+              {t("ctaProvisions")}
+              <ArrowRight
+                className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                strokeWidth={2.4}
+              />
+            </Link>
+            <Link
+              href={link("/cotizar/desechos")}
+              className="group inline-flex items-center justify-center gap-2 h-13 py-4 px-7 rounded-sm border border-navy text-navy hover:bg-navy hover:text-cream transition-colors text-xs uppercase tracking-[0.22em] font-semibold"
+            >
+              {t("ctaWaste")}
+              <ArrowRight
+                className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                strokeWidth={2.4}
+              />
+            </Link>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

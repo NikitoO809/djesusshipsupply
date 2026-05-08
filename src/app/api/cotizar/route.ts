@@ -1,8 +1,189 @@
 import { NextResponse } from "next/server";
+import { Resend } from "resend";
 
-export async function POST() {
-  return NextResponse.json(
-    { ok: false, message: "Quote endpoint not implemented yet" },
-    { status: 501 }
-  );
+import { quoteProvisionsSchema } from "@/lib/schemas/quote-provisions";
+import { quoteMarpolSchema } from "@/lib/schemas/quote-marpol";
+import { InternalQuoteEmail } from "@/lib/email-templates/internal-quote";
+import {
+  CustomerConfirmationEmail,
+  customerConfirmationSubject,
+} from "@/lib/email-templates/customer-confirmation";
+
+export const runtime = "nodejs";
+
+type QuoteType = "provisions" | "marpol";
+type Locale = "es" | "en";
+
+const DEFAULT_TO = "ops@djesusshipsupply.com";
+const DEFAULT_FROM = "De Jesús Ship Supply <noreply@djesusshipsupply.com>";
+
+function isLocale(v: unknown): v is Locale {
+  return v === "es" || v === "en";
+}
+
+function isType(v: unknown): v is QuoteType {
+  return v === "provisions" || v === "marpol";
+}
+
+export async function POST(request: Request) {
+  let json: unknown;
+  try {
+    json = await request.json();
+  } catch {
+    return NextResponse.json(
+      { ok: false, error: "INVALID_JSON", message: "Cuerpo inválido / Invalid body" },
+      { status: 400 }
+    );
+  }
+
+  const body = (json ?? {}) as { type?: unknown; payload?: unknown; locale?: unknown };
+  const type = body.type;
+  const locale: Locale = isLocale(body.locale) ? body.locale : "es";
+
+  if (!isType(type)) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "INVALID_TYPE",
+        message: "Tipo de solicitud inválido / Invalid request type",
+      },
+      { status: 400 }
+    );
+  }
+
+  const schema = type === "provisions" ? quoteProvisionsSchema : quoteMarpolSchema;
+  const parsed = schema.safeParse(body.payload);
+
+  if (!parsed.success) {
+    const fieldErrors: Record<string, string[]> = {};
+    for (const issue of parsed.error.issues) {
+      const key = issue.path.join(".") || "_root";
+      (fieldErrors[key] ??= []).push(issue.message);
+    }
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "VALIDATION_ERROR",
+        message:
+          locale === "es"
+            ? "Hay campos inválidos en el formulario."
+            : "Some form fields are invalid.",
+        fieldErrors,
+      },
+      { status: 422 }
+    );
+  }
+
+  const payload = parsed.data;
+  const submittedAt = new Date().toISOString();
+  const apiKey = process.env.RESEND_API_KEY;
+  const toAddress = process.env.RESEND_TO_EMAIL || DEFAULT_TO;
+  const fromAddress = process.env.RESEND_FROM_EMAIL || DEFAULT_FROM;
+
+  const { renderToStaticMarkup } = await import("react-dom/server");
+
+  const internalHtml =
+    "<!doctype html>" +
+    renderToStaticMarkup(
+      InternalQuoteEmail({
+        type,
+        // The schema discriminates by `type`; both schemas share the base shape.
+        payload: payload as never,
+        submittedAt,
+        locale,
+      })
+    );
+
+  const customerHtml =
+    "<!doctype html>" +
+    renderToStaticMarkup(
+      CustomerConfirmationEmail({
+        locale,
+        contactName: payload.contactName,
+        type,
+      })
+    );
+
+  const internalSubjectBase =
+    type === "provisions"
+      ? "Nueva cotización — Provisiones"
+      : "Nueva cotización — Desechos MARPOL";
+  const internalSubject = `${internalSubjectBase} · ${payload.vesselName} · ${payload.port}`;
+  const customerSubject = customerConfirmationSubject(locale);
+
+  if (!apiKey) {
+    if (process.env.NODE_ENV !== "production") {
+      console.log("\n[cotizar] RESEND_API_KEY missing — simulation mode");
+      console.log("[cotizar] type:", type, "locale:", locale);
+      console.log("[cotizar] internal email →", toAddress, "|", internalSubject);
+      console.log("[cotizar] customer email →", payload.email, "|", customerSubject);
+      console.log("[cotizar] payload:", JSON.stringify(payload, null, 2));
+      return NextResponse.json({ ok: true, simulated: true });
+    }
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "EMAIL_NOT_CONFIGURED",
+        message:
+          locale === "es"
+            ? "Servicio de correo no configurado."
+            : "Email service is not configured.",
+      },
+      { status: 500 }
+    );
+  }
+
+  const resend = new Resend(apiKey);
+
+  try {
+    const internalRes = await resend.emails.send({
+      from: fromAddress,
+      to: toAddress,
+      replyTo: payload.email,
+      subject: internalSubject,
+      html: internalHtml,
+    });
+
+    if (internalRes.error) {
+      console.error("[cotizar] internal email error:", internalRes.error);
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "EMAIL_SEND_FAILED",
+          message:
+            locale === "es"
+              ? "No pudimos enviar la solicitud. Intente de nuevo o contáctenos por WhatsApp."
+              : "We couldn't send your request. Please try again or contact us on WhatsApp.",
+        },
+        { status: 502 }
+      );
+    }
+
+    const customerRes = await resend.emails.send({
+      from: fromAddress,
+      to: payload.email,
+      subject: customerSubject,
+      html: customerHtml,
+    });
+
+    if (customerRes.error) {
+      // Internal email already sent; log but don't fail the request.
+      console.error("[cotizar] customer confirmation error:", customerRes.error);
+    }
+
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error("[cotizar] unexpected error:", err);
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "INTERNAL_ERROR",
+        message:
+          locale === "es"
+            ? "Error inesperado al enviar la solicitud."
+            : "Unexpected error while sending the request.",
+      },
+      { status: 500 }
+    );
+  }
 }

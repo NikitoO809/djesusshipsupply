@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="De Jesús Ship Supply — Maritime Services in the Dominican Republic">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0A2540"/>
+      <stop offset="1" stop-color="#061629"/>
+    </linearGradient>
+    <linearGradient id="goldFade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#C9A961" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#C9A961" stop-opacity="1"/>
+      <stop offset="1" stop-color="#C9A961" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Decorative horizon lines -->
+  <g opacity="0.18" stroke="#C9A961" fill="none" stroke-width="1">
+    <line x1="0" y1="430" x2="1200" y2="430"/>
+    <line x1="0" y1="450" x2="1200" y2="450"/>
+    <line x1="0" y1="475" x2="1200" y2="475"/>
+    <line x1="0" y1="510" x2="1200" y2="510"/>
+    <line x1="0" y1="555" x2="1200" y2="555"/>
+  </g>
+
+  <!-- Compass / star ornament -->
+  <g transform="translate(1000 130)" stroke="#C9A961" fill="none" stroke-width="1.25" opacity="0.55">
+    <circle cx="0" cy="0" r="60"/>
+    <circle cx="0" cy="0" r="40"/>
+    <line x1="-70" y1="0" x2="70" y2="0"/>
+    <line x1="0" y1="-70" x2="0" y2="70"/>
+    <polygon points="0,-50 8,0 0,50 -8,0" fill="#C9A961" opacity="0.8" stroke="none"/>
+    <polygon points="-50,0 0,8 50,0 0,-8" fill="#C9A961" opacity="0.4" stroke="none"/>
+  </g>
+
+  <!-- Mark -->
+  <g transform="translate(80 130)">
+    <rect x="0" y="0" width="120" height="120" rx="10" fill="#0A2540" stroke="#C9A961" stroke-width="2"/>
+    <text x="60" y="80" text-anchor="middle"
+          font-family="'Playfair Display', 'Times New Roman', Georgia, serif"
+          font-weight="700"
+          font-size="44"
+          letter-spacing="1"
+          fill="#C9A961">DJSS</text>
+    <line x1="22" y1="92" x2="98" y2="92" stroke="#C9A961" stroke-width="1" opacity="0.55"/>
+  </g>
+
+  <!-- Wordmark -->
+  <g transform="translate(230 145)">
+    <text x="0" y="50"
+          font-family="'Playfair Display', 'Times New Roman', Georgia, serif"
+          font-weight="700"
+          font-size="58"
+          fill="#FFFFFF">De Jesús Ship Supply</text>
+    <line x1="0" y1="74" x2="640" y2="74" stroke="url(#goldFade)" stroke-width="1.25"/>
+    <text x="0" y="104"
+          font-family="Inter, -apple-system, 'Segoe UI', sans-serif"
+          font-weight="600"
+          font-size="18"
+          letter-spacing="6"
+          fill="#C9A961">SHIP SUPPLY · DOMINICAN REPUBLIC</text>
+  </g>
+
+  <!-- Tagline -->
+  <g transform="translate(80 360)">
+    <text x="0" y="0"
+          font-family="'Playfair Display', 'Times New Roman', Georgia, serif"
+          font-weight="400"
+          font-style="italic"
+          font-size="40"
+          fill="#FFFFFF">Maritime Services in the</text>
+    <text x="0" y="56"
+          font-family="'Playfair Display', 'Times New Roman', Georgia, serif"
+          font-weight="700"
+          font-size="56"
+          fill="#C9A961">Dominican Republic</text>
+  </g>
+
+  <!-- Bottom strip -->
+  <g transform="translate(80 540)">
+    <line x1="0" y1="0" x2="120" y2="0" stroke="#C9A961" stroke-width="2"/>
+    <text x="0" y="32"
+          font-family="Inter, -apple-system, 'Segoe UI', sans-serif"
+          font-weight="500"
+          font-size="20"
+          fill="#FFFFFF" opacity="0.85">MARPOL Waste Management · Ship Provisions · 8 Ports</text>
+  </g>
+</svg>

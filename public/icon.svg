@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="DJSS">
+  <rect x="0" y="0" width="64" height="64" rx="10" fill="#0A2540"/>
+  <rect x="2" y="2" width="60" height="60" rx="8" fill="none" stroke="#C9A961" stroke-width="1.25"/>
+  <text x="32" y="40" text-anchor="middle"
+        font-family="'Playfair Display', 'Times New Roman', Georgia, serif"
+        font-weight="700"
+        font-size="20"
+        letter-spacing="0.5"
+        fill="#C9A961">DJSS</text>
+  <line x1="14" y1="48" x2="50" y2="48" stroke="#C9A961" stroke-width="0.75" opacity="0.55"/>
+</svg>

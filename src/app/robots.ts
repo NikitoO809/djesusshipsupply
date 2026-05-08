@@ -1,10 +1,21 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = "https://djesusshipsupply.com";
+const SITE_URL = (
+  process.env.SITE_URL ??
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  "https://djesusshipsupply.com"
+).replace(/\/$/, "");
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: [{ userAgent: "*", allow: "/" }],
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/api/"],
+      },
+    ],
     sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   };
 }

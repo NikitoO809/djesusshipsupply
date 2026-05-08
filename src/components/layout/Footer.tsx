@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
+import { Mail, MessageCircle, MapPin } from "lucide-react";
 
 export async function Footer() {
   const locale = await getLocale();
@@ -10,27 +11,40 @@ export async function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-navy-dark text-cream/85 mt-24">
-      <div className="container mx-auto px-6 py-16 grid gap-12 md:grid-cols-3">
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-sm border border-gold/60 text-gold text-[11px] font-semibold tracking-widest">
+    <footer className="relative bg-navy-dark text-cream/85 mt-0">
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
+
+      <div className="container mx-auto px-6 py-20 grid gap-14 md:grid-cols-12">
+        <div className="md:col-span-5 space-y-5">
+          <Link href={link("")} className="inline-flex items-center gap-3 group">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-gold/70 text-gold text-[10px] font-semibold tracking-[0.18em]">
               DJSS
             </span>
-            <span className="font-serif text-lg text-cream">
-              De Jesús Ship Supply
+            <span className="flex flex-col leading-tight">
+              <span className="font-serif text-xl text-cream tracking-wide">
+                De Jesús Ship Supply
+              </span>
+              <span className="font-sans text-[10px] text-gold/90 uppercase tracking-[0.28em]">
+                Maritime Services · RD
+              </span>
             </span>
-          </div>
-          <p className="text-sm text-cream/70 max-w-xs leading-relaxed">
+          </Link>
+          <p className="text-sm text-cream/65 max-w-md leading-relaxed">
             {t("tagline")}
           </p>
+          <div className="flex items-center gap-3 pt-2">
+            <span className="inline-flex h-2 w-2 rounded-full bg-gold animate-pulse" />
+            <span className="text-[11px] uppercase tracking-[0.22em] text-gold/90">
+              {t("whatsapp")}
+            </span>
+          </div>
         </div>
 
-        <div>
-          <h3 className="font-serif text-cream text-sm uppercase tracking-widest mb-4">
-            {t("servicios")}
+        <div className="md:col-span-3">
+          <h3 className="font-serif text-cream text-sm uppercase tracking-[0.22em] mb-5">
+            {t("headingServicios")}
           </h3>
-          <ul className="space-y-2 text-sm">
+          <ul className="space-y-3 text-sm text-cream/75">
             <li>
               <Link
                 href={link("/servicios/provisiones")}
@@ -55,29 +69,60 @@ export async function Footer() {
                 {tNav("puertos")}
               </Link>
             </li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="font-serif text-cream text-sm uppercase tracking-widest mb-4">
-            {t("contacto")}
-          </h3>
-          <ul className="space-y-2 text-sm text-cream/70">
-            <li>República Dominicana</li>
             <li>
               <Link
-                href={link("/contacto")}
+                href={link("/sobre-nosotros")}
                 className="hover:text-gold transition-colors"
               >
-                {tNav("contacto")} →
+                {tNav("sobreNosotros")}
               </Link>
             </li>
           </ul>
         </div>
+
+        <div className="md:col-span-4">
+          <h3 className="font-serif text-cream text-sm uppercase tracking-[0.22em] mb-5">
+            {t("headingContacto")}
+          </h3>
+          <ul className="space-y-4 text-sm text-cream/75">
+            <li className="flex items-start gap-3">
+              <Mail
+                className="h-4 w-4 text-gold mt-0.5 shrink-0"
+                strokeWidth={1.8}
+              />
+              <a
+                href="mailto:ops@djesusshipsupply.com"
+                className="hover:text-gold transition-colors break-all"
+              >
+                ops@djesusshipsupply.com
+              </a>
+            </li>
+            <li className="flex items-start gap-3">
+              <MessageCircle
+                className="h-4 w-4 text-gold mt-0.5 shrink-0"
+                strokeWidth={1.8}
+              />
+              <span>+1 809 XXX XXXX</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <MapPin
+                className="h-4 w-4 text-gold mt-0.5 shrink-0"
+                strokeWidth={1.8}
+              />
+              <span>{t("officeValue")}</span>
+            </li>
+          </ul>
+          <Link
+            href={link("/contacto")}
+            className="inline-flex items-center mt-6 text-[11px] uppercase tracking-[0.22em] text-gold hover:text-gold-light transition-colors font-medium"
+          >
+            {tNav("contacto")} →
+          </Link>
+        </div>
       </div>
 
       <div className="border-t border-cream/10">
-        <div className="container mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-cream/60">
+        <div className="container mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-cream/55">
           <p>
             © {year} De Jesús Ship Supply. {t("rights")}.
           </p>
