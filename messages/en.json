@@ -164,6 +164,10 @@
     "ctaProvisions": "Quote provisions",
     "ctaWaste": "Quote waste management"
   },
+  "whatsappFloat": {
+    "ariaLabel": "Contact us on WhatsApp",
+    "prefilledMessage": "Hello, I'd like more information about your services."
+  },
   "forms": {
     "provisiones": {
       "title": "Quote request — Provisions",

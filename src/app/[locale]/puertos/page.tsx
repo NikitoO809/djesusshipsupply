@@ -40,8 +40,7 @@ export default async function PuertosPage({ params }: Props) {
         kicker={t("kicker")}
         title={t("h1")}
         subtitle={t("subtitle")}
-        imageSrc="https://images.unsplash.com/photo-1577416412292-747c6607f055?auto=format&fit=crop&w=2200&q=80"
-        imageAlt="Aerial view of a Caribbean port"
+        videoSrcMp4="/videos/Port-ships.mp4"
       />
 
       <section className="bg-background py-24 md:py-32">

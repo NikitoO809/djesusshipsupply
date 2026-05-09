@@ -15,15 +15,15 @@ export type VesselContactData = {
   company: string;
 };
 
-export type FlowMethod = "catalog" | "upload" | "template";
-export type FlowView = "methods" | "catalog" | "template" | "upload";
-export type FlowStep = 1 | 2 | 3;
+export type ProvisionsMethod = "catalog" | "upload" | "template";
+export type ProvisionsView = "methods" | "catalog" | "template" | "upload";
+export type ProvisionsStep = 1 | 2 | 3;
 
 export type FlowState = {
-  step: FlowStep;
-  view: FlowView;
+  step: ProvisionsStep;
+  view: ProvisionsView;
   vessel: VesselContactData | null;
-  method: FlowMethod | null;
+  method: ProvisionsMethod | null;
   cart: Record<string, CartItem>;
   file: File | null;
   notes: string;

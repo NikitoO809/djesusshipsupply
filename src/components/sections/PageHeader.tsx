@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { HeroBackground } from "./HeroBackground";
 
 interface PageHeaderProps {
   kicker?: string;
@@ -6,6 +7,7 @@ interface PageHeaderProps {
   subtitle?: string;
   imageSrc?: string;
   imageAlt?: string;
+  videoSrcMp4?: string;
 }
 
 export function PageHeader({
@@ -14,19 +16,24 @@ export function PageHeader({
   subtitle,
   imageSrc = "https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&w=2200&q=80",
   imageAlt = "Port at dawn",
+  videoSrcMp4,
 }: PageHeaderProps) {
   return (
     <section className="relative isolate overflow-hidden bg-navy text-cream">
       <div className="absolute inset-0 -z-10">
-        <Image
-          src={imageSrc}
-          alt={imageAlt}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-30"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-navy-dark/90 via-navy/80 to-navy/70" />
+        {videoSrcMp4 ? (
+          <HeroBackground videoSrcMp4={videoSrcMp4} />
+        ) : (
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-90"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy/70 to-transparent" />
       </div>
 
       <div className="container mx-auto px-6 pt-24 pb-20 md:pt-32 md:pb-28">

@@ -164,6 +164,10 @@
     "ctaProvisions": "Cotizar provisiones",
     "ctaWaste": "Cotizar gestión MARPOL"
   },
+  "whatsappFloat": {
+    "ariaLabel": "Contactar por WhatsApp",
+    "prefilledMessage": "Hola, me gustaría obtener más información sobre sus servicios."
+  },
   "forms": {
     "provisiones": {
       "title": "Solicitud de cotización — Provisiones",

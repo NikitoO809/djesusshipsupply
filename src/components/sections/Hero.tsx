@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Anchor } from "lucide-react";
+import { HeroBackground } from "./HeroBackground";
 
 interface HeroProps {
   locale: string;
@@ -10,8 +10,6 @@ interface HeroProps {
   ctaSecondary: string;
   ctaPrimaryHref: string;
   ctaSecondaryHref: string;
-  imageSrc?: string;
-  imageAlt?: string;
   kicker?: string;
 }
 
@@ -22,23 +20,14 @@ export function Hero({
   ctaSecondary,
   ctaPrimaryHref,
   ctaSecondaryHref,
-  imageSrc = "https://images.unsplash.com/photo-1494412651409-8963ce7935a7?auto=format&fit=crop&w=2200&q=80",
-  imageAlt = "Container vessel at port",
   kicker = "De Jesús Ship Supply",
 }: HeroProps) {
   return (
     <section className="relative isolate overflow-hidden bg-navy text-cream min-h-[100dvh] flex items-center">
       <div className="absolute inset-0 -z-10">
-        <Image
-          src={imageSrc}
-          alt={imageAlt}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-35"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark via-navy/85 to-navy/55" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(201,169,97,0.18),transparent_55%)]" />
+        <HeroBackground videoSrcMp4="/videos/hero-ship.mp4" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy/70 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(201,169,97,0.12),transparent_50%)]" />
       </div>
 
       <div className="container mx-auto px-6 py-28 md:py-32">

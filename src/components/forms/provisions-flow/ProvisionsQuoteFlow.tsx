@@ -26,6 +26,7 @@ import {
   PROVISION_CATALOG,
   PROVISION_PRODUCT_COUNT,
 } from "@/lib/catalog/provisions";
+import { z } from "zod";
 import {
   quoteProvisionsRichSchema,
   MAX_UPLOAD_BYTES,
@@ -35,7 +36,7 @@ import {
 import {
   emptyVessel,
   initialFlowState,
-  type FlowMethod,
+  type ProvisionsMethod,
   type FlowState,
   type VesselContactData,
 } from "./types";
@@ -94,7 +95,7 @@ export function ProvisionsQuoteFlow() {
     for (const k of required) {
       if (!vesselDraft[k]) errors[k] = "Required";
     }
-    if (vesselDraft.email && !/^\S+@\S+\.\S+$/.test(vesselDraft.email)) {
+    if (vesselDraft.email && !z.string().email().safeParse(vesselDraft.email).success) {
       errors.email = "Invalid email";
     }
     setVesselErrors(errors);
@@ -109,7 +110,7 @@ export function ProvisionsQuoteFlow() {
   const goBackToMethods = () =>
     setState((s) => ({ ...s, view: "methods", method: null, file: null }));
 
-  const selectMethod = (method: FlowMethod) => {
+  const selectMethod = (method: ProvisionsMethod) => {
     const view: FlowState["view"] =
       method === "catalog"
         ? "catalog"
@@ -534,7 +535,7 @@ function StepMethod({
   onBackToVessel,
 }: {
   state: FlowState;
-  onSelectMethod: (m: FlowMethod) => void;
+  onSelectMethod: (m: ProvisionsMethod) => void;
   onBackToMethods: () => void;
   onAddToCart: (item: CartItem) => void;
   onRemoveFromCart: (id: string) => void;
@@ -588,7 +589,7 @@ function MethodPicker({
   onSelect,
   onBack,
 }: {
-  onSelect: (m: FlowMethod) => void;
+  onSelect: (m: ProvisionsMethod) => void;
   onBack: () => void;
 }) {
   const t = useTranslations("forms.provisiones.flow.methods");

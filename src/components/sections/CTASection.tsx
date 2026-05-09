@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { FadeIn } from "./FadeIn";
+import { HeroBackground } from "./HeroBackground";
 
 interface CTAButton {
   label: string;
@@ -13,26 +13,14 @@ interface CTASectionProps {
   title: string;
   subtitle?: string;
   buttons: CTAButton[];
-  imageSrc?: string;
 }
 
-export function CTASection({
-  title,
-  subtitle,
-  buttons,
-  imageSrc = "https://images.unsplash.com/photo-1566024287286-457247b70310?auto=format&fit=crop&w=2200&q=80",
-}: CTASectionProps) {
+export function CTASection({ title, subtitle, buttons }: CTASectionProps) {
   return (
     <section className="relative isolate overflow-hidden bg-navy-dark text-cream">
       <div className="absolute inset-0 -z-10">
-        <Image
-          src={imageSrc}
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover opacity-25"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark via-navy-dark/90 to-navy/70" />
+        <HeroBackground videoSrcMp4="/videos/Port-ship.mp4" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy/70 to-transparent" />
       </div>
 
       <div className="container mx-auto px-6 py-24 md:py-32">

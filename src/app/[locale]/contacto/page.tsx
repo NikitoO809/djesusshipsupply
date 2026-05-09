@@ -56,7 +56,7 @@ export default async function ContactoPage({ params }: Props) {
         kicker={t("kicker")}
         title={t("h1")}
         subtitle={t("intro")}
-        imageSrc="https://images.unsplash.com/photo-1520637836862-4d197d17c92a?auto=format&fit=crop&w=2200&q=80"
+        imageSrc="/images/Contactanos.jpg"
         imageAlt="Maritime port with vessels"
       />
 

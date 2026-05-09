@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { Toaster } from "@/components/ui/sonner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { routing } from "@/i18n/routing";
 import { localBusinessJsonLd, SITE_URL } from "@/lib/seo";
 import "../globals.css";
@@ -163,6 +164,7 @@ export default async function LocaleLayout({
           <Header />
           <main id="main-content" className="flex-1">{children}</main>
           <Footer />
+          <WhatsAppFloat />
           <Toaster />
         </NextIntlClientProvider>
       </body>

@@ -24,19 +24,9 @@ type InternalQuoteProps =
       attachmentName?: string;
     };
 
-const navy = "#0A2540";
-const gold = "#C9A961";
-const cream = "#F8F5EE";
-const charcoal = "#1A1A1A";
-const border = "#e7e1d4";
+import { colors, containerStyle, headerStyle, footerStyle as sharedFooterStyle } from "./styles";
 
-const containerStyle: React.CSSProperties = {
-  fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-  color: charcoal,
-  backgroundColor: cream,
-  margin: 0,
-  padding: "24px",
-};
+const { navy, gold, cream, charcoal, border } = colors;
 
 const cardStyle: React.CSSProperties = {
   maxWidth: "640px",
@@ -45,13 +35,6 @@ const cardStyle: React.CSSProperties = {
   border: `1px solid ${border}`,
   borderRadius: "8px",
   overflow: "hidden",
-};
-
-const headerStyle: React.CSSProperties = {
-  backgroundColor: navy,
-  color: cream,
-  padding: "20px 24px",
-  borderBottom: `3px solid ${gold}`,
 };
 
 const tableStyle: React.CSSProperties = {
@@ -91,14 +74,7 @@ const sectionTitleStyle: React.CSSProperties = {
   margin: 0,
 };
 
-const footerStyle: React.CSSProperties = {
-  backgroundColor: cream,
-  color: navy,
-  padding: "16px 24px",
-  fontSize: "12px",
-  textAlign: "center",
-  borderTop: `1px solid ${border}`,
-};
+const footerStyle = sharedFooterStyle;
 
 const itemsTableStyle: React.CSSProperties = {
   width: "calc(100% - 48px)",
