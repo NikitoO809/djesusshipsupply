@@ -54,7 +54,10 @@ export function HeroBackground({
         loading={priority ? "eager" : "lazy"}
         fetchPriority={priority ? "high" : "auto"}
         decoding="async"
-        className="absolute inset-0 h-full w-full object-cover opacity-90"
+        className={[
+          "absolute inset-0 h-full w-full object-cover transition-opacity duration-700",
+          videoReady ? "opacity-0" : "opacity-90",
+        ].join(" ")}
       />
 
       {loadVideo && (
