@@ -16,6 +16,8 @@ const PATHS = [
   "/contacto",
   "/cotizar/provisiones",
   "/cotizar/desechos",
+  "/privacidad",
+  "/terminos",
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {

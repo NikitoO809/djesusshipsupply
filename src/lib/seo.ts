@@ -107,6 +107,30 @@ export const PAGE_SEO: Record<string, Record<Locale, Copy>> = {
         "Request a MARPOL waste management quote: annex, estimated volume and port. We coordinate vessel service with complete documentation.",
     },
   },
+  "/privacidad": {
+    es: {
+      title: "Política de Privacidad — De Jesús Ship Supply",
+      description:
+        "Cómo De Jesús Ship Supply recopila, usa y protege sus datos personales al solicitar servicios marítimos en República Dominicana.",
+    },
+    en: {
+      title: "Privacy Policy — De Jesús Ship Supply",
+      description:
+        "How De Jesús Ship Supply collects, uses and protects your personal data when requesting maritime services in the Dominican Republic.",
+    },
+  },
+  "/terminos": {
+    es: {
+      title: "Términos de Servicio — De Jesús Ship Supply",
+      description:
+        "Términos y condiciones aplicables a los servicios de aprovisionamiento marítimo y gestión de desechos MARPOL en República Dominicana.",
+    },
+    en: {
+      title: "Terms of Service — De Jesús Ship Supply",
+      description:
+        "Terms and conditions applicable to ship provisioning and MARPOL waste management services in the Dominican Republic.",
+    },
+  },
 };
 
 export function buildPageMetadata(
@@ -198,6 +222,50 @@ export function localBusinessJsonLd(locale: string) {
       opens: "00:00",
       closes: "23:59",
     },
+  };
+}
+
+const BREADCRUMB_STEPS: Record<string, Array<{ es: string; en: string; path?: string }>> = {
+  "/sobre-nosotros": [{ es: "Sobre nosotros", en: "About us", path: "/sobre-nosotros" }],
+  "/servicios/provisiones": [
+    { es: "Servicios", en: "Services" },
+    { es: "Provisiones marítimas", en: "Ship provisions", path: "/servicios/provisiones" },
+  ],
+  "/servicios/gestion-desechos": [
+    { es: "Servicios", en: "Services" },
+    { es: "Gestión de desechos MARPOL", en: "MARPOL waste management", path: "/servicios/gestion-desechos" },
+  ],
+  "/puertos": [{ es: "Puertos", en: "Ports", path: "/puertos" }],
+  "/contacto": [{ es: "Contacto", en: "Contact", path: "/contacto" }],
+  "/cotizar/provisiones": [
+    { es: "Cotizar", en: "Request quote" },
+    { es: "Provisiones", en: "Provisions", path: "/cotizar/provisiones" },
+  ],
+  "/cotizar/desechos": [
+    { es: "Cotizar", en: "Request quote" },
+    { es: "Gestión de desechos", en: "Waste management", path: "/cotizar/desechos" },
+  ],
+  "/privacidad": [{ es: "Privacidad", en: "Privacy", path: "/privacidad" }],
+  "/terminos": [{ es: "Términos", en: "Terms", path: "/terminos" }],
+};
+
+export function breadcrumbJsonLd({ locale, path }: { locale: string; path: string }) {
+  const supported: Locale = locale === "en" ? "en" : "es";
+  const base = `${SITE_URL}/${supported}`;
+  const steps = BREADCRUMB_STEPS[path] ?? [];
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: supported === "es" ? "Inicio" : "Home", item: base },
+      ...steps.map((step, i) => ({
+        "@type": "ListItem",
+        position: i + 2,
+        name: step[supported],
+        ...(step.path ? { item: `${base}${step.path}` } : {}),
+      })),
+    ],
   };
 }
 

@@ -27,7 +27,7 @@ export function Hero({
   kicker = "De Jesús Ship Supply",
 }: HeroProps) {
   return (
-    <section className="relative isolate overflow-hidden bg-navy text-cream">
+    <section className="relative isolate overflow-hidden bg-navy text-cream min-h-[100dvh] flex items-center">
       <div className="absolute inset-0 -z-10">
         <Image
           src={imageSrc}
@@ -41,7 +41,7 @@ export function Hero({
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(201,169,97,0.18),transparent_55%)]" />
       </div>
 
-      <div className="container mx-auto px-6 pt-24 pb-28 md:pt-36 md:pb-40 lg:pt-44 lg:pb-48">
+      <div className="container mx-auto px-6 py-28 md:py-32">
         <div className="max-w-4xl">
           <div className="flex items-center gap-3 text-gold text-[11px] uppercase tracking-[0.28em] mb-8">
             <Anchor className="h-3.5 w-3.5" strokeWidth={2.4} />

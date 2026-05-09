@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 
 import {
   quoteProvisionsSchema,
@@ -19,8 +21,24 @@ export const runtime = "nodejs";
 type QuoteType = "provisions" | "marpol";
 type Locale = "es" | "en";
 
-const DEFAULT_TO = "miguelcarmona809v@gmail.com";
 const DEFAULT_FROM = "De Jesús Ship Supply <noreply@djesusshipsupply.com>";
+
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(5, "1 h"),
+  prefix: "djss:cotizar",
+});
+
+const ALLOWED_UPLOAD_TYPES = new Set([
+  "application/pdf",
+  "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "text/csv",
+  "text/plain",
+  "image/jpeg",
+  "image/png",
+]);
 
 function isLocale(v: unknown): v is Locale {
   return v === "es" || v === "en";
@@ -117,10 +135,23 @@ async function parseRequest(request: Request): Promise<
           },
         };
       }
+      const mimeType = fileRaw.type || "";
+      if (mimeType && !ALLOWED_UPLOAD_TYPES.has(mimeType)) {
+        return {
+          ok: false,
+          status: 415,
+          body: {
+            ok: false,
+            error: "INVALID_FILE_TYPE",
+            message: "Tipo de archivo no permitido / File type not allowed",
+          },
+        };
+      }
+      const safeName = fileRaw.name.replace(/[^\w.\-\s]/g, "_").slice(0, 200);
       const arrayBuf = await fileRaw.arrayBuffer();
       file = {
-        name: fileRaw.name,
-        type: fileRaw.type || "application/octet-stream",
+        name: safeName,
+        type: mimeType || "application/octet-stream",
         size: fileRaw.size,
         bytes: Buffer.from(arrayBuf),
       };
@@ -225,6 +256,37 @@ function validatePayload(
 }
 
 export async function POST(request: Request) {
+  const origin = request.headers.get("origin");
+  if (origin) {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+    const allowed = [siteUrl, "http://localhost:3000", "http://localhost:3001"].filter(Boolean);
+    if (!allowed.includes(origin)) {
+      return NextResponse.json({ ok: false, error: "FORBIDDEN" }, { status: 403 });
+    }
+  }
+
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
+    request.headers.get("x-real-ip") ??
+    "anonymous";
+  const { success, remaining } = await ratelimit.limit(ip);
+  if (!success) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "RATE_LIMIT",
+        message:
+          origin?.includes("djesusshipsupply.com") || !origin
+            ? "Demasiadas solicitudes. Por favor espere una hora antes de intentar de nuevo."
+            : "Too many requests. Please wait an hour before trying again.",
+      },
+      {
+        status: 429,
+        headers: { "Retry-After": "3600", "X-RateLimit-Remaining": String(remaining) },
+      }
+    );
+  }
+
   const parsed = await parseRequest(request);
   if (!parsed.ok) {
     return NextResponse.json(parsed.body, { status: parsed.status });
@@ -257,7 +319,7 @@ export async function POST(request: Request) {
 
   const submittedAt = new Date().toISOString();
   const apiKey = process.env.RESEND_API_KEY;
-  const toAddress = process.env.RESEND_TO_EMAIL || DEFAULT_TO;
+  const toAddress = process.env.RESEND_TO_EMAIL;
   const fromAddress = process.env.RESEND_FROM_EMAIL || DEFAULT_FROM;
 
   const { renderToStaticMarkup } = await import("react-dom/server");
@@ -291,29 +353,14 @@ export async function POST(request: Request) {
   const internalSubject = `${internalSubjectBase} · ${payload.vesselName} · ${payload.port}`;
   const customerSubject = customerConfirmationSubject(locale);
 
-  if (!apiKey) {
+  if (!apiKey || !toAddress) {
     if (process.env.NODE_ENV !== "production") {
-      console.log("\n[cotizar] RESEND_API_KEY missing — simulation mode");
+      const p = payload as Record<string, unknown>;
+      console.log("\n[cotizar] Simulation mode — email config missing");
       console.log("[cotizar] type:", type, "locale:", locale);
-      console.log(
-        "[cotizar] internal email →",
-        toAddress,
-        "|",
-        internalSubject
-      );
-      console.log(
-        "[cotizar] customer email →",
-        payload.email,
-        "|",
-        customerSubject
-      );
-      console.log("[cotizar] payload:", JSON.stringify(payload, null, 2));
+      console.log("[cotizar] vessel:", p.vesselName, "port:", p.port);
       if (file) {
-        console.log(
-          "[cotizar] attachment:",
-          file.name,
-          `(${file.size} bytes, ${file.type})`
-        );
+        console.log("[cotizar] attachment:", file.name, `(${file.size} bytes)`);
       }
       return NextResponse.json({ ok: true, simulated: true });
     }

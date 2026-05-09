@@ -21,9 +21,11 @@ export function LanguageSwitcher() {
 
   const rest = stripLocale(pathname || "/");
 
+  const localeNames: Record<string, string> = { es: "Español", en: "English" };
+
   return (
-    <div className="flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase">
-      <Globe className="h-3.5 w-3.5 text-cream/50" strokeWidth={1.8} />
+    <nav aria-label="Language selector" className="flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase">
+      <Globe className="h-3.5 w-3.5 text-cream/50" strokeWidth={1.8} aria-hidden="true" />
       {routing.locales.map((locale, idx) => {
         const href = `/${locale}${rest === "/" ? "" : rest}`;
         const isActive = locale === currentLocale;
@@ -31,22 +33,21 @@ export function LanguageSwitcher() {
           <span key={locale} className="flex items-center gap-2">
             <Link
               href={href}
+              aria-label={localeNames[locale] ?? locale}
+              aria-current={isActive ? "true" : undefined}
               className={cn(
                 "transition-colors font-medium",
-                isActive
-                  ? "text-gold"
-                  : "text-cream/55 hover:text-cream"
+                isActive ? "text-gold" : "text-cream/55 hover:text-cream"
               )}
-              aria-current={isActive ? "true" : undefined}
             >
-              {locale}
+              {locale.toUpperCase()}
             </Link>
             {idx < routing.locales.length - 1 && (
-              <span className="text-cream/25">|</span>
+              <span className="text-cream/25" aria-hidden="true">|</span>
             )}
           </span>
         );
       })}
-    </div>
+    </nav>
   );
 }

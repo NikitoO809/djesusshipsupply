@@ -11,7 +11,7 @@ import { SectionHeading } from "@/components/sections/SectionHeading";
 import { FeatureGrid } from "@/components/sections/FeatureGrid";
 import { CTASection } from "@/components/sections/CTASection";
 import { FadeIn } from "@/components/sections/FadeIn";
-import { buildPageMetadata } from "@/lib/seo";
+import { buildPageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -39,6 +39,7 @@ export default async function SobreNosotrosPage({ params }: Props) {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd({ locale, path: "/sobre-nosotros" })) }} />
       <PageHeader
         kicker={t("kicker")}
         title={t("h1")}

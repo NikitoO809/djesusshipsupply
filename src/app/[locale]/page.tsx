@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import { Hero } from "@/components/sections/Hero";
 import { SectionHeading } from "@/components/sections/SectionHeading";
-import { FeatureGrid } from "@/components/sections/FeatureGrid";
 import { ServiceCard } from "@/components/sections/ServiceCard";
 import { CTASection } from "@/components/sections/CTASection";
 import { FadeIn, Stagger, StaggerItem } from "@/components/sections/FadeIn";
@@ -31,24 +30,6 @@ export default async function HomePage({ params }: Props) {
 
   const link = (path: string) => `/${locale}${path}`;
 
-  const whyFeatures = [
-    {
-      icon: ShieldCheck,
-      title: t("why1Title"),
-      body: t("why1Body"),
-    },
-    {
-      icon: Globe2,
-      title: t("why2Title"),
-      body: t("why2Body"),
-    },
-    {
-      icon: Clock,
-      title: t("why3Title"),
-      body: t("why3Body"),
-    },
-  ];
-
   return (
     <>
       <Hero
@@ -63,15 +44,62 @@ export default async function HomePage({ params }: Props) {
 
       <section className="bg-background py-24 md:py-32">
         <div className="container mx-auto px-6">
-          <FadeIn>
-            <SectionHeading
-              kicker={t("whyKicker")}
-              title={t("whyTitle")}
-              align="center"
-            />
-          </FadeIn>
-          <div className="mt-16 md:mt-20">
-            <FeatureGrid features={whyFeatures} columns={3} />
+          <div className="grid gap-12 lg:grid-cols-[5fr_7fr] lg:gap-20 items-start">
+            <div>
+              <FadeIn>
+                <SectionHeading
+                  kicker={t("whyKicker")}
+                  title={t("whyTitle")}
+                  align="left"
+                />
+              </FadeIn>
+              <FadeIn delay={0.15}>
+                <div className="mt-10 p-8 rounded-sm bg-navy text-cream">
+                  <div className="inline-flex items-center justify-center h-11 w-11 rounded-sm bg-cream/10 text-gold mb-5">
+                    <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />
+                  </div>
+                  <h3 className="font-serif text-xl md:text-[22px] text-cream mb-3 leading-snug">
+                    {t("why1Title")}
+                  </h3>
+                  <p className="text-cream/70 text-[15px] leading-relaxed">
+                    {t("why1Body")}
+                  </p>
+                </div>
+              </FadeIn>
+            </div>
+
+            <Stagger className="divide-y divide-navy/8">
+              <StaggerItem className="pb-10">
+                <div className="group flex gap-5">
+                  <div className="shrink-0 inline-flex items-center justify-center h-11 w-11 rounded-sm bg-navy/5 text-navy group-hover:bg-gold/15 group-hover:text-gold-dark transition-colors">
+                    <Globe2 className="h-5 w-5" strokeWidth={1.8} />
+                  </div>
+                  <div>
+                    <h3 className="font-serif text-xl md:text-[22px] text-navy mb-2.5 leading-snug">
+                      {t("why2Title")}
+                    </h3>
+                    <p className="text-charcoal/75 text-[15px] leading-relaxed">
+                      {t("why2Body")}
+                    </p>
+                  </div>
+                </div>
+              </StaggerItem>
+              <StaggerItem className="pt-10">
+                <div className="group flex gap-5">
+                  <div className="shrink-0 inline-flex items-center justify-center h-11 w-11 rounded-sm bg-navy/5 text-navy group-hover:bg-gold/15 group-hover:text-gold-dark transition-colors">
+                    <Clock className="h-5 w-5" strokeWidth={1.8} />
+                  </div>
+                  <div>
+                    <h3 className="font-serif text-xl md:text-[22px] text-navy mb-2.5 leading-snug">
+                      {t("why3Title")}
+                    </h3>
+                    <p className="text-charcoal/75 text-[15px] leading-relaxed">
+                      {t("why3Body")}
+                    </p>
+                  </div>
+                </div>
+              </StaggerItem>
+            </Stagger>
           </div>
         </div>
       </section>
@@ -82,7 +110,7 @@ export default async function HomePage({ params }: Props) {
             <SectionHeading
               kicker={t("servicesKicker")}
               title={t("servicesTitle")}
-              align="center"
+              align="left"
             />
           </FadeIn>
           <Stagger className="mt-16 grid gap-7 lg:grid-cols-2">

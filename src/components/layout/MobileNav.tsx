@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
 import { ArrowRight, Menu, X } from "lucide-react";
 
 type NavItem = { label: string; href: string };
@@ -16,6 +17,9 @@ type MobileNavProps = {
 export function MobileNav({ items, cotizarLabel, cotizarHref }: MobileNavProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const locale = useLocale();
+  const openLabel = locale === "en" ? "Open navigation menu" : "Abrir menú de navegación";
+  const closeLabel = locale === "en" ? "Close navigation menu" : "Cerrar menú de navegación";
 
   useEffect(() => {
     setOpen(false);
@@ -39,7 +43,7 @@ export function MobileNav({ items, cotizarLabel, cotizarHref }: MobileNavProps) 
     <div className="lg:hidden">
       <button
         type="button"
-        aria-label={open ? "Cerrar menú" : "Abrir menú"}
+        aria-label={open ? closeLabel : openLabel}
         aria-expanded={open}
         aria-controls="mobile-nav-panel"
         onClick={() => setOpen((v) => !v)}

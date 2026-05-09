@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
-import { Mail, MessageCircle, MapPin } from "lucide-react";
+import { Mail, MessageCircle, MapPin, ArrowRight } from "lucide-react";
 
 export async function Footer() {
   const locale = await getLocale();
@@ -41,7 +41,7 @@ export async function Footer() {
         </div>
 
         <div className="md:col-span-3">
-          <h3 className="font-serif text-cream text-sm uppercase tracking-[0.22em] mb-5">
+          <h3 className="font-sans font-medium text-cream text-[11px] uppercase tracking-[0.22em] mb-5">
             {t("headingServicios")}
           </h3>
           <ul className="space-y-3 text-sm text-cream/75">
@@ -81,7 +81,7 @@ export async function Footer() {
         </div>
 
         <div className="md:col-span-4">
-          <h3 className="font-serif text-cream text-sm uppercase tracking-[0.22em] mb-5">
+          <h3 className="font-sans font-medium text-cream text-[11px] uppercase tracking-[0.22em] mb-5">
             {t("headingContacto")}
           </h3>
           <ul className="space-y-4 text-sm text-cream/75">
@@ -119,9 +119,10 @@ export async function Footer() {
           </ul>
           <Link
             href={link("/contacto")}
-            className="inline-flex items-center mt-6 text-[11px] uppercase tracking-[0.22em] text-gold hover:text-gold-light transition-colors font-medium"
+            className="group inline-flex items-center gap-1.5 mt-6 text-[11px] uppercase tracking-[0.22em] text-gold hover:text-gold-light transition-colors font-medium"
           >
-            {tNav("contacto")} →
+            {tNav("contacto")}
+            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" strokeWidth={2.4} />
           </Link>
         </div>
       </div>
@@ -132,10 +133,10 @@ export async function Footer() {
             © {year} De Jesús Ship Supply. {t("rights")}.
           </p>
           <div className="flex items-center gap-6">
-            <Link href="#" className="hover:text-gold transition-colors">
+            <Link href={link("/privacidad")} className="hover:text-gold transition-colors">
               {t("privacidad")}
             </Link>
-            <Link href="#" className="hover:text-gold transition-colors">
+            <Link href={link("/terminos")} className="hover:text-gold transition-colors">
               {t("terminos")}
             </Link>
           </div>

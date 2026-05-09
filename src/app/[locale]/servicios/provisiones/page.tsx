@@ -17,7 +17,7 @@ import { SectionHeading } from "@/components/sections/SectionHeading";
 import { FeatureGrid } from "@/components/sections/FeatureGrid";
 import { CTASection } from "@/components/sections/CTASection";
 import { FadeIn } from "@/components/sections/FadeIn";
-import { buildPageMetadata, serviceJsonLd } from "@/lib/seo";
+import { buildPageMetadata, serviceJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -53,14 +53,8 @@ export default async function ProvisionesPage({ params }: Props) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            serviceJsonLd({ locale, serviceType: "provisions" })
-          ),
-        }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd({ locale, serviceType: "provisions" })) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd({ locale, path: "/servicios/provisiones" })) }} />
       <PageHeader
         kicker={t("kicker")}
         title={t("h1")}

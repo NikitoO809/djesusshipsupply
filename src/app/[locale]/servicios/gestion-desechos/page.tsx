@@ -7,7 +7,7 @@ import { AnnexBlock } from "@/components/sections/AnnexBlock";
 import { Timeline } from "@/components/sections/Timeline";
 import { CTASection } from "@/components/sections/CTASection";
 import { FadeIn } from "@/components/sections/FadeIn";
-import { buildPageMetadata, serviceJsonLd } from "@/lib/seo";
+import { buildPageMetadata, serviceJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -34,14 +34,8 @@ export default async function GestionDesechosPage({ params }: Props) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            serviceJsonLd({ locale, serviceType: "marpol" })
-          ),
-        }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd({ locale, serviceType: "marpol" })) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd({ locale, path: "/servicios/gestion-desechos" })) }} />
       <PageHeader
         kicker={t("kicker")}
         title={t("h1")}

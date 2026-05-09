@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { ProvisionsQuoteFlow } from "@/components/forms/provisions-flow/ProvisionsQuoteFlow";
-import { buildPageMetadata } from "@/lib/seo";
+import { buildPageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -20,6 +20,7 @@ export default async function CotizarProvisionesPage({ params }: Props) {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd({ locale, path: "/cotizar/provisiones" })) }} />
       <div className="bg-gradient-to-r from-navy to-navy-light text-cream text-center text-xs font-medium px-6 py-3 border-b border-gold">
         <strong className="text-gold-light mr-1.5">⚓ {tBanner("bannerTip")}:</strong>
         {tBanner("banner")}

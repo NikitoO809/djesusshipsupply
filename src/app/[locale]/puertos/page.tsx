@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/sections/PageHeader";
 import { PortCard } from "@/components/sections/PortCard";
 import { CTASection } from "@/components/sections/CTASection";
 import { Stagger, StaggerItem } from "@/components/sections/FadeIn";
-import { buildPageMetadata } from "@/lib/seo";
+import { buildPageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -35,6 +35,7 @@ export default async function PuertosPage({ params }: Props) {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd({ locale, path: "/puertos" })) }} />
       <PageHeader
         kicker={t("kicker")}
         title={t("h1")}
