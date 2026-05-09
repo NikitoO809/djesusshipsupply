@@ -46,7 +46,7 @@ export function HeroBackground({
   }, []);
 
   return (
-    <div ref={containerRef} className="absolute inset-0">
+    <div ref={containerRef} className="absolute inset-0 pointer-events-none select-none">
       <img
         src={posterSrc}
         alt={posterAlt}
