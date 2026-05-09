@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Anchor } from "lucide-react";
-import { FadeIn } from "./FadeIn";
 
 interface HeroProps {
   locale: string;
@@ -43,7 +42,7 @@ export function Hero({
       </div>
 
       <div className="container mx-auto px-6 pt-24 pb-28 md:pt-36 md:pb-40 lg:pt-44 lg:pb-48">
-        <FadeIn className="max-w-4xl" immediate>
+        <div className="max-w-4xl">
           <div className="flex items-center gap-3 text-gold text-[11px] uppercase tracking-[0.28em] mb-8">
             <Anchor className="h-3.5 w-3.5" strokeWidth={2.4} />
             <span>{kicker}</span>
@@ -73,7 +72,7 @@ export function Hero({
               {ctaSecondary}
             </Link>
           </div>
-        </FadeIn>
+        </div>
       </div>
 
       <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
