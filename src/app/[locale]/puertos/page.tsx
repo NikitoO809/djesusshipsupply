@@ -41,6 +41,7 @@ export default async function PuertosPage({ params }: Props) {
         title={t("h1")}
         subtitle={t("subtitle")}
         videoSrcMp4="/videos/Port-ships.mp4"
+        posterSrc="/images/posters/Port-ships.jpg"
       />
 
       <section className="bg-background py-24 md:py-32">

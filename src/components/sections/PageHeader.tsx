@@ -8,6 +8,7 @@ interface PageHeaderProps {
   imageSrc?: string;
   imageAlt?: string;
   videoSrcMp4?: string;
+  posterSrc?: string;
 }
 
 export function PageHeader({
@@ -17,12 +18,16 @@ export function PageHeader({
   imageSrc = "https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&w=2200&q=80",
   imageAlt = "Port at dawn",
   videoSrcMp4,
+  posterSrc,
 }: PageHeaderProps) {
   return (
     <section className="relative isolate overflow-hidden bg-navy text-cream">
       <div className="absolute inset-0 -z-10">
         {videoSrcMp4 ? (
-          <HeroBackground videoSrcMp4={videoSrcMp4} />
+          <HeroBackground
+            videoSrcMp4={videoSrcMp4}
+            posterSrc={posterSrc ?? imageSrc}
+          />
         ) : (
           <Image
             src={imageSrc}

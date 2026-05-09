@@ -25,7 +25,11 @@ export function Hero({
   return (
     <section className="relative isolate overflow-hidden bg-navy text-cream min-h-[100dvh] flex items-center">
       <div className="absolute inset-0 -z-10">
-        <HeroBackground videoSrcMp4="/videos/hero-ship.mp4" />
+        <HeroBackground
+          videoSrcMp4="/videos/hero-ship.mp4"
+          posterSrc="/images/posters/hero-ship.jpg"
+          priority
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy/70 to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(201,169,97,0.12),transparent_50%)]" />
       </div>

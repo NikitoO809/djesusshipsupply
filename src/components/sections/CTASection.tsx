@@ -19,7 +19,10 @@ export function CTASection({ title, subtitle, buttons }: CTASectionProps) {
   return (
     <section className="relative isolate overflow-hidden bg-navy-dark text-cream">
       <div className="absolute inset-0 -z-10">
-        <HeroBackground videoSrcMp4="/videos/Port-ship.mp4" />
+        <HeroBackground
+          videoSrcMp4="/videos/Port-ship.mp4"
+          posterSrc="/images/posters/Port-ship.jpg"
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy/70 to-transparent" />
       </div>
 
