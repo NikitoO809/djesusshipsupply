@@ -9,6 +9,7 @@ interface FadeInProps extends Omit<HTMLMotionProps<"div">, "children"> {
   y?: number;
   duration?: number;
   once?: boolean;
+  immediate?: boolean;
 }
 
 export function FadeIn({
@@ -17,14 +18,21 @@ export function FadeIn({
   y = 24,
   duration = 0.7,
   once = true,
+  immediate = false,
   ...rest
 }: FadeInProps) {
+  const animationProps = immediate
+    ? { animate: { opacity: 1, y: 0 } }
+    : {
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once, margin: "-80px" },
+      };
+
   return (
     <motion.div
       initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, margin: "-80px" }}
       transition={{ duration, delay, ease: [0.22, 1, 0.36, 1] }}
+      {...animationProps}
       {...rest}
     >
       {children}

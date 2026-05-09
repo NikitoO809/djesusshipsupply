@@ -43,7 +43,7 @@ export function Hero({
       </div>
 
       <div className="container mx-auto px-6 pt-24 pb-28 md:pt-36 md:pb-40 lg:pt-44 lg:pb-48">
-        <FadeIn className="max-w-4xl">
+        <FadeIn className="max-w-4xl" immediate>
           <div className="flex items-center gap-3 text-gold text-[11px] uppercase tracking-[0.28em] mb-8">
             <Anchor className="h-3.5 w-3.5" strokeWidth={2.4} />
             <span>{kicker}</span>

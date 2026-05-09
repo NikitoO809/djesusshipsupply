@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ArrowRight } from "lucide-react";
@@ -63,11 +64,13 @@ export async function Header() {
               strokeWidth={2.6}
             />
           </Link>
-          <MobileNav
-            items={navItems}
-            cotizarLabel={t("cotizar")}
-            cotizarHref={link("/cotizar/provisiones")}
-          />
+          <Suspense fallback={null}>
+            <MobileNav
+              items={navItems}
+              cotizarLabel={t("cotizar")}
+              cotizarHref={link("/cotizar/provisiones")}
+            />
+          </Suspense>
         </div>
       </div>
     </header>

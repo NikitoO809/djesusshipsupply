@@ -31,7 +31,7 @@ export function PageHeader({
       </div>
 
       <div className="container mx-auto px-6 pt-24 pb-20 md:pt-32 md:pb-28">
-        <FadeIn className="max-w-3xl">
+        <FadeIn className="max-w-3xl" immediate>
           {kicker && (
             <div className="flex items-center gap-3 text-gold text-[11px] uppercase tracking-[0.28em] mb-6">
               <span className="h-px w-8 bg-gold/60" />
