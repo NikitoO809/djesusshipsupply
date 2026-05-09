@@ -1,42 +1,70 @@
 "use client";
 
-import { motion, type HTMLMotionProps } from "framer-motion";
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode, type CSSProperties } from "react";
 
-interface FadeInProps extends Omit<HTMLMotionProps<"div">, "children"> {
+interface FadeInProps {
   children: ReactNode;
+  className?: string;
   delay?: number;
   y?: number;
   duration?: number;
   once?: boolean;
   immediate?: boolean;
+  style?: CSSProperties;
 }
 
 export function FadeIn({
   children,
+  className,
   delay = 0,
   y = 24,
   duration = 0.7,
   once = true,
   immediate = false,
-  ...rest
+  style,
 }: FadeInProps) {
-  const animationProps = immediate
-    ? { animate: { opacity: 1, y: 0 } }
-    : {
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once, margin: "-80px" },
-      };
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    if (immediate) {
+      el.style.opacity = "1";
+      el.style.transform = "translateY(0)";
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity = "1";
+          el.style.transform = "translateY(0)";
+          if (once) observer.disconnect();
+        } else if (!once) {
+          el.style.opacity = "0";
+          el.style.transform = `translateY(${y}px)`;
+        }
+      },
+      { threshold: 0.1, rootMargin: "-80px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [y, once, immediate]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y }}
-      transition={{ duration, delay, ease: [0.22, 1, 0.36, 1] }}
-      {...animationProps}
-      {...rest}
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: immediate ? 1 : 0,
+        transform: immediate ? "translateY(0)" : `translateY(${y}px)`,
+        transition: `opacity ${duration}s cubic-bezier(0.22,1,0.36,1) ${delay}s, transform ${duration}s cubic-bezier(0.22,1,0.36,1) ${delay}s`,
+        ...style,
+      }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -47,27 +75,37 @@ interface StaggerProps {
   delay?: number;
 }
 
-export function Stagger({
-  children,
-  className,
-  stagger = 0.08,
-  delay = 0,
-}: StaggerProps) {
+export function Stagger({ children, className, stagger = 0.08, delay = 0 }: StaggerProps) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const items = Array.from(el.children) as HTMLElement[];
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          items.forEach((item, i) => {
+            const t = delay + i * stagger;
+            item.style.transition = `opacity 0.65s cubic-bezier(0.22,1,0.36,1) ${t}s, transform 0.65s cubic-bezier(0.22,1,0.36,1) ${t}s`;
+            item.style.opacity = "1";
+            item.style.transform = "translateY(0)";
+          });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "-60px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [stagger, delay]);
+
   return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-60px" }}
-      variants={{
-        hidden: {},
-        visible: {
-          transition: { staggerChildren: stagger, delayChildren: delay },
-        },
-      }}
-    >
+    <div ref={ref} className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -81,18 +119,14 @@ export function StaggerItem({
   y?: number;
 }) {
   return (
-    <motion.div
+    <div
       className={className}
-      variants={{
-        hidden: { opacity: 0, y },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
-        },
+      style={{
+        opacity: 0,
+        transform: `translateY(${y}px)`,
       }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

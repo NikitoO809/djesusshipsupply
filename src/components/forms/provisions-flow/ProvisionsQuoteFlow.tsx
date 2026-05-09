@@ -21,17 +21,14 @@ import {
   VESSEL_TYPES,
   CONTACT_ROLES,
   CURRENCIES,
-} from "@/lib/schemas/shared";
+} from "@/lib/form-constants";
 import {
   PROVISION_CATALOG,
   PROVISION_PRODUCT_COUNT,
 } from "@/lib/catalog/provisions";
-import { z } from "zod";
-import {
-  quoteProvisionsRichSchema,
-  MAX_UPLOAD_BYTES,
-  type CartItem,
-} from "@/lib/schemas/quote-provisions";
+import type { CartItem } from "@/lib/schemas/quote-provisions";
+
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
 import {
   emptyVessel,
@@ -95,7 +92,7 @@ export function ProvisionsQuoteFlow() {
     for (const k of required) {
       if (!vesselDraft[k]) errors[k] = "Required";
     }
-    if (vesselDraft.email && !z.string().email().safeParse(vesselDraft.email).success) {
+    if (vesselDraft.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(vesselDraft.email)) {
       errors.email = "Invalid email";
     }
     setVesselErrors(errors);
@@ -201,14 +198,6 @@ export function ProvisionsQuoteFlow() {
           extraItems: cartItems,
         };
         useMultipart = true;
-      }
-
-      // Client-side validation (also enforces enum types like role/port).
-      const validation = quoteProvisionsRichSchema.safeParse(payload);
-      if (!validation.success) {
-        toast.error(tBase("errors.validation"));
-        setState((s) => ({ ...s, submitting: false }));
-        return;
       }
 
       let res: Response;

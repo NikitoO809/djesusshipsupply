@@ -43,7 +43,7 @@ export default async function SobreNosotrosPage({ params }: Props) {
       <PageHeader
         kicker={t("kicker")}
         title={t("h1")}
-        imageSrc="https://images.unsplash.com/photo-1493946740644-2d8a1f1a6aff?auto=format&fit=crop&w=2200&q=80"
+        imageSrc="https://images.unsplash.com/photo-1493946740644-2d8a1f1a6aff?auto=format&fit=crop&w=2200&q=80&fm=avif"
         imageAlt="Dominican Republic port skyline"
       />
 

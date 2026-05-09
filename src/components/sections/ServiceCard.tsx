@@ -11,6 +11,7 @@ interface ServiceCardProps {
   imageAlt: string;
   icon: LucideIcon;
   tag?: string;
+  priority?: boolean;
 }
 
 export function ServiceCard({
@@ -22,6 +23,7 @@ export function ServiceCard({
   imageAlt,
   icon: Icon,
   tag,
+  priority = false,
 }: ServiceCardProps) {
   return (
     <Link
@@ -34,6 +36,7 @@ export function ServiceCard({
           alt={imageAlt}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
+          priority={priority}
           className="object-cover transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy/40 to-transparent" />

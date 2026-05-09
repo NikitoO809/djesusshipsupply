@@ -16,14 +16,13 @@ export default async function CotizarProvisionesPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("forms.provisiones");
-  const tBanner = await getTranslations("forms.provisiones.flow");
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd({ locale, path: "/cotizar/provisiones" })) }} />
       <div className="bg-gradient-to-r from-navy to-navy-light text-cream text-center text-xs font-medium px-6 py-3 border-b border-gold">
-        <strong className="text-gold-light mr-1.5">⚓ {tBanner("bannerTip")}:</strong>
-        {tBanner("banner")}
+        <strong className="text-gold-light mr-1.5">⚓ {t("flow.bannerTip")}:</strong>
+        {t("flow.banner")}
       </div>
       <section className="container mx-auto max-w-6xl px-4 sm:px-6 py-12 md:py-16">
         <header className="mb-10 space-y-3 text-center">

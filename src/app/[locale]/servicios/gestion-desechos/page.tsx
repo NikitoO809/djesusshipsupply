@@ -40,7 +40,7 @@ export default async function GestionDesechosPage({ params }: Props) {
         kicker={t("kicker")}
         title={t("h1")}
         subtitle={t("subtitle")}
-        imageSrc="https://images.unsplash.com/photo-1513436539083-9d2127e742f1?auto=format&fit=crop&w=2200&q=80"
+        imageSrc="https://images.unsplash.com/photo-1513436539083-9d2127e742f1?auto=format&fit=crop&w=2200&q=80&fm=avif"
         imageAlt="Industrial port operations"
       />
 
@@ -72,7 +72,7 @@ export default async function GestionDesechosPage({ params }: Props) {
               t("annex5Item3"),
             ]}
             icon={Trash2}
-            imageSrc="https://images.unsplash.com/photo-1604187351574-c75ca79f5807?auto=format&fit=crop&w=1600&q=80"
+            imageSrc="https://images.unsplash.com/photo-1604187351574-c75ca79f5807?auto=format&fit=crop&w=1600&q=80&fm=avif"
             imageAlt={t("annex5Title")}
             reverse
           />

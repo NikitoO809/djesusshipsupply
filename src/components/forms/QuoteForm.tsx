@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { useForm, Controller, type Resolver } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 
@@ -35,15 +34,9 @@ import {
   PROVISION_CATEGORIES,
   WASTE_TYPES,
   WASTE_MODES,
-} from "@/lib/schemas/shared";
-import {
-  quoteProvisionsSchema,
-  type QuoteProvisionsInput,
-} from "@/lib/schemas/quote-provisions";
-import {
-  quoteMarpolSchema,
-  type QuoteMarpolInput,
-} from "@/lib/schemas/quote-marpol";
+} from "@/lib/form-constants";
+import type { QuoteProvisionsInput } from "@/lib/schemas/quote-provisions";
+import type { QuoteMarpolInput } from "@/lib/schemas/quote-marpol";
 
 type Props =
   | { type: "provisions" }
@@ -82,16 +75,37 @@ const marpolDefaults = {
   additionalNotes: "",
 } as unknown as QuoteMarpolInput;
 
+function makeResolver(isProvisions: boolean): Resolver<FormValues> {
+  const req = "Required";
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return async (values) => {
+    const errors: Record<string, { type: string; message: string }> = {};
+    const v = values as Record<string, unknown>;
+    const miss = (k: string, msg = req) => { if (!v[k]) errors[k] = { type: "required", message: msg }; };
+    miss("vesselName"); miss("flag"); miss("vesselType"); miss("port"); miss("eta"); miss("contactName"); miss("role");
+    if (!v["email"]) errors["email"] = { type: "required", message: req };
+    else if (!emailRe.test(v["email"] as string)) errors["email"] = { type: "pattern", message: "Invalid email" };
+    if (!v["consent"]) errors["consent"] = { type: "required", message: req };
+    if (isProvisions) {
+      if (!(v["categories"] as string[] | undefined)?.length) errors["categories"] = { type: "required", message: req };
+      miss("notes"); miss("currency");
+    } else {
+      if (!(v["wasteTypes"] as string[] | undefined)?.length) errors["wasteTypes"] = { type: "required", message: req };
+      miss("volume"); miss("mode");
+    }
+    return { values: Object.keys(errors).length ? {} : values, errors };
+  };
+}
+
 export function QuoteForm({ type }: Props) {
   const t = useTranslations("forms");
   const locale = useLocale() as "es" | "en";
   const [submitted, setSubmitted] = React.useState(false);
 
-  const schema = type === "provisions" ? quoteProvisionsSchema : quoteMarpolSchema;
   const defaults = type === "provisions" ? provisionsDefaults : marpolDefaults;
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(schema) as unknown as Resolver<FormValues>,
+    resolver: makeResolver(type === "provisions"),
     defaultValues: defaults as FormValues,
     mode: "onTouched",
   });

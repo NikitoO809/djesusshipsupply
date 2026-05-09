@@ -59,7 +59,7 @@ export default async function ProvisionesPage({ params }: Props) {
         kicker={t("kicker")}
         title={t("h1")}
         subtitle={t("subtitle")}
-        imageSrc="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=2200&q=80"
+        imageSrc="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=2200&q=80&fm=avif"
         imageAlt="Fresh produce market"
       />
 

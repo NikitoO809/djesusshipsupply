@@ -120,10 +120,11 @@ export default async function HomePage({ params }: Props) {
                 body={t("service1Body")}
                 href={link("/servicios/gestion-desechos")}
                 ctaLabel={t("ctaWaste")}
-                imageSrc="https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&w=1600&q=80"
+                imageSrc="https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&w=1600&q=80&fm=avif"
                 imageAlt="MARPOL waste management"
                 icon={Trash2}
                 tag="MARPOL"
+                priority
               />
             </StaggerItem>
             <StaggerItem>
@@ -136,6 +137,7 @@ export default async function HomePage({ params }: Props) {
                 imageAlt="Ship provisions onboard"
                 icon={Apple}
                 tag="Provisions"
+                priority
               />
             </StaggerItem>
           </Stagger>
