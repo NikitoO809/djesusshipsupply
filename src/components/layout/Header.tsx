@@ -14,6 +14,7 @@ export async function Header() {
   const navItems = [
     { label: t("provisiones"), href: link("/servicios/provisiones") },
     { label: t("gestionDesechos"), href: link("/servicios/gestion-desechos") },
+    { label: t("procurement"), href: link("/suministro") },
     { label: t("puertos"), href: link("/puertos") },
     { label: t("sobreNosotros"), href: link("/sobre-nosotros") },
     { label: t("contacto"), href: link("/contacto") },

@@ -49,14 +49,14 @@ export const PAGE_SEO: Record<string, Record<Locale, Copy>> = {
   },
   "/servicios/gestion-desechos": {
     es: {
-      title: "Gestión de desechos MARPOL — Anexos I, IV, V y VI en RD",
+      title: "Gestión de residuos oleosos MARPOL y servicios técnicos navales en RD",
       description:
-        "Recolección, transporte y disposición final de residuos oleosos, aguas servidas, basura sólida y residuos de gases. Documentación oficial, cumplimiento MARPOL.",
+        "Recolección y disposición de residuos oleosos con cumplimiento MARPOL Anexo I. Servicios técnicos a bordo: chatarra naval, electrónica de navegación, sistemas eléctricos y refrigeración. 8 puertos en RD.",
     },
     en: {
-      title: "MARPOL waste management — Annex I, IV, V & VI in DR",
+      title: "MARPOL oily waste management & marine technical services in DR",
       description:
-        "Collection, transport and final disposal of oily residues, sewage, solid garbage and exhaust gas residues. Official documentation, full MARPOL compliance.",
+        "Certified oily residue collection and MARPOL Annex I compliance. Onboard technical services: marine scrap, navigation electronics, electrical systems and refrigeration. 8 ports in the DR.",
     },
   },
   "/puertos": {
@@ -105,6 +105,30 @@ export const PAGE_SEO: Record<string, Record<Locale, Copy>> = {
       title: "Request a MARPOL waste quote — Direct submission",
       description:
         "Request a MARPOL waste management quote: annex, estimated volume and port. We coordinate vessel service with complete documentation.",
+    },
+  },
+  "/procurement": {
+    es: {
+      title: "Marine Procurement — Suministros industriales y navales en RD",
+      description:
+        "Catálogo de suministros industriales y navales: eléctricos, ferretería, seguridad, pintura, refrigeración y más. Entrega directa al buque en los 8 puertos de RD. Cotización en 2 horas.",
+    },
+    en: {
+      title: "Marine Procurement — Industrial & naval supplies in DR",
+      description:
+        "Industrial and marine supply catalog: electrical, hardware, safety, coatings, refrigeration and more. Direct delivery to your vessel at all 8 DR ports. Quote in 2 hours.",
+    },
+  },
+  "/suministro": {
+    es: {
+      title: "Suministro marítimo — Técnicos, Provisiones y MARPOL en RD",
+      description:
+        "Plataforma de suministro marítimo integral: suministros técnicos industriales, provisiones a bordo y gestión de desechos MARPOL en los 8 puertos de República Dominicana.",
+    },
+    en: {
+      title: "Maritime supply — Technical, Provisions & MARPOL in DR",
+      description:
+        "Integrated maritime supply platform: industrial technical supplies, onboard provisions and MARPOL waste management across the 8 main ports of the Dominican Republic.",
     },
   },
   "/privacidad": {
@@ -234,6 +258,11 @@ const BREADCRUMB_STEPS: Record<string, Array<{ es: string; en: string; path?: st
   "/servicios/gestion-desechos": [
     { es: "Servicios", en: "Services" },
     { es: "Gestión de desechos MARPOL", en: "MARPOL waste management", path: "/servicios/gestion-desechos" },
+  ],
+  "/suministro": [{ es: "Suministro", en: "Supply", path: "/suministro" }],
+  "/procurement": [
+    { es: "Suministro", en: "Supply", path: "/suministro" },
+    { es: "Suministros técnicos", en: "Technical supplies", path: "/procurement" },
   ],
   "/puertos": [{ es: "Puertos", en: "Ports", path: "/puertos" }],
   "/contacto": [{ es: "Contacto", en: "Contact", path: "/contacto" }],

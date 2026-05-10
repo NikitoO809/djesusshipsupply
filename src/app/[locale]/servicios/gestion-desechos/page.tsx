@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { Droplet, Trash2 } from "lucide-react";
+import { Droplet, Recycle, Satellite, Zap, Snowflake } from "lucide-react";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { SectionHeading } from "@/components/sections/SectionHeading";
 import { AnnexBlock } from "@/components/sections/AnnexBlock";
 import { Timeline } from "@/components/sections/Timeline";
+import { FeatureGrid } from "@/components/sections/FeatureGrid";
 import { CTASection } from "@/components/sections/CTASection";
 import { FadeIn } from "@/components/sections/FadeIn";
 import { buildPageMetadata, serviceJsonLd, breadcrumbJsonLd } from "@/lib/seo";
@@ -32,6 +33,13 @@ export default async function GestionDesechosPage({ params }: Props) {
     { title: t("step4Title"), body: t("step4Body") },
   ];
 
+  const techServices = [
+    { icon: Recycle, title: t("tech1Title"), body: t("tech1Body") },
+    { icon: Satellite, title: t("tech2Title"), body: t("tech2Body") },
+    { icon: Zap, title: t("tech3Title"), body: t("tech3Body") },
+    { icon: Snowflake, title: t("tech4Title"), body: t("tech4Body") },
+  ];
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd({ locale, serviceType: "marpol" })) }} />
@@ -40,8 +48,9 @@ export default async function GestionDesechosPage({ params }: Props) {
         kicker={t("kicker")}
         title={t("h1")}
         subtitle={t("subtitle")}
-        imageSrc="https://images.unsplash.com/photo-1513436539083-9d2127e742f1?auto=format&fit=crop&w=2200&q=80&fm=avif"
-        imageAlt="Industrial port operations"
+        videoSrcMp4="/videos/Servicios.mp4"
+        posterSrc="/images/oleosos.jpg"
+        imageAlt="Gestión de residuos oleosos MARPOL"
       />
 
       <section className="bg-background py-24 md:py-32">
@@ -61,21 +70,22 @@ export default async function GestionDesechosPage({ params }: Props) {
             imageAlt={t("annex1Title")}
           />
 
-          <AnnexBlock
-            tag={t("annex5Tag")}
-            title={t("annex5Title")}
-            body={t("annex5Body")}
-            includesLabel={t("annex1Includes")}
-            items={[
-              t("annex5Item1"),
-              t("annex5Item2"),
-              t("annex5Item3"),
-            ]}
-            icon={Trash2}
-            imageSrc="https://images.unsplash.com/photo-1604187351574-c75ca79f5807?auto=format&fit=crop&w=1600&q=80&fm=avif"
-            imageAlt={t("annex5Title")}
-            reverse
-          />
+        </div>
+      </section>
+
+      <section className="bg-background py-24 md:py-32 border-t border-navy/8">
+        <div className="container mx-auto px-6">
+          <FadeIn>
+            <SectionHeading
+              kicker={t("techKicker")}
+              title={t("techTitle")}
+              subtitle={t("techSubtitle")}
+              align="center"
+            />
+          </FadeIn>
+          <div className="mt-16 md:mt-20">
+            <FeatureGrid features={techServices} columns={4} />
+          </div>
         </div>
       </section>
 

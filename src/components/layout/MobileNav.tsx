@@ -22,7 +22,8 @@ export function MobileNav({ items, cotizarLabel, cotizarHref }: MobileNavProps) 
   const closeLabel = locale === "en" ? "Close navigation menu" : "Cerrar menú de navegación";
 
   useEffect(() => {
-    setOpen(false);
+    const id = setTimeout(() => setOpen(false), 0);
+    return () => clearTimeout(id);
   }, [pathname]);
 
   useEffect(() => {

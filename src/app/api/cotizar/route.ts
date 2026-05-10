@@ -10,7 +10,9 @@ import {
   type QuoteProvisionsRichValues,
 } from "@/lib/schemas/quote-provisions";
 import { quoteMarpolSchema } from "@/lib/schemas/quote-marpol";
+import { quoteTechnicalSchema, type QuoteTechnicalValues } from "@/lib/schemas/quote-technical";
 import { InternalQuoteEmail } from "@/lib/email-templates/internal-quote";
+import { InternalTechnicalQuoteEmail } from "@/lib/email-templates/internal-technical-quote";
 import {
   CustomerConfirmationEmail,
   customerConfirmationSubject,
@@ -18,7 +20,7 @@ import {
 
 export const runtime = "nodejs";
 
-type QuoteType = "provisions" | "marpol";
+type QuoteType = "provisions" | "marpol" | "technical";
 type Locale = "es" | "en";
 
 const DEFAULT_FROM = "De Jesús Ship Supply <noreply@djesusshipsupply.com>";
@@ -45,7 +47,7 @@ function isLocale(v: unknown): v is Locale {
 }
 
 function isType(v: unknown): v is QuoteType {
-  return v === "provisions" || v === "marpol";
+  return v === "provisions" || v === "marpol" || v === "technical";
 }
 
 type ParsedRequest = {
@@ -220,6 +222,8 @@ function validatePayload(
   let schema;
   if (type === "marpol") {
     schema = quoteMarpolSchema;
+  } else if (type === "technical") {
+    schema = quoteTechnicalSchema;
   } else {
     const hasMethod =
       typeof rawPayload === "object" &&
@@ -324,17 +328,27 @@ export async function POST(request: Request) {
 
   const { renderToStaticMarkup } = await import("react-dom/server");
 
+  const isTechnical = type === "technical";
+
   const internalHtml =
     "<!doctype html>" +
-    renderToStaticMarkup(
-      InternalQuoteEmail({
-        type,
-        payload: payload as never,
-        submittedAt,
-        locale,
-        attachmentName: file?.name,
-      })
-    );
+    (isTechnical
+      ? renderToStaticMarkup(
+          InternalTechnicalQuoteEmail({
+            payload: payload as unknown as QuoteTechnicalValues,
+            submittedAt,
+            locale,
+          })
+        )
+      : renderToStaticMarkup(
+          InternalQuoteEmail({
+            type: type as "provisions" | "marpol",
+            payload: payload as never,
+            submittedAt,
+            locale,
+            attachmentName: file?.name,
+          })
+        ));
 
   const customerHtml =
     "<!doctype html>" +
@@ -342,13 +356,15 @@ export async function POST(request: Request) {
       CustomerConfirmationEmail({
         locale,
         contactName: payload.contactName,
-        type,
+        type: isTechnical ? "provisions" : (type as "provisions" | "marpol"),
       })
     );
 
   const internalSubjectBase =
     type === "provisions"
       ? "Nueva cotización — Provisiones"
+      : type === "technical"
+      ? "Nueva cotización — Suministros Técnicos"
       : "Nueva cotización — Desechos MARPOL";
   const internalSubject = `${internalSubjectBase} · ${payload.vesselName} · ${payload.port}`;
   const customerSubject = customerConfirmationSubject(locale);
