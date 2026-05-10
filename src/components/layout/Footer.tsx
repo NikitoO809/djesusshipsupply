@@ -63,6 +63,14 @@ export async function Footer() {
             </li>
             <li>
               <Link
+                href={link("/procurement")}
+                className="hover:text-gold transition-colors"
+              >
+                {tNav("procurement")}
+              </Link>
+            </li>
+            <li>
+              <Link
                 href={link("/puertos")}
                 className="hover:text-gold transition-colors"
               >

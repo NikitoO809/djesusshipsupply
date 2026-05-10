@@ -34,6 +34,7 @@ import {
   PROVISION_CATEGORIES,
   WASTE_TYPES,
   WASTE_MODES,
+  TECH_SERVICES,
 } from "@/lib/form-constants";
 import type { QuoteProvisionsInput } from "@/lib/schemas/quote-provisions";
 import type { QuoteMarpolInput } from "@/lib/schemas/quote-marpol";
@@ -70,6 +71,7 @@ const provisionsDefaults = {
 const marpolDefaults = {
   ...baseDefaults,
   wasteTypes: [] as string[],
+  techServices: [] as string[],
   volume: "",
   mode: undefined,
   additionalNotes: "",
@@ -90,8 +92,15 @@ function makeResolver(isProvisions: boolean): Resolver<FormValues> {
       if (!(v["categories"] as string[] | undefined)?.length) errors["categories"] = { type: "required", message: req };
       miss("notes"); miss("currency");
     } else {
-      if (!(v["wasteTypes"] as string[] | undefined)?.length) errors["wasteTypes"] = { type: "required", message: req };
-      miss("volume"); miss("mode");
+      const wasteCount = (v["wasteTypes"] as string[] | undefined)?.length ?? 0;
+      const techCount = (v["techServices"] as string[] | undefined)?.length ?? 0;
+      if (wasteCount === 0 && techCount === 0) {
+        errors["wasteTypes"] = { type: "required", message: req };
+      }
+      if (wasteCount > 0) {
+        miss("volume");
+        miss("mode");
+      }
     }
     return { values: Object.keys(errors).length ? {} : values, errors };
   };
@@ -242,9 +251,13 @@ export function QuoteForm({ type }: Props) {
         ) : (
           <Section title={t("sections.wasteDetail")}>
             <CheckboxGroupRHF
+              name="techServices"
+              label={t("fields.techServices")}
+              options={TECH_SERVICES.map((s) => ({ value: s, label: s }))}
+            />
+            <CheckboxGroupRHF
               name="wasteTypes"
               label={t("fields.wasteTypes")}
-              required
               options={WASTE_TYPES.map((w) => ({ value: w, label: w }))}
             />
             <Grid>
@@ -252,12 +265,10 @@ export function QuoteForm({ type }: Props) {
                 name="volume"
                 label={t("fields.volume")}
                 placeholder={t("fields.volumePlaceholder")}
-                required
               />
               <SelectFieldRHF
                 name="mode"
                 label={t("fields.mode")}
-                required
                 placeholder={t("placeholders.select")}
                 options={WASTE_MODES.map((m) => ({ value: m, label: m }))}
               />

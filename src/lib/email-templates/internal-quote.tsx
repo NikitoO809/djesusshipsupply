@@ -318,14 +318,26 @@ export function InternalQuoteEmail(props: InternalQuoteProps) {
   // -------- Marpol detail --------
   const marpolContent = !isProvisions ? (
     <SectionTable
-      title="Detalle / Waste detail"
+      title="Detalle / Service detail"
       rows={[
         {
-          label: "Tipos de residuo / Waste types",
-          value: (payload as QuoteMarpolValues).wasteTypes.join(", "),
+          label: "Servicios técnicos / Technical services",
+          value:
+            (payload as QuoteMarpolValues).techServices?.join(", ") || "—",
         },
-        { label: "Volumen / Volume", value: (payload as QuoteMarpolValues).volume },
-        { label: "Modalidad / Mode", value: (payload as QuoteMarpolValues).mode },
+        {
+          label: "Tipos de residuo / Waste types",
+          value:
+            (payload as QuoteMarpolValues).wasteTypes?.join(", ") || "—",
+        },
+        {
+          label: "Volumen / Volume",
+          value: (payload as QuoteMarpolValues).volume || "—",
+        },
+        {
+          label: "Modalidad / Mode",
+          value: (payload as QuoteMarpolValues).mode || "—",
+        },
         {
           label: "Notas / Notes",
           value: (

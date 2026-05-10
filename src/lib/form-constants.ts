@@ -48,3 +48,10 @@ export const WASTE_TYPES = [
 ] as const;
 
 export const WASTE_MODES = ["Alongside", "Anchorage"] as const;
+
+export const TECH_SERVICES = [
+  "Chatarra y residuos / Scrap & Waste Management",
+  "Navegación y electrónica / Navigation & Electronics Repair",
+  "Sistemas eléctricos / Marine Electrical Services",
+  "Refrigeración y climatización / Marine Refrigeration & HVAC",
+] as const;

@@ -8,6 +8,7 @@ import {
   PROVISION_CATEGORIES,
   WASTE_TYPES,
   WASTE_MODES,
+  TECH_SERVICES,
 } from "@/lib/form-constants";
 
 export {
@@ -18,6 +19,7 @@ export {
   PROVISION_CATEGORIES,
   WASTE_TYPES,
   WASTE_MODES,
+  TECH_SERVICES,
 };
 
 const required = "Requerido / Required";
