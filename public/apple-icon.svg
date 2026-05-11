@@ -1,8 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="180" height="180">
-  <rect width="32" height="32" rx="4" fill="#0A1F3D"/>
-  <g transform="translate(16, 18)">
-    <path d="M -10,3 Q -8,7 -5,8 L 5,8 Q 8,7 10,3 L 8,2 L -8,2 Z" fill="#C9A961"/>
-    <line x1="0" y1="2" x2="0" y2="-10" stroke="#C9A961" stroke-width="0.5"/>
-    <path d="M 0,-10 L 4,-7 L 4,1 L 0,1 Z" fill="#C9A961"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180" role="img" aria-label="DJSS - De Jesus Ship Supply">
+  <rect width="180" height="180" rx="32" fill="#0A2540"/>
+  <rect x="10" y="10" width="160" height="160" rx="22" fill="none" stroke="#C9A961" stroke-width="2.5" opacity="0.9"/>
+  <text x="90" y="108" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="56" fill="#C9A961" letter-spacing="2.5">DJSS</text>
+  <line x1="50" y1="130" x2="130" y2="130" stroke="#C9A961" stroke-width="1.5" opacity="0.5"/>
 </svg>
