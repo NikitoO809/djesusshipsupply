@@ -93,7 +93,7 @@ export function ProvisionsQuoteFlow() {
       toast.error(tBase("errors.validation"));
       return;
     }
-    setState((s) => ({ ...s, vessel: vesselDraft, step: 2 }));
+    setState((s) => ({ ...s, vessel: vesselDraft, step: 3 }));
   };
 
   // ----- Step 2: method + sub-views -----
@@ -120,8 +120,8 @@ export function ProvisionsQuoteFlow() {
 
   const setFile = (file: File | null) => setState((s) => ({ ...s, file }));
 
-  // Step 2 → Step 3 transition
-  const proceedToReview = () => {
+  // Step 1 → Step 2 transition (cart validated, go to vessel form)
+  const proceedToVessel = () => {
     if (state.method === "catalog" && cartCount === 0) {
       toast.error(t("catalog.cart.emptyTitle"));
       return;
@@ -130,7 +130,7 @@ export function ProvisionsQuoteFlow() {
       toast.error(t("upload.fileTooLarge"));
       return;
     }
-    setState((s) => ({ ...s, step: 3 }));
+    setState((s) => ({ ...s, step: 2 }));
   };
 
   // Derive technical items from rfq entries for unified submit
@@ -287,15 +287,6 @@ export function ProvisionsQuoteFlow() {
       <Stepper step={state.step} />
 
       {state.step === 1 && (
-        <StepVessel
-          data={vesselDraft}
-          errors={vesselErrors}
-          onChange={setVesselDraft}
-          onSubmit={handleVesselSubmit}
-        />
-      )}
-
-      {state.step === 2 && (
         <StepMethod
           state={state}
           cart={provisionsItems}
@@ -305,8 +296,17 @@ export function ProvisionsQuoteFlow() {
           onRemoveFromCart={removeFromCart}
           onUpdateQty={updateQty}
           onSetFile={setFile}
-          onProceed={proceedToReview}
-          onBackToVessel={() => setState((s) => ({ ...s, step: 1 }))}
+          onProceed={proceedToVessel}
+        />
+      )}
+
+      {state.step === 2 && (
+        <StepVessel
+          data={vesselDraft}
+          errors={vesselErrors}
+          onChange={setVesselDraft}
+          onSubmit={handleVesselSubmit}
+          onBack={() => setState((s) => ({ ...s, step: 1 }))}
         />
       )}
 
@@ -334,7 +334,7 @@ export function ProvisionsQuoteFlow() {
 
 function Stepper({ step }: { step: 1 | 2 | 3 }) {
   const t = useTranslations("forms.provisiones.flow.stepper");
-  const labels = [t("vessel"), t("order"), t("review")];
+  const labels = [t("order"), t("vessel"), t("review")];
   const widthPct = step === 1 ? 0 : step === 2 ? 50 : 100;
 
   return (
@@ -392,11 +392,13 @@ function StepVessel({
   errors,
   onChange,
   onSubmit,
+  onBack,
 }: {
   data: VesselContactData;
   errors: Partial<Record<keyof VesselContactData, string>>;
   onChange: (data: VesselContactData) => void;
   onSubmit: () => void;
+  onBack?: () => void;
 }) {
   const t = useTranslations("forms.fields");
   const tSec = useTranslations("forms.sections");
@@ -538,7 +540,14 @@ function StepVessel({
         </Grid>
       </Section>
 
-      <div className="flex justify-end">
+      <div className="flex justify-between gap-3">
+        {onBack ? (
+          <Button type="button" variant="outline" onClick={onBack}>
+            ← {tCommon("back")}
+          </Button>
+        ) : (
+          <span />
+        )}
         <Button type="submit" size="lg" className="min-w-44">
           {tCommon("next")} →
         </Button>
@@ -561,7 +570,6 @@ function StepMethod({
   onUpdateQty,
   onSetFile,
   onProceed,
-  onBackToVessel,
 }: {
   state: FlowState;
   cart: Record<string, CartItem>;
@@ -572,11 +580,10 @@ function StepMethod({
   onUpdateQty: (id: string, qty: number) => void;
   onSetFile: (file: File | null) => void;
   onProceed: () => void;
-  onBackToVessel: () => void;
 }) {
   if (state.view === "methods") {
     return (
-      <MethodPicker onSelect={onSelectMethod} onBack={onBackToVessel} />
+      <MethodPicker onSelect={onSelectMethod} />
     );
   }
   if (state.view === "catalog") {
@@ -617,17 +624,13 @@ function StepMethod({
 
 function MethodPicker({
   onSelect,
-  onBack,
 }: {
   onSelect: (m: ProvisionsMethod) => void;
-  onBack: () => void;
 }) {
   const t = useTranslations("forms.provisiones.flow.methods");
-  const tCommon = useTranslations("forms.provisiones.flow.common");
 
   return (
     <div className="space-y-8">
-      <BackRow onClick={onBack} label={tCommon("back")} />
       <div className="text-center space-y-3">
         <Eyebrow>{t("eyebrow")}</Eyebrow>
         <h2 className="font-serif text-3xl md:text-4xl text-navy">
