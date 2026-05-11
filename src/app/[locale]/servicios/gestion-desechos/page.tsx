@@ -33,11 +33,21 @@ export default async function GestionDesechosPage({ params }: Props) {
     { title: t("step4Title"), body: t("step4Body") },
   ];
 
+  const WA = "https://wa.me/18298563586";
+  const waBtn = locale === "en" ? "Request service" : "Solicitar servicio";
+
+  function waLink(service: string) {
+    const msg = locale === "en"
+      ? `Hello, I'm interested in the *${service}* service. Could you provide more details?`
+      : `Hola, estoy interesado en el servicio de *${service}*. ¿Pueden darme más información?`;
+    return `${WA}?text=${encodeURIComponent(msg)}`;
+  }
+
   const techServices = [
-    { icon: Recycle, title: t("tech1Title"), body: t("tech1Body") },
-    { icon: Satellite, title: t("tech2Title"), body: t("tech2Body") },
-    { icon: Zap, title: t("tech3Title"), body: t("tech3Body") },
-    { icon: Snowflake, title: t("tech4Title"), body: t("tech4Body") },
+    { icon: Recycle,   title: t("tech1Title"), body: t("tech1Body"), whatsappHref: waLink(t("tech1Title")), whatsappLabel: waBtn },
+    { icon: Satellite, title: t("tech2Title"), body: t("tech2Body"), whatsappHref: waLink(t("tech2Title")), whatsappLabel: waBtn },
+    { icon: Zap,       title: t("tech3Title"), body: t("tech3Body"), whatsappHref: waLink(t("tech3Title")), whatsappLabel: waBtn },
+    { icon: Snowflake, title: t("tech4Title"), body: t("tech4Body"), whatsappHref: waLink(t("tech4Title")), whatsappLabel: waBtn },
   ];
 
   return (
