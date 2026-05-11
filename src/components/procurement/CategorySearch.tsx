@@ -2,14 +2,16 @@
 
 import { useState, useMemo } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { Search, ChevronsUpDown, Minimize2 } from "lucide-react";
+import { Search, ChevronsUpDown, Minimize2, PlusCircle } from "lucide-react";
 import { catalogCategories } from "@/data/procurement-catalog";
 import { CategoryCard } from "./CategoryCard";
 import { FadeIn } from "@/components/sections/FadeIn";
+import { useRfq } from "@/components/procurement/rfq/useRfq";
 
 export function CategorySearch() {
   const t = useTranslations("procurement");
   const locale = useLocale();
+  const { openDrawer } = useRfq();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [openIds, setOpenIds] = useState<Set<string>>(
@@ -98,6 +100,20 @@ export function CategorySearch() {
               </button>
             </div>
           </div>
+
+          {/* "Can't find it?" — always visible, opens drawer to custom items */}
+          <button
+            type="button"
+            onClick={openDrawer}
+            className="w-full flex items-center justify-between gap-3 px-4 py-2.5 rounded-sm border border-cream/10 hover:border-gold/30 hover:bg-cream/5 transition-colors group text-left"
+          >
+            <span className="text-sm text-cream/50 group-hover:text-cream/70 transition-colors">
+              {locale === "en"
+                ? "Can't find what you need? Describe it and we'll quote it."
+                : "¿No encuentras lo que necesitas? Descríbelo y lo cotizamos."}
+            </span>
+            <PlusCircle className="h-4 w-4 text-gold/50 group-hover:text-gold shrink-0 transition-colors" strokeWidth={1.5} />
+          </button>
 
           {filtered.length === 0 && normalized && (
             <FadeIn>
