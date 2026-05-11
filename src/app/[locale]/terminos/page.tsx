@@ -44,7 +44,7 @@ const CONTENT = {
       },
       {
         title: "7. Contacto",
-        body: "Para consultas sobre estos términos: miguelcarmona809v@gmail.com | +1 849 276 2491.",
+        body: "Para consultas sobre estos términos: info@djshipsupply.com | +1 829 856 3586.",
       },
     ],
   },
@@ -79,7 +79,7 @@ const CONTENT = {
       },
       {
         title: "7. Contact",
-        body: "For inquiries about these terms: miguelcarmona809v@gmail.com | +1 849 276 2491.",
+        body: "For inquiries about these terms: info@djshipsupply.com | +1 829 856 3586.",
       },
     ],
   },

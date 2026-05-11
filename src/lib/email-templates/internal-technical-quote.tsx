@@ -226,7 +226,7 @@ export function InternalTechnicalQuoteEmail({ payload, submittedAt }: Props) {
           <div style={footerStyle}>
             <strong style={{ color: navy }}>De Jesús Ship Supply</strong>
             <br />
-            miguelcarmona809v@gmail.com · djesusshipsupply.com
+            info@djshipsupply.com · djshipsupply.com
             <br />
             <span style={{ color: "#5a6878" }}>
               Mensaje generado automáticamente — confidencial.

@@ -99,10 +99,10 @@ export async function Footer() {
                 strokeWidth={1.8}
               />
               <a
-                href="mailto:miguelcarmona809v@gmail.com"
+                href="mailto:info@djshipsupply.com"
                 className="hover:text-gold transition-colors break-all"
               >
-                miguelcarmona809v@gmail.com
+                info@djshipsupply.com
               </a>
             </li>
             <li className="flex items-start gap-3">
@@ -111,10 +111,10 @@ export async function Footer() {
                 strokeWidth={1.8}
               />
               <a
-                href="https://wa.me/18492762491"
+                href="https://wa.me/18298563586"
                 className="hover:text-gold transition-colors"
               >
-                +1 849 276 2491
+                +1 829 856 3586
               </a>
             </li>
             <li className="flex items-start gap-3">

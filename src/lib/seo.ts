@@ -193,8 +193,8 @@ export function buildPageMetadata(
   };
 }
 
-const PHONE = "+1-849-276-2491";
-const EMAIL = "miguelcarmona809v@gmail.com";
+const PHONE = "+1-829-856-3586";
+const EMAIL = "info@djshipsupply.com";
 
 export function localBusinessJsonLd(locale: string) {
   const supported: Locale = locale === "en" ? "en" : "es";

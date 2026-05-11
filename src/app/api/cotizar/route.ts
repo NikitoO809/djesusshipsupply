@@ -23,7 +23,7 @@ export const runtime = "nodejs";
 type QuoteType = "provisions" | "marpol" | "technical";
 type Locale = "es" | "en";
 
-const DEFAULT_FROM = "De Jesús Ship Supply <noreply@djesusshipsupply.com>";
+const DEFAULT_FROM = "De Jesús Ship Supply <cotizaciones@djshipsupply.com>";
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
@@ -280,7 +280,7 @@ export async function POST(request: Request) {
         ok: false,
         error: "RATE_LIMIT",
         message:
-          origin?.includes("djesusshipsupply.com") || !origin
+          origin?.includes("djshipsupply.com") || !origin
             ? "Demasiadas solicitudes. Por favor espere una hora antes de intentar de nuevo."
             : "Too many requests. Please wait an hour before trying again.",
       },

@@ -54,7 +54,7 @@ export function ProcurementCTA({
                 />
               </Link>
               <a
-                href="https://wa.me/18492762491"
+                href="https://wa.me/18298563586"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center justify-center gap-2 h-11 px-7 rounded-sm border border-gold/50 text-gold hover:border-gold hover:bg-gold/8 transition-colors text-[11px] uppercase tracking-[0.22em] font-semibold w-full sm:w-auto"

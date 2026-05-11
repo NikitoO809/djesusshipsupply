@@ -7,7 +7,7 @@ export function WhatsAppFloat() {
 
   return (
     <a
-      href={`https://wa.me/18492762491?text=${encodeURIComponent(t("prefilledMessage"))}`}
+      href={`https://wa.me/18298563586?text=${encodeURIComponent(t("prefilledMessage"))}`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={t("ariaLabel")}

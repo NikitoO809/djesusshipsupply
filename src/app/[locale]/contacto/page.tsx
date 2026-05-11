@@ -27,20 +27,20 @@ export default async function ContactoPage({ params }: Props) {
     {
       icon: Mail,
       label: t("labelOpsEmail"),
-      value: "miguelcarmona809v@gmail.com",
-      href: "mailto:miguelcarmona809v@gmail.com",
+      value: "ops@djshipsupply.com",
+      href: "mailto:ops@djshipsupply.com",
     },
     {
       icon: Briefcase,
       label: t("labelInfoEmail"),
-      value: "miguelcarmona809v@gmail.com",
-      href: "mailto:miguelcarmona809v@gmail.com",
+      value: "info@djshipsupply.com",
+      href: "mailto:info@djshipsupply.com",
     },
     {
       icon: MessageCircle,
       label: t("labelWhatsapp"),
-      value: "+1 849 276 2491",
-      href: "https://wa.me/18492762491",
+      value: "+1 829 856 3586",
+      href: "https://wa.me/18298563586",
     },
     {
       icon: MapPin,

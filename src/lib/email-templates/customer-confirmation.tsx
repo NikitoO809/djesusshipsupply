@@ -25,7 +25,7 @@ const COPY = {
     closing: "Gracias por su confianza.",
     team: "El equipo de De Jesús Ship Supply",
     legal:
-      "Este correo es una confirmación automática de la solicitud enviada desde djesusshipsupply.com. Si no realizó esta solicitud, ignore este mensaje.",
+      "Este correo es una confirmación automática de la solicitud enviada desde djshipsupply.com. Si no realizó esta solicitud, ignore este mensaje.",
   },
   en: {
     subject: "Request received — De Jesús Ship Supply",
@@ -41,7 +41,7 @@ const COPY = {
     closing: "Thank you for your trust.",
     team: "The De Jesús Ship Supply team",
     legal:
-      "This is an automated confirmation of a request submitted via djesusshipsupply.com. If you did not submit this request, please ignore this message.",
+      "This is an automated confirmation of a request submitted via djshipsupply.com. If you did not submit this request, please ignore this message.",
   },
 } as const;
 
@@ -102,7 +102,7 @@ export function CustomerConfirmationEmail({ locale, contactName, type }: Props) 
           <div style={footerStyle}>
             <strong style={{ color: navy }}>De Jesús Ship Supply</strong>
             <br />
-            miguelcarmona809v@gmail.com · djesusshipsupply.com
+            info@djshipsupply.com · djshipsupply.com
             <br />
             <span style={{ color: "#5a6878" }}>{t.legal}</span>
           </div>

@@ -44,7 +44,7 @@ const CONTENT = {
       },
       {
         title: "7. Sus derechos",
-        body: "Puede solicitar en cualquier momento el acceso, rectificación, supresión o portabilidad de sus datos, así como la limitación del tratamiento. Envíe su solicitud a miguelcarmona809v@gmail.com.",
+        body: "Puede solicitar en cualquier momento el acceso, rectificación, supresión o portabilidad de sus datos, así como la limitación del tratamiento. Envíe su solicitud a info@djshipsupply.com.",
       },
       {
         title: "8. Cambios a esta política",
@@ -83,7 +83,7 @@ const CONTENT = {
       },
       {
         title: "7. Your Rights",
-        body: "You may request access, rectification, erasure, portability, or restriction of processing at any time. Send your request to miguelcarmona809v@gmail.com.",
+        body: "You may request access, rectification, erasure, portability, or restriction of processing at any time. Send your request to info@djshipsupply.com.",
       },
       {
         title: "8. Changes to This Policy",
