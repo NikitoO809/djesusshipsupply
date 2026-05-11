@@ -28,7 +28,10 @@ const invalidDate = "Fecha no válida / Invalid date";
 const pastDate = "La fecha no puede estar en el pasado / Date cannot be in the past";
 
 const todayStart = () => {
+  // Subtract 1 day to handle UTC-4 (Dominican Republic) timezone offset:
+  // a ship requesting services for "today" local time can be "yesterday" UTC.
   const d = new Date();
+  d.setDate(d.getDate() - 1);
   d.setHours(0, 0, 0, 0);
   return d;
 };

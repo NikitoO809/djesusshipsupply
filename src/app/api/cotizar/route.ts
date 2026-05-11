@@ -307,6 +307,9 @@ export async function POST(request: Request) {
 
   const validation = validatePayload(type, rawPayload, !!file);
   if (!validation.ok) {
+    console.error(
+      `[cotizar] Validation failed — type: ${type}, fields: ${JSON.stringify(validation.fieldErrors)}`
+    );
     return NextResponse.json(
       {
         ok: false,
