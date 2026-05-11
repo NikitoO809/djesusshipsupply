@@ -401,6 +401,21 @@
       "generic": "There was an error sending your request. Please try again.",
       "validation": "Some fields are invalid. Please review the form.",
       "network": "Network error. Check your connection and try again."
+    },
+    "unifiedCart": {
+      "drawerProvisionsNudge": {
+        "title": "Do you also need provisions?",
+        "body": "Add provisions to this same quote.",
+        "cta": "Go to provisions catalog"
+      },
+      "drawerProvisionsBadge": "{count} provisions products included",
+      "flowTechnicalBanner": {
+        "title": "You have {count} technical supplies in your quote",
+        "body": "When you submit, they will be included in the same request alongside your provisions."
+      },
+      "reviewTechnicalSection": "Technical Supplies",
+      "reviewProvisionsSection": "Provisions",
+      "reviewCombinedNote": "Combined quote — technical supplies and provisions are sent in a single request."
     }
   }
 }

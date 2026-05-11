@@ -2,11 +2,15 @@
 
 import { useEffect, useRef } from "react";
 import { X, Trash2, Minus, Plus, ArrowRight } from "lucide-react";
+import { useLocale } from "next-intl";
 import { useRfq } from "./useRfq";
 import type { RfqEntry } from "./RfqContext";
+import { useUnifiedCart } from "@/components/unified-cart/UnifiedCartContext";
 
 export function RfqDrawer() {
   const { entries, drawerOpen, closeDrawer, openContact, updateQty, updateNote, remove } = useRfq();
+  const { provisionsCount } = useUnifiedCart();
+  const locale = useLocale();
 
   const drawerRef = useRef<HTMLDivElement>(null);
 
@@ -157,12 +161,53 @@ export function RfqDrawer() {
               borderTop: "1px solid rgba(255,255,255,0.07)",
             }}
           >
+            {/* Provisions cross-sell */}
+            {provisionsCount > 0 ? (
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                marginBottom: "0.75rem",
+                padding: "0.5rem 0.75rem",
+                borderRadius: "4px",
+                background: "rgba(20,160,100,0.12)",
+                border: "1px solid rgba(20,160,100,0.25)",
+              }}>
+                <span style={{ color: "#34d399", fontSize: "11px" }}>✓</span>
+                <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)" }}>
+                  {provisionsCount} {provisionsCount === 1 ? "producto de provisiones" : "productos de provisiones"} incluido{provisionsCount !== 1 ? "s" : ""}
+                </span>
+              </div>
+            ) : (
+              <a
+                href={`/${locale}/cotizar/provisiones`}
+                onClick={closeDrawer}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "0.5rem",
+                  marginBottom: "0.75rem",
+                  padding: "0.5rem 0.75rem",
+                  borderRadius: "4px",
+                  background: "rgba(201,169,97,0.06)",
+                  border: "1px solid rgba(201,169,97,0.18)",
+                  textDecoration: "none",
+                }}
+              >
+                <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.55)" }}>
+                  ¿También necesitas <strong style={{ color: "#C9A961" }}>provisiones</strong>?
+                </span>
+                <ArrowRight className="h-3 w-3 text-gold shrink-0" strokeWidth={2} />
+              </a>
+            )}
+
             <button
               type="button"
               onClick={() => { closeDrawer(); openContact(); }}
               className="group w-full inline-flex items-center justify-center gap-2 h-11 px-6 rounded-sm bg-gold text-navy hover:bg-gold-light transition-colors text-[11px] uppercase tracking-[0.22em] font-semibold"
             >
-              Solicitar cotización
+              {provisionsCount > 0 ? "Solicitar cotización combinada" : "Solicitar cotización"}
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" strokeWidth={2.6} />
             </button>
             <p style={{ textAlign: "center", fontSize: "11px", color: "rgba(255,255,255,0.3)", marginTop: "0.5rem" }}>

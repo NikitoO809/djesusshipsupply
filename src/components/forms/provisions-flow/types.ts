@@ -1,5 +1,3 @@
-import type { CartItem } from "@/lib/schemas/quote-provisions";
-
 export type VesselContactData = {
   vesselName: string;
   flag: string;
@@ -24,7 +22,6 @@ export type FlowState = {
   view: ProvisionsView;
   vessel: VesselContactData | null;
   method: ProvisionsMethod | null;
-  cart: Record<string, CartItem>;
   file: File | null;
   notes: string;
   currency: "USD" | "EUR" | "DOP" | "";
@@ -53,7 +50,6 @@ export const initialFlowState: FlowState = {
   view: "methods",
   vessel: null,
   method: null,
-  cart: {},
   file: null,
   notes: "",
   currency: "",

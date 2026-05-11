@@ -5,6 +5,7 @@ import { X, ArrowRight, CheckCircle } from "lucide-react";
 import { useLocale } from "next-intl";
 import { useRfq } from "./useRfq";
 import type { RfqEntry } from "./RfqContext";
+import { useUnifiedCart } from "@/components/unified-cart/UnifiedCartContext";
 import {
   PORTS,
   VESSEL_TYPES,
@@ -68,6 +69,7 @@ function validate(form: FormState): FieldErrors {
 
 export function RfqContactStep() {
   const { contactOpen, closeContact, entries, clear } = useRfq();
+  const { provisionsItems, provisionsCount, clearProvisions } = useUnifiedCart();
   const locale = useLocale() as "es" | "en";
 
   const [form, setForm] = useState<FormState>(emptyForm);
@@ -108,7 +110,7 @@ export function RfqContactStep() {
     setSubmitting(true);
     setServerError("");
 
-    const items = Object.values(entries).map((e: RfqEntry) => ({
+    const technicalItems = Object.values(entries).map((e: RfqEntry) => ({
       id: e.item.id,
       name: e.item.name,
       qty: e.qty,
@@ -118,8 +120,9 @@ export function RfqContactStep() {
       categoryTitleEs: e.categoryTitleEs,
     }));
 
-    const payload = {
-      kind: "technical",
+    const isUnified = provisionsCount > 0;
+
+    const baseData = {
       vesselName: form.vesselName.trim(),
       flag: form.flag.trim(),
       imo: form.imo.trim() || undefined,
@@ -134,15 +137,30 @@ export function RfqContactStep() {
       company: form.company.trim() || undefined,
       currency: form.currency,
       notes: form.notes.trim() || undefined,
-      consent: true,
-      items,
+      consent: true as const,
     };
+
+    const payload = isUnified
+      ? {
+          kind: "unified",
+          ...baseData,
+          technicalItems,
+          provisionsMethod: "catalog" as const,
+          provisionsItems: Object.values(provisionsItems),
+        }
+      : {
+          kind: "technical",
+          ...baseData,
+          items: technicalItems,
+        };
+
+    const quoteType = isUnified ? "unified" : "technical";
 
     try {
       const res = await fetch("/api/cotizar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "technical", locale, payload }),
+        body: JSON.stringify({ type: quoteType, locale, payload }),
       });
       const data = await res.json();
       if (!res.ok || !data.ok) {
@@ -154,6 +172,7 @@ export function RfqContactStep() {
       } else {
         setSubmitted(true);
         clear();
+        if (isUnified) clearProvisions();
         setForm(emptyForm);
       }
     } catch {
@@ -232,11 +251,20 @@ export function RfqContactStep() {
           <form onSubmit={handleSubmit} noValidate>
             <div style={{ marginBottom: "1.25rem" }}>
               <div style={{ fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.22em", color: "#C9A961", marginBottom: "4px" }}>
-                {locale === "es" ? "Solicitar cotización técnica" : "Request technical quote"}
+                {locale === "es"
+                  ? (provisionsCount > 0 ? "Solicitar cotización combinada" : "Solicitar cotización técnica")
+                  : (provisionsCount > 0 ? "Request combined quote" : "Request technical quote")}
               </div>
               <h2 style={{ fontSize: "18px", fontWeight: 600, color: "#f5f0e8" }}>
                 {locale === "es" ? "Datos del buque y contacto" : "Vessel and contact details"}
               </h2>
+              {provisionsCount > 0 && (
+                <div style={{ marginTop: "0.5rem", fontSize: "12px", color: "rgba(255,255,255,0.5)", background: "rgba(201,169,97,0.06)", border: "1px solid rgba(201,169,97,0.18)", borderRadius: "4px", padding: "0.4rem 0.6rem" }}>
+                  {locale === "es"
+                    ? `Esta solicitud incluirá ${provisionsCount} producto${provisionsCount !== 1 ? "s" : ""} de provisiones.`
+                    : `This request will include ${provisionsCount} provisions product${provisionsCount !== 1 ? "s" : ""}.`}
+                </div>
+              )}
             </div>
 
             <Section label={locale === "es" ? "Datos del buque" : "Vessel details"}>

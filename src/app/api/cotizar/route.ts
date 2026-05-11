@@ -11,8 +11,10 @@ import {
 } from "@/lib/schemas/quote-provisions";
 import { quoteMarpolSchema } from "@/lib/schemas/quote-marpol";
 import { quoteTechnicalSchema, type QuoteTechnicalValues } from "@/lib/schemas/quote-technical";
+import { quoteUnifiedSchema, type QuoteUnifiedValues } from "@/lib/schemas/quote-unified";
 import { InternalQuoteEmail } from "@/lib/email-templates/internal-quote";
 import { InternalTechnicalQuoteEmail } from "@/lib/email-templates/internal-technical-quote";
+import { InternalUnifiedQuoteEmail } from "@/lib/email-templates/internal-unified-quote";
 import {
   CustomerConfirmationEmail,
   customerConfirmationSubject,
@@ -20,7 +22,7 @@ import {
 
 export const runtime = "nodejs";
 
-type QuoteType = "provisions" | "marpol" | "technical";
+type QuoteType = "provisions" | "marpol" | "technical" | "unified";
 type Locale = "es" | "en";
 
 const DEFAULT_FROM = "De Jesús Ship Supply <cotizaciones@djshipsupply.com>";
@@ -47,7 +49,7 @@ function isLocale(v: unknown): v is Locale {
 }
 
 function isType(v: unknown): v is QuoteType {
-  return v === "provisions" || v === "marpol" || v === "technical";
+  return v === "provisions" || v === "marpol" || v === "technical" || v === "unified";
 }
 
 type ParsedRequest = {
@@ -224,6 +226,8 @@ function validatePayload(
     schema = quoteMarpolSchema;
   } else if (type === "technical") {
     schema = quoteTechnicalSchema;
+  } else if (type === "unified") {
+    schema = quoteUnifiedSchema;
   } else {
     const hasMethod =
       typeof rawPayload === "object" &&
@@ -243,12 +247,10 @@ function validatePayload(
   }
 
   // Cross-validation: upload/template methods require a file.
-  if (type === "provisions") {
-    const data = parsed.data as { method?: string };
-    if (
-      (data.method === "upload" || data.method === "template") &&
-      !hasFile
-    ) {
+  if (type === "provisions" || type === "unified") {
+    const data = parsed.data as { provisionsMethod?: string; method?: string };
+    const method = type === "unified" ? data.provisionsMethod : data.method;
+    if ((method === "upload" || method === "template") && !hasFile) {
       return {
         ok: false,
         fieldErrors: { file: ["Archivo requerido / File required"] },
@@ -328,27 +330,41 @@ export async function POST(request: Request) {
 
   const { renderToStaticMarkup } = await import("react-dom/server");
 
-  const isTechnical = type === "technical";
-
-  const internalHtml =
-    "<!doctype html>" +
-    (isTechnical
-      ? renderToStaticMarkup(
-          InternalTechnicalQuoteEmail({
-            payload: payload as unknown as QuoteTechnicalValues,
-            submittedAt,
-            locale,
-          })
-        )
-      : renderToStaticMarkup(
-          InternalQuoteEmail({
-            type: type as "provisions" | "marpol",
-            payload: payload as never,
-            submittedAt,
-            locale,
-            attachmentName: file?.name,
-          })
-        ));
+  let internalHtml: string;
+  if (type === "technical") {
+    internalHtml =
+      "<!doctype html>" +
+      renderToStaticMarkup(
+        InternalTechnicalQuoteEmail({
+          payload: payload as unknown as QuoteTechnicalValues,
+          submittedAt,
+          locale,
+        })
+      );
+  } else if (type === "unified") {
+    internalHtml =
+      "<!doctype html>" +
+      renderToStaticMarkup(
+        InternalUnifiedQuoteEmail({
+          payload: payload as unknown as QuoteUnifiedValues,
+          submittedAt,
+          locale,
+          attachmentName: file?.name,
+        })
+      );
+  } else {
+    internalHtml =
+      "<!doctype html>" +
+      renderToStaticMarkup(
+        InternalQuoteEmail({
+          type: type as "provisions" | "marpol",
+          payload: payload as never,
+          submittedAt,
+          locale,
+          attachmentName: file?.name,
+        })
+      );
+  }
 
   const customerHtml =
     "<!doctype html>" +
@@ -356,7 +372,7 @@ export async function POST(request: Request) {
       CustomerConfirmationEmail({
         locale,
         contactName: payload.contactName,
-        type: isTechnical ? "provisions" : (type as "provisions" | "marpol"),
+        type: type as "provisions" | "marpol" | "technical" | "unified",
       })
     );
 
@@ -365,6 +381,8 @@ export async function POST(request: Request) {
       ? "Nueva cotización — Provisiones"
       : type === "technical"
       ? "Nueva cotización — Suministros Técnicos"
+      : type === "unified"
+      ? "Nueva cotización — Combinada"
       : "Nueva cotización — Desechos MARPOL";
   const internalSubject = `${internalSubjectBase} · ${payload.vesselName} · ${payload.port}`;
   const customerSubject = customerConfirmationSubject(locale);

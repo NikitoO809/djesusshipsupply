@@ -3,7 +3,7 @@ import * as React from "react";
 type Props = {
   locale: "es" | "en";
   contactName: string;
-  type: "provisions" | "marpol";
+  type: "provisions" | "marpol" | "technical" | "unified";
 };
 
 import { colors, containerStyle, headerStyle, footerStyle } from "./styles";
@@ -21,6 +21,8 @@ const COPY = {
     type: {
       provisions: "Tipo de solicitud: Provisiones",
       marpol: "Tipo de solicitud: Gestión de desechos MARPOL",
+      technical: "Tipo de solicitud: Suministros Técnicos",
+      unified: "Tipo de solicitud: Cotización combinada (Suministros Técnicos + Provisiones)",
     },
     closing: "Gracias por su confianza.",
     team: "El equipo de De Jesús Ship Supply",
@@ -37,6 +39,8 @@ const COPY = {
     type: {
       provisions: "Request type: Provisions",
       marpol: "Request type: MARPOL waste management",
+      technical: "Request type: Technical Supplies",
+      unified: "Request type: Combined quote (Technical Supplies + Provisions)",
     },
     closing: "Thank you for your trust.",
     team: "The De Jesús Ship Supply team",

@@ -27,6 +27,9 @@ import {
   PROVISION_PRODUCT_COUNT,
 } from "@/lib/catalog/provisions";
 import type { CartItem } from "@/lib/schemas/quote-provisions";
+import { useUnifiedCart } from "@/components/unified-cart/UnifiedCartContext";
+import { useRfq } from "@/components/procurement/rfq/useRfq";
+import type { RfqEntry } from "@/components/procurement/rfq/RfqContext";
 
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
@@ -45,36 +48,26 @@ import {
 export function ProvisionsQuoteFlow() {
   const t = useTranslations("forms.provisiones.flow");
   const tBase = useTranslations("forms");
+  const tUnified = useTranslations("forms.unifiedCart");
   const locale = useLocale() as "es" | "en";
 
-  const [state, setState] = React.useState<FlowState>(() => {
-    if (typeof window === "undefined") return initialFlowState;
-    try {
-      const raw = localStorage.getItem("djss_cart");
-      if (raw) {
-        const parsed = JSON.parse(raw) as Record<string, CartItem>;
-        if (parsed && typeof parsed === "object") {
-          return { ...initialFlowState, cart: parsed };
-        }
-      }
-    } catch {
-      // ignore
-    }
-    return initialFlowState;
-  });
+  const {
+    provisionsItems,
+    provisionsCount,
+    addProvision,
+    removeProvision,
+    updateProvisionQty,
+    clearProvisions,
+  } = useUnifiedCart();
+
+  const rfq = useRfq();
+
+  const [state, setState] = React.useState<FlowState>(initialFlowState);
   const [vesselDraft, setVesselDraft] =
     React.useState<VesselContactData>(emptyVessel);
   const [vesselErrors, setVesselErrors] = React.useState<
     Partial<Record<keyof VesselContactData, string>>
   >({});
-
-  React.useEffect(() => {
-    try {
-      localStorage.setItem("djss_cart", JSON.stringify(state.cart));
-    } catch {
-      // ignore
-    }
-  }, [state.cart]);
 
   // ----- Step 1: vessel form -----
   const handleVesselSubmit = () => {
@@ -117,28 +110,13 @@ export function ProvisionsQuoteFlow() {
     setState((s) => ({ ...s, method, view }));
   };
 
-  const cartItems = Object.values(state.cart);
-  const cartCount = cartItems.length;
+  const cartItems = Object.values(provisionsItems);
+  const cartCount = provisionsCount;
 
-  // Cart operations
-  const addToCart = (item: CartItem) =>
-    setState((s) => ({ ...s, cart: { ...s.cart, [item.id]: item } }));
-
-  const removeFromCart = (id: string) =>
-    setState((s) => {
-      const next = { ...s.cart };
-      delete next[id];
-      return { ...s, cart: next };
-    });
-
-  const updateQty = (id: string, qty: number) =>
-    setState((s) => {
-      if (!s.cart[id]) return s;
-      return {
-        ...s,
-        cart: { ...s.cart, [id]: { ...s.cart[id], qty: Math.max(1, qty) } },
-      };
-    });
+  // Cart operations delegated to UnifiedCartContext
+  const addToCart = (item: CartItem) => addProvision(item);
+  const removeFromCart = (id: string) => removeProvision(id);
+  const updateQty = (id: string, qty: number) => updateProvisionQty(id, qty);
 
   const setFile = (file: File | null) => setState((s) => ({ ...s, file }));
 
@@ -155,6 +133,18 @@ export function ProvisionsQuoteFlow() {
     setState((s) => ({ ...s, step: 3 }));
   };
 
+  // Derive technical items from rfq entries for unified submit
+  const technicalItems = Object.values(rfq.entries).map((e: RfqEntry) => ({
+    id: e.item.id,
+    name: e.item.name,
+    qty: e.qty,
+    unit: e.item.unit,
+    note: e.note,
+    categoryId: e.categoryId,
+    categoryTitleEs: e.categoryTitleEs,
+  }));
+  const isUnified = rfq.count > 0;
+
   // Step 3: submit
   const submit = async () => {
     if (!state.vessel || !state.method) return;
@@ -170,7 +160,6 @@ export function ProvisionsQuoteFlow() {
     setState((s) => ({ ...s, submitting: true }));
 
     try {
-      // Build payload according to method
       const baseData = {
         ...state.vessel,
         consent: true as const,
@@ -178,42 +167,73 @@ export function ProvisionsQuoteFlow() {
         notes: state.notes || "",
       };
 
-      let payload: unknown;
-      let useMultipart = false;
-
-      if (state.method === "catalog") {
-        payload = {
-          ...baseData,
-          method: "catalog",
-          items: cartItems,
-        };
-      } else {
-        const file = state.file!;
-        payload = {
-          ...baseData,
-          method: state.method,
-          fileName: file.name,
-          fileSize: file.size,
-          fileType: file.type || "application/octet-stream",
-          extraItems: cartItems,
-        };
-        useMultipart = true;
-      }
-
       let res: Response;
-      if (useMultipart) {
-        const fd = new FormData();
-        fd.append("type", "provisions");
-        fd.append("locale", locale);
-        fd.append("payload", JSON.stringify(payload));
-        fd.append("file", state.file!);
-        res = await fetch("/api/cotizar", { method: "POST", body: fd });
+
+      if (isUnified) {
+        // Unified quote: technical + provisions in one request
+        const payload = {
+          kind: "unified",
+          ...baseData,
+          technicalItems,
+          provisionsMethod: state.method,
+          provisionsItems: cartItems,
+          ...(state.file
+            ? {
+                fileName: state.file.name,
+                fileSize: state.file.size,
+                fileType: state.file.type || "application/octet-stream",
+              }
+            : {}),
+        };
+
+        if (state.file) {
+          const fd = new FormData();
+          fd.append("type", "unified");
+          fd.append("locale", locale);
+          fd.append("payload", JSON.stringify(payload));
+          fd.append("file", state.file);
+          res = await fetch("/api/cotizar", { method: "POST", body: fd });
+        } else {
+          res = await fetch("/api/cotizar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: "unified", locale, payload }),
+          });
+        }
       } else {
-        res = await fetch("/api/cotizar", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ type: "provisions", locale, payload }),
-        });
+        // Provisions-only submit
+        let payload: unknown;
+        let useMultipart = false;
+
+        if (state.method === "catalog") {
+          payload = { ...baseData, method: "catalog", items: cartItems };
+        } else {
+          const file = state.file!;
+          payload = {
+            ...baseData,
+            method: state.method,
+            fileName: file.name,
+            fileSize: file.size,
+            fileType: file.type || "application/octet-stream",
+            extraItems: cartItems,
+          };
+          useMultipart = true;
+        }
+
+        if (useMultipart) {
+          const fd = new FormData();
+          fd.append("type", "provisions");
+          fd.append("locale", locale);
+          fd.append("payload", JSON.stringify(payload));
+          fd.append("file", state.file!);
+          res = await fetch("/api/cotizar", { method: "POST", body: fd });
+        } else {
+          res = await fetch("/api/cotizar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: "provisions", locale, payload }),
+          });
+        }
       }
 
       const data = (await res.json().catch(() => ({}))) as {
@@ -227,10 +247,9 @@ export function ProvisionsQuoteFlow() {
         return;
       }
 
-      // Success — clear cart
-      try {
-        localStorage.removeItem("djss_cart");
-      } catch {}
+      // Success — clear both carts
+      clearProvisions();
+      if (isUnified) rfq.clear();
       setState((s) => ({ ...s, submitting: false, submitted: true }));
     } catch {
       toast.error(tBase("errors.network"));
@@ -248,6 +267,23 @@ export function ProvisionsQuoteFlow() {
 
   return (
     <div className="space-y-8">
+      {/* Banner: technical supplies already in cart */}
+      {isUnified && (
+        <div className="mx-auto max-w-2xl rounded-md border border-gold/40 bg-gold/5 px-5 py-4 flex items-start gap-3">
+          <div className="shrink-0 mt-0.5 h-5 w-5 rounded-full bg-gold text-navy flex items-center justify-center text-[10px] font-bold">
+            {rfq.count}
+          </div>
+          <div className="text-sm">
+            <strong className="block text-navy font-semibold">
+              {tUnified("flowTechnicalBanner.title", { count: rfq.count })}
+            </strong>
+            <span className="text-charcoal/70 font-light">
+              {tUnified("flowTechnicalBanner.body")}
+            </span>
+          </div>
+        </div>
+      )}
+
       <Stepper step={state.step} />
 
       {state.step === 1 && (
@@ -262,6 +298,7 @@ export function ProvisionsQuoteFlow() {
       {state.step === 2 && (
         <StepMethod
           state={state}
+          cart={provisionsItems}
           onSelectMethod={selectMethod}
           onBackToMethods={goBackToMethods}
           onAddToCart={addToCart}
@@ -276,6 +313,8 @@ export function ProvisionsQuoteFlow() {
       {state.step === 3 && (
         <StepReview
           state={state}
+          cart={provisionsItems}
+          rfqEntries={isUnified ? rfq.entries : {}}
           onChangeNotes={(notes) => setState((s) => ({ ...s, notes }))}
           onChangeCurrency={(currency) =>
             setState((s) => ({ ...s, currency }))
@@ -514,6 +553,7 @@ function StepVessel({
 
 function StepMethod({
   state,
+  cart,
   onSelectMethod,
   onBackToMethods,
   onAddToCart,
@@ -524,6 +564,7 @@ function StepMethod({
   onBackToVessel,
 }: {
   state: FlowState;
+  cart: Record<string, CartItem>;
   onSelectMethod: (m: ProvisionsMethod) => void;
   onBackToMethods: () => void;
   onAddToCart: (item: CartItem) => void;
@@ -541,7 +582,7 @@ function StepMethod({
   if (state.view === "catalog") {
     return (
       <CatalogView
-        cart={state.cart}
+        cart={cart}
         onBack={onBackToMethods}
         onAdd={onAddToCart}
         onRemove={onRemoveFromCart}
@@ -1417,6 +1458,8 @@ function Dropzone({
 
 function StepReview({
   state,
+  cart,
+  rfqEntries,
   onChangeNotes,
   onChangeCurrency,
   onChangeConsent,
@@ -1424,6 +1467,8 @@ function StepReview({
   onSubmit,
 }: {
   state: FlowState;
+  cart: Record<string, CartItem>;
+  rfqEntries: Record<string, RfqEntry>;
   onChangeNotes: (s: string) => void;
   onChangeCurrency: (c: "USD" | "EUR" | "DOP") => void;
   onChangeConsent: (b: boolean) => void;
@@ -1435,10 +1480,13 @@ function StepReview({
   const tPlace = useTranslations("forms.placeholders");
   const tBaseFields = useTranslations("forms.fields");
   const tUpload = useTranslations("forms.provisiones.flow.upload");
+  const tUnified = useTranslations("forms.unifiedCart");
 
   if (!state.vessel || !state.method) return null;
   const v = state.vessel;
-  const items = Object.values(state.cart);
+  const items = Object.values(cart);
+  const rfqItems = Object.values(rfqEntries);
+  const isUnified = rfqItems.length > 0;
 
   const methodLabel =
     state.method === "catalog"
@@ -1446,6 +1494,12 @@ function StepReview({
       : state.method === "template"
       ? t("methodTemplate")
       : t("methodUpload");
+
+  // Group rfq items by category for the review
+  const rfqGroups = rfqItems.reduce<Record<string, RfqEntry[]>>((acc, e) => {
+    (acc[e.categoryTitleEs] ??= []).push(e);
+    return acc;
+  }, {});
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
@@ -1456,6 +1510,12 @@ function StepReview({
         </h2>
         <p className="text-charcoal/70 font-light">{t("subtitle")}</p>
       </div>
+
+      {isUnified && (
+        <div className="rounded-md border border-gold/40 bg-gold/5 px-5 py-3 text-sm text-charcoal/80 font-light">
+          {tUnified("reviewCombinedNote")}
+        </div>
+      )}
 
       {/* Vessel summary */}
       <ReviewBlock
@@ -1471,11 +1531,45 @@ function StepReview({
         ]}
       />
 
-      {/* Order summary */}
+      {/* Technical supplies section (unified only) */}
+      {isUnified && (
+        <div className="rounded-md border border-border bg-background overflow-hidden">
+          <div className="bg-navy/5 px-5 py-3 border-b border-border">
+            <h3 className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold font-semibold">
+              {tUnified("reviewTechnicalSection")}
+            </h3>
+          </div>
+          <div className="px-5 py-4 space-y-4">
+            {Object.entries(rfqGroups).map(([catName, entries]) => (
+              <div key={catName}>
+                <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-charcoal/60 border-b border-border pb-1.5 mb-1.5">
+                  {catName} · {entries.length}
+                </div>
+                <div className="border border-border rounded-sm divide-y divide-border">
+                  {entries.map((e) => (
+                    <div
+                      key={e.item.id}
+                      className="flex items-center justify-between px-3 py-2 text-sm"
+                    >
+                      <span className="text-navy">{e.item.name}</span>
+                      <span className="font-mono text-xs text-charcoal/70">
+                        <strong className="text-gold">{e.qty}</strong>{" "}
+                        {e.item.unit}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Provisions / Order summary */}
       <div className="rounded-md border border-border bg-background overflow-hidden">
         <div className="bg-cream/50 px-5 py-3 border-b border-border flex items-center justify-between">
           <h3 className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold font-semibold">
-            {t("orderSection")}
+            {isUnified ? tUnified("reviewProvisionsSection") : t("orderSection")}
           </h3>
           <span className="font-mono text-[10px] text-charcoal/60">
             {methodLabel}

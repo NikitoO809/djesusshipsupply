@@ -401,6 +401,21 @@
       "generic": "Ocurrió un error al enviar la solicitud. Intente nuevamente.",
       "validation": "Hay campos inválidos. Revise el formulario.",
       "network": "Error de red. Verifique su conexión e intente de nuevo."
+    },
+    "unifiedCart": {
+      "drawerProvisionsNudge": {
+        "title": "¿También necesitas provisiones?",
+        "body": "Agrega provisiones a esta misma cotización.",
+        "cta": "Ir al catálogo de provisiones"
+      },
+      "drawerProvisionsBadge": "{count} productos de provisiones incluidos",
+      "flowTechnicalBanner": {
+        "title": "Tienes {count} suministros técnicos en tu cotización",
+        "body": "Al enviar, se incluirán en la misma solicitud junto a tus provisiones."
+      },
+      "reviewTechnicalSection": "Suministros Técnicos",
+      "reviewProvisionsSection": "Provisiones",
+      "reviewCombinedNote": "Cotización combinada — suministros técnicos y provisiones se envían en una sola solicitud."
     }
   }
 }
