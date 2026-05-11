@@ -21,7 +21,7 @@ export async function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-navy/95 text-cream backdrop-blur supports-[backdrop-filter]:bg-navy/85 border-b border-cream/10">
+    <header className="sticky top-0 z-50 w-full bg-navy text-cream border-b border-cream/10">
       <div className="container mx-auto flex h-18 md:h-20 items-center justify-between px-6">
         <Link
           href={link("")}
