@@ -512,16 +512,24 @@ export async function buildProvisionsExcel(payload: QuoteProvisionsRichValues): 
     ? ("fileName" in payload ? (payload as { fileName?: string }).fileName : undefined)
     : undefined;
 
-  const items = payload.method === "catalog"
+  const catalogItems = payload.method === "catalog"
     ? payload.items
     : (payload.extraItems ?? []);
+
+  const customItems = ((payload as { customItems?: { id: string; name: string; qty: number; unit: string }[] }).customItems ?? [])
+    .filter((it) => it.name.trim())
+    .map((it) => ({
+      categoryName: "Productos personalizados / Custom products",
+      name: it.name,
+      qty: it.qty,
+      unit: it.unit || "—",
+    }));
+
+  const items = [...catalogItems, ...customItems];
 
   if (items.length > 0) {
     buildInvoiceSheet(wb, "Provisiones", info, items, 3, quoteNum, date, attachmentName);
   } else {
-    // File-only: info sheet
-    const sheet = wb.addWorksheet("Provisiones", { views: [{ showGridLines: false }] });
-    sheet.columns = [{ width: 28 }, { width: 40 }];
     buildInvoiceSheet(wb, "Provisiones", info, [], 3, quoteNum, date, attachmentName);
   }
 

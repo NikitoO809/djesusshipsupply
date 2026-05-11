@@ -321,6 +321,17 @@
           "fileTooLarge": "File too large. Maximum 10 MB.",
           "fileRequired": "Please attach a file before continuing."
         },
+        "custom": {
+          "title": "Can't find a product?",
+          "desc": "Add it here with description, quantity and unit. We'll quote it alongside the rest of your order.",
+          "addBtn": "Add product",
+          "namePlaceholder": "E.g: White marine paint, M8 stainless screws...",
+          "qtyLabel": "Qty.",
+          "unitPlaceholder": "ud, m, kg...",
+          "removeLabel": "Remove",
+          "limitNote": "Maximum 20 custom products.",
+          "nameRequired": "Describe the product"
+        },
         "review": {
           "eyebrow": "Step 03 · Confirm",
           "title": "Review and",
@@ -335,6 +346,7 @@
           "fileLabel": "File",
           "itemsLabel": "Products",
           "extraItemsLabel": "Extra products from catalog",
+          "customItemsLabel": "Custom products",
           "currencyLabel": "Preferred currency",
           "notesLabel": "Additional notes",
           "noNotes": "—",

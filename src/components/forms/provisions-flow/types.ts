@@ -13,6 +13,13 @@ export type VesselContactData = {
   company: string;
 };
 
+export type CustomItem = {
+  id: string;
+  name: string;
+  qty: number;
+  unit: string;
+};
+
 export type ProvisionsMethod = "catalog" | "upload" | "template";
 export type ProvisionsView = "methods" | "catalog" | "template" | "upload";
 export type ProvisionsStep = 1 | 2 | 3;
@@ -28,6 +35,7 @@ export type FlowState = {
   consent: boolean;
   submitting: boolean;
   submitted: boolean;
+  customItems: CustomItem[];
 };
 
 export const emptyVessel: VesselContactData = {
@@ -56,4 +64,5 @@ export const initialFlowState: FlowState = {
   consent: false,
   submitting: false,
   submitted: false,
+  customItems: [],
 };

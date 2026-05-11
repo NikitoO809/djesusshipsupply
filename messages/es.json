@@ -321,6 +321,17 @@
           "fileTooLarge": "Archivo demasiado grande. Máximo 10 MB.",
           "fileRequired": "Por favor adjunta el archivo antes de continuar."
         },
+        "custom": {
+          "title": "¿No encuentras un producto?",
+          "desc": "Agrégalo aquí con descripción, cantidad y unidad. Lo cotizamos junto al resto de tu pedido.",
+          "addBtn": "Agregar producto",
+          "namePlaceholder": "Ej: Pintura marina blanca, Tornillos M8 inox...",
+          "qtyLabel": "Cant.",
+          "unitPlaceholder": "ud, m, kg...",
+          "removeLabel": "Eliminar",
+          "limitNote": "Máximo 20 productos personalizados.",
+          "nameRequired": "Describe el producto"
+        },
         "review": {
           "eyebrow": "Paso 03 · Confirmar",
           "title": "Revisar y",
@@ -335,6 +346,7 @@
           "fileLabel": "Archivo",
           "itemsLabel": "Productos",
           "extraItemsLabel": "Productos extra del catálogo",
+          "customItemsLabel": "Productos personalizados",
           "currencyLabel": "Moneda preferida",
           "notesLabel": "Notas adicionales",
           "noNotes": "—",

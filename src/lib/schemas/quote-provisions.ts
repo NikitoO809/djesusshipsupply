@@ -43,6 +43,15 @@ export const cartItemSchema = z.object({
 
 export type CartItem = z.infer<typeof cartItemSchema>;
 
+export const customItemSchema = z.object({
+  id: z.string().trim().min(1),
+  name: z.string().trim().min(1, { message: "Describa el producto / Describe the product" }).max(200),
+  qty: z.number().positive({ message: "Cantidad inválida / Invalid quantity" }),
+  unit: z.string().trim().max(30).default(""),
+});
+
+export type CustomItem = z.infer<typeof customItemSchema>;
+
 const fileMetaShape = {
   fileName: z.string().trim().min(1, { message: required }),
   fileSize: z
@@ -59,6 +68,7 @@ const richBaseShape = {
   ...baseQuoteShape,
   currency: z.enum(CURRENCIES, { message: required }),
   notes: z.string().trim().optional().or(z.literal("")),
+  customItems: z.array(customItemSchema).max(20).default([]),
 };
 
 const minOneItem = {

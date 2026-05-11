@@ -3,6 +3,7 @@ import type {
   QuoteProvisionsValues,
   QuoteProvisionsRichValues,
   CartItem,
+  CustomItem,
 } from "@/lib/schemas/quote-provisions";
 import type { QuoteMarpolValues } from "@/lib/schemas/quote-marpol";
 
@@ -188,6 +189,39 @@ function ItemsTable({ title, items }: { title: string; items: CartItem[] }) {
   );
 }
 
+function CustomItemsTable({ items }: { items: CustomItem[] }) {
+  if (!items.length) return null;
+  return (
+    <>
+      <h3 style={{ ...sectionTitleStyle, color: navy }}>
+        Productos personalizados / Custom products
+      </h3>
+      <table style={itemsTableStyle} cellPadding={0} cellSpacing={0}>
+        <thead>
+          <tr>
+            <th style={itemsThStyle}>Descripción / Description</th>
+            <th style={{ ...itemsThStyle, width: "70px", textAlign: "right" }}>
+              Cant. / Qty
+            </th>
+            <th style={{ ...itemsThStyle, width: "70px" }}>Unidad / Unit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {items.map((it) => (
+            <tr key={it.id}>
+              <td style={itemsTdStyle}>{it.name}</td>
+              <td style={{ ...itemsTdStyle, textAlign: "right" }}>
+                <strong>{it.qty}</strong>
+              </td>
+              <td style={itemsTdStyle}>{it.unit || "—"}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  );
+}
+
 function isRichProvisions(
   payload: ProvisionsPayload
 ): payload is QuoteProvisionsRichValues {
@@ -267,6 +301,8 @@ export function InternalQuoteEmail(props: InternalQuoteProps) {
           ? payload.items
           : payload.extraItems ?? [];
 
+      const customItems = (payload as { customItems?: CustomItem[] }).customItems ?? [];
+
       provisionsContent = (
         <>
           <SectionTable
@@ -283,6 +319,7 @@ export function InternalQuoteEmail(props: InternalQuoteProps) {
               items={items}
             />
           ) : null}
+          <CustomItemsTable items={customItems} />
         </>
       );
     } else {

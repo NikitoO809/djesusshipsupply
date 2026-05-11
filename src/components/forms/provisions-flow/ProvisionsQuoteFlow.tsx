@@ -39,6 +39,7 @@ import {
   type ProvisionsMethod,
   type FlowState,
   type VesselContactData,
+  type CustomItem,
 } from "./types";
 
 // =============================================================
@@ -177,6 +178,7 @@ export function ProvisionsQuoteFlow() {
           technicalItems,
           provisionsMethod: state.method,
           provisionsItems: cartItems,
+          customItems: state.customItems,
           ...(state.file
             ? {
                 fileName: state.file.name,
@@ -206,7 +208,7 @@ export function ProvisionsQuoteFlow() {
         let useMultipart = false;
 
         if (state.method === "catalog") {
-          payload = { ...baseData, method: "catalog", items: cartItems };
+          payload = { ...baseData, method: "catalog", items: cartItems, customItems: state.customItems };
         } else {
           const file = state.file!;
           payload = {
@@ -216,6 +218,7 @@ export function ProvisionsQuoteFlow() {
             fileSize: file.size,
             fileType: file.type || "application/octet-stream",
             extraItems: cartItems,
+            customItems: state.customItems,
           };
           useMultipart = true;
         }
@@ -297,6 +300,8 @@ export function ProvisionsQuoteFlow() {
           onUpdateQty={updateQty}
           onSetFile={setFile}
           onProceed={proceedToVessel}
+          customItems={state.customItems}
+          onUpdateCustomItems={(items) => setState((s) => ({ ...s, customItems: items }))}
         />
       )}
 
@@ -570,6 +575,8 @@ function StepMethod({
   onUpdateQty,
   onSetFile,
   onProceed,
+  customItems,
+  onUpdateCustomItems,
 }: {
   state: FlowState;
   cart: Record<string, CartItem>;
@@ -580,6 +587,8 @@ function StepMethod({
   onUpdateQty: (id: string, qty: number) => void;
   onSetFile: (file: File | null) => void;
   onProceed: () => void;
+  customItems: CustomItem[];
+  onUpdateCustomItems: (items: CustomItem[]) => void;
 }) {
   if (state.view === "methods") {
     return (
@@ -595,6 +604,8 @@ function StepMethod({
         onRemove={onRemoveFromCart}
         onUpdateQty={onUpdateQty}
         onProceed={onProceed}
+        customItems={customItems}
+        onUpdateCustomItems={onUpdateCustomItems}
       />
     );
   }
@@ -606,6 +617,8 @@ function StepMethod({
         onFile={onSetFile}
         onSwitchToUpload={() => onSelectMethod("upload")}
         onProceed={onProceed}
+        customItems={customItems}
+        onUpdateCustomItems={onUpdateCustomItems}
       />
     );
   }
@@ -616,6 +629,8 @@ function StepMethod({
       onFile={onSetFile}
       onSwitchToCatalog={() => onSelectMethod("catalog")}
       onProceed={onProceed}
+      customItems={customItems}
+      onUpdateCustomItems={onUpdateCustomItems}
     />
   );
 }
@@ -781,6 +796,8 @@ function CatalogView({
   onRemove,
   onUpdateQty,
   onProceed,
+  customItems,
+  onUpdateCustomItems,
 }: {
   cart: Record<string, CartItem>;
   onBack: () => void;
@@ -788,6 +805,8 @@ function CatalogView({
   onRemove: (id: string) => void;
   onUpdateQty: (id: string, qty: number) => void;
   onProceed: () => void;
+  customItems: CustomItem[];
+  onUpdateCustomItems: (items: CustomItem[]) => void;
 }) {
   const t = useTranslations("forms.provisiones.flow.catalog");
   const tCommon = useTranslations("forms.provisiones.flow.common");
@@ -945,6 +964,8 @@ function CatalogView({
           onProceed={onProceed}
         />
       </div>
+
+      <CustomItemsSection items={customItems} onUpdate={onUpdateCustomItems} />
     </div>
   );
 }
@@ -1174,12 +1195,16 @@ function TemplateView({
   onFile,
   onSwitchToUpload,
   onProceed,
+  customItems,
+  onUpdateCustomItems,
 }: {
   file: File | null;
   onBack: () => void;
   onFile: (file: File | null) => void;
   onSwitchToUpload: () => void;
   onProceed: () => void;
+  customItems: CustomItem[];
+  onUpdateCustomItems: (items: CustomItem[]) => void;
 }) {
   const t = useTranslations("forms.provisiones.flow.template");
   const tCommon = useTranslations("forms.provisiones.flow.common");
@@ -1240,6 +1265,8 @@ function TemplateView({
       </div>
 
       <Dropzone file={file} onFile={onFile} onProceed={onProceed} />
+
+      <CustomItemsSection items={customItems} onUpdate={onUpdateCustomItems} />
     </div>
   );
 }
@@ -1276,12 +1303,16 @@ function UploadView({
   onFile,
   onSwitchToCatalog,
   onProceed,
+  customItems,
+  onUpdateCustomItems,
 }: {
   file: File | null;
   onBack: () => void;
   onFile: (file: File | null) => void;
   onSwitchToCatalog: () => void;
   onProceed: () => void;
+  customItems: CustomItem[];
+  onUpdateCustomItems: (items: CustomItem[]) => void;
 }) {
   const t = useTranslations("forms.provisiones.flow.upload");
   const tCommon = useTranslations("forms.provisiones.flow.common");
@@ -1317,6 +1348,8 @@ function UploadView({
           {t("combineBtn")}
         </Button>
       </div>
+
+      <CustomItemsSection items={customItems} onUpdate={onUpdateCustomItems} />
 
       <div className="flex justify-between gap-3">
         <Button variant="outline" onClick={onBack}>
@@ -1468,6 +1501,116 @@ function Dropzone({
         onChange={(e) => handle(e.target.files?.[0])}
       />
     </>
+  );
+}
+
+// =============================================================
+// CUSTOM ITEMS SECTION (shared across all methods)
+// =============================================================
+
+function CustomItemsSection({
+  items,
+  onUpdate,
+}: {
+  items: CustomItem[];
+  onUpdate: (items: CustomItem[]) => void;
+}) {
+  const t = useTranslations("forms.provisiones.flow.custom");
+
+  const addItem = () => {
+    if (items.length >= 20) return;
+    onUpdate([
+      ...items,
+      { id: `custom-${Date.now()}`, name: "", qty: 1, unit: "" },
+    ]);
+  };
+
+  const removeItem = (id: string) =>
+    onUpdate(items.filter((i) => i.id !== id));
+
+  const updateItem = (
+    id: string,
+    field: keyof Omit<CustomItem, "id">,
+    value: string | number
+  ) =>
+    onUpdate(
+      items.map((i) => (i.id === id ? { ...i, [field]: value } : i))
+    );
+
+  return (
+    <div className="rounded-md border border-dashed border-gold/50 bg-gold/5 p-5 space-y-4">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <div className="text-sm font-semibold text-navy">{t("title")}</div>
+          <div className="text-sm text-charcoal/70 font-light mt-0.5">
+            {t("desc")}
+          </div>
+        </div>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={addItem}
+          disabled={items.length >= 20}
+          className="shrink-0 border-gold/50 text-navy hover:bg-gold/10"
+        >
+          + {t("addBtn")}
+        </Button>
+      </div>
+
+      {items.length > 0 && (
+        <div className="space-y-2">
+          {items.map((item) => (
+            <div key={item.id} className="flex items-center gap-2">
+              <Input
+                placeholder={t("namePlaceholder")}
+                value={item.name}
+                onChange={(e) => updateItem(item.id, "name", e.target.value)}
+                className="flex-1 h-9 text-sm"
+              />
+              <Input
+                type="number"
+                min={0.01}
+                step={0.01}
+                placeholder={t("qtyLabel")}
+                value={item.qty === 0 ? "" : item.qty}
+                onChange={(e) =>
+                  updateItem(item.id, "qty", parseFloat(e.target.value) || 1)
+                }
+                className="w-20 h-9 text-center text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              />
+              <Input
+                placeholder={t("unitPlaceholder")}
+                value={item.unit}
+                onChange={(e) => updateItem(item.id, "unit", e.target.value)}
+                className="w-24 h-9 text-sm"
+              />
+              <button
+                type="button"
+                onClick={() => removeItem(item.id)}
+                aria-label={t("removeLabel")}
+                className="p-1.5 text-charcoal/50 hover:text-red-600 transition-colors shrink-0"
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+          ))}
+          {items.length >= 20 && (
+            <p className="text-xs text-charcoal/60 italic">{t("limitNote")}</p>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -1627,6 +1770,27 @@ function StepReview({
                     <span className="text-navy">{it.name}</span>
                     <span className="font-mono text-xs text-charcoal/70">
                       <strong className="text-gold">{it.qty}</strong> {it.unit}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {state.customItems.length > 0 && (
+            <div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-charcoal/60 mb-2">
+                {t("customItemsLabel")} · {state.customItems.length}
+              </div>
+              <div className="border border-dashed border-gold/50 rounded-sm divide-y divide-border max-h-64 overflow-y-auto">
+                {state.customItems.map((it) => (
+                  <div
+                    key={it.id}
+                    className="flex items-center justify-between px-3 py-2 text-sm"
+                  >
+                    <span className="text-navy">{it.name || "—"}</span>
+                    <span className="font-mono text-xs text-charcoal/70">
+                      <strong className="text-gold">{it.qty}</strong>{it.unit ? ` ${it.unit}` : ""}
                     </span>
                   </div>
                 ))}
