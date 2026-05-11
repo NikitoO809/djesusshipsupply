@@ -2,6 +2,7 @@ import ExcelJS from "exceljs";
 import type { QuoteTechnicalValues } from "@/lib/schemas/quote-technical";
 import type { QuoteProvisionsRichValues } from "@/lib/schemas/quote-provisions";
 import type { QuoteUnifiedValues } from "@/lib/schemas/quote-unified";
+import type { QuoteMarpolValues } from "@/lib/schemas/quote-marpol";
 
 // ─── Brand palette ───────────────────────────────────────────
 const NAVY   = "FF0A2540";
@@ -559,6 +560,211 @@ export async function buildUnifiedExcel(payload: QuoteUnifiedValues): Promise<Bu
   if (payload.provisionsItems.length > 0) {
     buildInvoiceSheet(wb, "Provisiones", info, payload.provisionsItems, 3, quoteNum, date);
   }
+
+  return Buffer.from(await wb.xlsx.writeBuffer());
+}
+
+export async function buildMarpolExcel(payload: QuoteMarpolValues): Promise<Buffer> {
+  const wb   = new ExcelJS.Workbook();
+  wb.creator = "De Jesús Ship Supply";
+  wb.created = new Date();
+
+  const date     = new Date();
+  const quoteNum = quoteNumber(date);
+  const C        = 2; // label | value
+
+  const sheet = wb.addWorksheet("Gestión de Desechos", {
+    pageSetup: {
+      paperSize: 9, orientation: "portrait", fitToPage: true, fitToWidth: 1,
+      margins: { left: 0.5, right: 0.5, top: 0.75, bottom: 0.75, header: 0.3, footer: 0.3 },
+    },
+    views: [{ showGridLines: false }],
+    properties: { defaultRowHeight: 18 },
+  });
+
+  sheet.columns = [{ key: "a", width: 32 }, { key: "b", width: 46 }];
+
+  let row = 1;
+
+  // ── HEADER ──────────────────────────────────────────────────
+  sheet.mergeCells(row, 1, row, 1);
+  const compCell = sheet.getCell(row, 1);
+  compCell.value     = "DE JESÚS SHIP SUPPLY";
+  compCell.font      = { bold: true, size: 13, color: { argb: CREAM }, name: "Calibri" };
+  compCell.fill      = { type: "pattern", pattern: "solid", fgColor: { argb: NAVY } };
+  compCell.alignment = { vertical: "middle", horizontal: "left", indent: 1 };
+
+  const qnCell = sheet.getCell(row, 2);
+  qnCell.value     = `SOLICITUD  Nº ${quoteNum}`;
+  qnCell.font      = { bold: true, size: 11, color: { argb: GOLD }, name: "Calibri" };
+  qnCell.fill      = { type: "pattern", pattern: "solid", fgColor: { argb: NAVY } };
+  qnCell.alignment = { vertical: "middle", horizontal: "right", indent: 1 };
+  sheet.getRow(row).height = 26;
+  row++;
+
+  sheet.getCell(row, 1).value     = "djshipsupply.com";
+  sheet.getCell(row, 1).font      = { italic: true, size: 9, color: { argb: NAVY }, name: "Calibri" };
+  sheet.getCell(row, 1).fill      = { type: "pattern", pattern: "solid", fgColor: { argb: CREAM } };
+  sheet.getCell(row, 1).alignment = { vertical: "middle", horizontal: "left", indent: 1 };
+  sheet.getCell(row, 2).value     = `Fecha / Date: ${date.toLocaleDateString("es-DO", { day: "2-digit", month: "long", year: "numeric" })}`;
+  sheet.getCell(row, 2).font      = { size: 9, color: { argb: DARK }, name: "Calibri" };
+  sheet.getCell(row, 2).fill      = { type: "pattern", pattern: "solid", fgColor: { argb: CREAM } };
+  sheet.getCell(row, 2).alignment = { vertical: "middle", horizontal: "right", indent: 1 };
+  sheet.getRow(row).height = 17;
+  row++;
+
+  sheet.getCell(row, 1).value     = "info@djshipsupply.com";
+  sheet.getCell(row, 1).font      = { size: 9, color: { argb: NAVY }, name: "Calibri" };
+  sheet.getCell(row, 1).fill      = { type: "pattern", pattern: "solid", fgColor: { argb: CREAM } };
+  sheet.getCell(row, 1).alignment = { vertical: "middle", horizontal: "left", indent: 1 };
+  sheet.getCell(row, 2).value     = "Gestión de Desechos MARPOL / MARPOL Waste Management";
+  sheet.getCell(row, 2).font      = { bold: true, size: 9, color: { argb: NAVY }, name: "Calibri" };
+  sheet.getCell(row, 2).fill      = { type: "pattern", pattern: "solid", fgColor: { argb: CREAM } };
+  sheet.getCell(row, 2).alignment = { vertical: "middle", horizontal: "right", indent: 1 };
+  sheet.getRow(row).height = 17;
+
+  frameOuter(sheet, 1, row, 1, C);
+  sheet.getCell(1, 1).border = { ...sheet.getCell(1, 1).border, right: bMedium() };
+  sheet.getCell(1, 2).border = { ...sheet.getCell(1, 2).border, left: bMedium() };
+  sheet.getCell(2, 1).border = { ...sheet.getCell(2, 1).border, right: bMedium() };
+  sheet.getCell(2, 2).border = { ...sheet.getCell(2, 2).border, left: bMedium() };
+  sheet.getCell(3, 1).border = { ...sheet.getCell(3, 1).border, right: bMedium() };
+  sheet.getCell(3, 2).border = { ...sheet.getCell(3, 2).border, left: bMedium() };
+  row++;
+
+  // ── VESSEL BLOCK ────────────────────────────────────────────
+  sheet.mergeCells(row, 1, row, C);
+  const vTitle = sheet.getCell(row, 1);
+  vTitle.value     = "DATOS DEL BUQUE  /  VESSEL DETAILS";
+  vTitle.font      = { bold: true, size: 9, color: { argb: GOLD }, name: "Calibri" };
+  vTitle.fill      = { type: "pattern", pattern: "solid", fgColor: { argb: NAVY } };
+  vTitle.alignment = { vertical: "middle", horizontal: "left", indent: 1 };
+  sheet.getRow(row).height = 18;
+  sheet.getCell(row, 1).border = { top: bMedium(), bottom: bNone(), left: bMedium(), right: bNone() };
+  sheet.getCell(row, C).border = { top: bMedium(), bottom: bNone(), left: bNone(), right: bMedium() };
+  row++;
+
+  const vStart = row;
+  const lStyle: Partial<ExcelJS.Style> = {
+    font: { bold: true, size: 9, color: { argb: NAVY }, name: "Calibri" },
+    fill: { type: "pattern", pattern: "solid", fgColor: { argb: CREAM } },
+    alignment: { vertical: "middle", horizontal: "right", indent: 1 },
+  };
+  const vStyle: Partial<ExcelJS.Style> = {
+    font: { size: 10, color: { argb: DARK }, name: "Calibri" },
+    fill: { type: "pattern", pattern: "solid", fgColor: { argb: WHITE } },
+    alignment: { vertical: "middle", horizontal: "left", indent: 1 },
+  };
+
+  const vesselRows: [string, string][] = [
+    ["Nombre / Vessel:", payload.vesselName],
+    ["Bandera / Flag:", `${payload.flag}  ·  Tipo: ${payload.vesselType}${payload.imo ? `  ·  IMO: ${payload.imo}` : ""}`],
+    ["Puerto / Port:", `${payload.port}  ·  ETA: ${payload.eta}${payload.etd ? `  ·  ETD: ${payload.etd}` : ""}`],
+    ["Contacto:", `${payload.contactName}  ·  ${payload.role}  ·  ${payload.email}${payload.phone ? `  ·  ${payload.phone}` : ""}`],
+  ];
+
+  for (const [label, value] of vesselRows) {
+    const r = sheet.getRow(row);
+    r.height = 17;
+    Object.assign(r.getCell(1), lStyle);
+    Object.assign(r.getCell(2), vStyle);
+    r.getCell(1).value = label;
+    r.getCell(2).value = value;
+    r.getCell(1).border = { ...r.getCell(1).border, left: bMedium() };
+    r.getCell(2).border = { ...r.getCell(2).border, right: bMedium() };
+    row++;
+  }
+
+  for (let c = 1; c <= C; c++) {
+    const cell = sheet.getCell(row - 1, c);
+    cell.border = { ...cell.border, bottom: bMedium() };
+  }
+  frame(sheet, vStart, row - 1, 1, C);
+  row++;
+
+  // ── SERVICES TABLE ───────────────────────────────────────────
+  const tableStart = row;
+
+  // Table header
+  const hdrRow = sheet.getRow(row);
+  hdrRow.height = 20;
+  hdrRow.getCell(1).value     = "CATEGORÍA  /  CATEGORY";
+  hdrRow.getCell(1).font      = { bold: true, size: 9, color: { argb: CREAM }, name: "Calibri" };
+  hdrRow.getCell(1).fill      = { type: "pattern", pattern: "solid", fgColor: { argb: NAVY } };
+  hdrRow.getCell(1).alignment = { vertical: "middle", horizontal: "left", indent: 1 };
+  hdrRow.getCell(2).value     = "DETALLE  /  DETAIL";
+  hdrRow.getCell(2).font      = { bold: true, size: 9, color: { argb: CREAM }, name: "Calibri" };
+  hdrRow.getCell(2).fill      = { type: "pattern", pattern: "solid", fgColor: { argb: NAVY } };
+  hdrRow.getCell(2).alignment = { vertical: "middle", horizontal: "left", indent: 1 };
+  row++;
+
+  const dataRows: [string, string, boolean][] = []; // [label, value, isCategoryHeader]
+
+  if (payload.wasteTypes.length > 0) {
+    dataRows.push(["TIPOS DE RESIDUO  /  WASTE TYPES", "", true]);
+    payload.wasteTypes.forEach((w, i) => dataRows.push([`  ${i + 1}.`, w, false]));
+  }
+
+  if (payload.techServices.length > 0) {
+    dataRows.push(["SERVICIOS TÉCNICOS  /  TECHNICAL SERVICES", "", true]);
+    payload.techServices.forEach((s, i) => dataRows.push([`  ${i + 1}.`, s, false]));
+  }
+
+  dataRows.push(["DETALLES DE LA OPERACIÓN  /  OPERATION DETAILS", "", true]);
+  dataRows.push(["  Volumen estimado / Estimated volume:", payload.volume || "—", false]);
+  dataRows.push(["  Modalidad / Mode:", payload.mode || "—", false]);
+  if (payload.additionalNotes) {
+    dataRows.push(["  Notas / Notes:", payload.additionalNotes, false]);
+  }
+
+  let zebra = false;
+  for (const [label, value, isCat] of dataRows) {
+    const r = sheet.getRow(row);
+    r.height = isCat ? 17 : 17;
+
+    if (isCat) {
+      sheet.mergeCells(row, 1, row, C);
+      r.getCell(1).value     = label;
+      r.getCell(1).font      = { bold: true, size: 9, color: { argb: NAVY }, name: "Calibri" };
+      r.getCell(1).fill      = { type: "pattern", pattern: "solid", fgColor: { argb: CREAM } };
+      r.getCell(1).alignment = { vertical: "middle", horizontal: "left", indent: 1 };
+      r.getCell(1).border    = { top: bThin(), bottom: bThin(), left: bMedium(), right: bNone() };
+      r.getCell(C).border    = { top: bThin(), bottom: bThin(), left: bNone(), right: bMedium() };
+    } else {
+      const bg = zebra ? LIGHT : WHITE;
+      r.getCell(1).value     = label;
+      r.getCell(1).font      = { size: 9, color: { argb: NAVY }, name: "Calibri" };
+      r.getCell(1).fill      = { type: "pattern", pattern: "solid", fgColor: { argb: bg } };
+      r.getCell(1).alignment = { vertical: "middle", horizontal: "left", indent: 1 };
+      r.getCell(2).value     = value;
+      r.getCell(2).font      = { size: 9, color: { argb: DARK }, name: "Calibri" };
+      r.getCell(2).fill      = { type: "pattern", pattern: "solid", fgColor: { argb: bg } };
+      r.getCell(2).alignment = { vertical: "middle", horizontal: "left", indent: 1, wrapText: true };
+      zebra = !zebra;
+    }
+    row++;
+  }
+
+  const tableEnd = row - 1;
+  frame(sheet, tableStart, tableEnd, 1, C);
+
+  // ── SIGNATURE LINE ───────────────────────────────────────────
+  row += 2;
+  sheet.getCell(row, 1).value     = "Firma / Signature: _______________________";
+  sheet.getCell(row, 1).font      = { size: 9, color: { argb: NAVY }, name: "Calibri" };
+  sheet.getCell(row, 1).alignment = { vertical: "middle", horizontal: "left", indent: 1 };
+  sheet.getCell(row, 2).value     = "Sello / Stamp: ____________________________";
+  sheet.getCell(row, 2).font      = { size: 9, color: { argb: NAVY }, name: "Calibri" };
+  sheet.getCell(row, 2).alignment = { vertical: "middle", horizontal: "left", indent: 1 };
+  sheet.getRow(row).height = 22;
+
+  row += 2;
+  sheet.mergeCells(row, 1, row, C);
+  const footer = sheet.getCell(row, 1);
+  footer.value     = "De Jesús Ship Supply  ·  djshipsupply.com  ·  info@djshipsupply.com  ·  Documento generado automáticamente";
+  footer.font      = { size: 8, italic: true, color: { argb: "FF888888" }, name: "Calibri" };
+  footer.alignment = { vertical: "middle", horizontal: "center" };
+  sheet.getRow(row).height = 14;
 
   return Buffer.from(await wb.xlsx.writeBuffer());
 }

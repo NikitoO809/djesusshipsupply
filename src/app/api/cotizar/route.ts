@@ -9,7 +9,7 @@ import {
   MAX_UPLOAD_BYTES,
   type QuoteProvisionsRichValues,
 } from "@/lib/schemas/quote-provisions";
-import { quoteMarpolSchema } from "@/lib/schemas/quote-marpol";
+import { quoteMarpolSchema, type QuoteMarpolValues } from "@/lib/schemas/quote-marpol";
 import { quoteTechnicalSchema, type QuoteTechnicalValues } from "@/lib/schemas/quote-technical";
 import { quoteUnifiedSchema, type QuoteUnifiedValues } from "@/lib/schemas/quote-unified";
 import { InternalQuoteEmail } from "@/lib/email-templates/internal-quote";
@@ -23,6 +23,7 @@ import {
   buildTechnicalExcel,
   buildProvisionsExcel,
   buildUnifiedExcel,
+  buildMarpolExcel,
 } from "@/lib/excel/quote-excel";
 
 export const runtime = "nodejs";
@@ -411,6 +412,9 @@ export async function POST(request: Request) {
     } else if (type === "unified") {
       excelBuffer = await buildUnifiedExcel(payload as unknown as QuoteUnifiedValues);
       excelFilename = `DJSS_Combinada_${safe}_${dateStr}.xlsx`;
+    } else if (type === "marpol") {
+      excelBuffer = await buildMarpolExcel(payload as unknown as QuoteMarpolValues);
+      excelFilename = `DJSS_Desechos_${safe}_${dateStr}.xlsx`;
     }
   } catch (excelErr) {
     console.error("[cotizar] Excel generation failed (non-fatal):", excelErr);
