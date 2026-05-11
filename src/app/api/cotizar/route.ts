@@ -19,6 +19,11 @@ import {
   CustomerConfirmationEmail,
   customerConfirmationSubject,
 } from "@/lib/email-templates/customer-confirmation";
+import {
+  buildTechnicalExcel,
+  buildProvisionsExcel,
+  buildUnifiedExcel,
+} from "@/lib/excel/quote-excel";
 
 export const runtime = "nodejs";
 
@@ -387,6 +392,27 @@ export async function POST(request: Request) {
   const internalSubject = `${internalSubjectBase} · ${payload.vesselName} · ${payload.port}`;
   const customerSubject = customerConfirmationSubject(locale);
 
+  // Generate Excel attachment (best-effort — failure doesn't block the email)
+  let excelBuffer: Buffer | null = null;
+  let excelFilename = "cotizacion.xlsx";
+  try {
+    const safe = payload.vesselName.replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "_");
+    const dateStr = new Date().toISOString().slice(0, 10);
+    if (type === "technical") {
+      excelBuffer = await buildTechnicalExcel(payload as unknown as QuoteTechnicalValues);
+      excelFilename = `DJSS_Tecnico_${safe}_${dateStr}.xlsx`;
+    } else if (type === "provisions") {
+      const richPayload = payload as unknown as QuoteProvisionsRichValues;
+      excelBuffer = await buildProvisionsExcel(richPayload);
+      excelFilename = `DJSS_Provisiones_${safe}_${dateStr}.xlsx`;
+    } else if (type === "unified") {
+      excelBuffer = await buildUnifiedExcel(payload as unknown as QuoteUnifiedValues);
+      excelFilename = `DJSS_Combinada_${safe}_${dateStr}.xlsx`;
+    }
+  } catch (excelErr) {
+    console.error("[cotizar] Excel generation failed (non-fatal):", excelErr);
+  }
+
   if (!apiKey || !toAddress) {
     if (process.env.NODE_ENV !== "production") {
       const p = payload as Record<string, unknown>;
@@ -414,15 +440,21 @@ export async function POST(request: Request) {
   const resend = new Resend(apiKey);
 
   try {
+    const attachments: { filename: string; content: Buffer }[] = [];
+    if (excelBuffer) {
+      attachments.push({ filename: excelFilename, content: excelBuffer });
+    }
+    if (file) {
+      attachments.push({ filename: file.name, content: file.bytes });
+    }
+
     const internalRes = await resend.emails.send({
       from: fromAddress,
       to: toAddress,
       replyTo: payload.email,
       subject: internalSubject,
       html: internalHtml,
-      attachments: file
-        ? [{ filename: file.name, content: file.bytes }]
-        : undefined,
+      attachments: attachments.length > 0 ? attachments : undefined,
     });
 
     if (internalRes.error) {
