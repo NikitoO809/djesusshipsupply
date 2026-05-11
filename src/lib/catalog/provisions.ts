@@ -302,14 +302,71 @@ export const PROVISION_CATALOG: ProvisionCategory[] = [
     key: "cleaning",
     name: { es: "Limpieza · Cabin", en: "Cleaning · Cabin" },
     products: [
-      // Pending — not present in source document.
+      // Cleaning chemicals
+      p("cleaning:bleach-liquid", "Bleach (liquid chlorine)", "Ltrs"),
+      p("cleaning:multi-purpose-cleaner", "Multi-purpose cleaner", "Ltrs"),
+      p("cleaning:bathroom-cleaner", "Bathroom cleaner / descaler", "Btls"),
+      p("cleaning:dish-soap", "Dish soap / washing-up liquid", "Ltrs"),
+      p("cleaning:floor-cleaner", "Floor cleaner / degreaser", "Ltrs"),
+      p("cleaning:glass-cleaner", "Glass cleaner", "Btls"),
+      p("cleaning:toilet-cleaner", "Toilet bowl cleaner", "Btls"),
+      p("cleaning:laundry-detergent-powder", "Laundry detergent (powder)", "Kgs"),
+      p("cleaning:laundry-detergent-liquid", "Laundry detergent (liquid)", "Ltrs"),
+      p("cleaning:fabric-softener", "Fabric softener", "Ltrs"),
+      p("cleaning:air-freshener", "Air freshener spray", "Pcs"),
+      p("cleaning:insecticide", "Insecticide spray", "Pcs"),
+      // Tools & supplies
+      p("cleaning:mop-heads", "Mop heads", "Pcs"),
+      p("cleaning:broom-dustpan", "Broom with dustpan", "Pcs"),
+      p("cleaning:scrubbing-brush", "Scrubbing brushes", "Pcs"),
+      p("cleaning:sponges", "Sponges / scrubbing pads", "Pack"),
+      p("cleaning:microfiber-cloths", "Microfiber cloths", "Pack"),
+      p("cleaning:rubber-gloves", "Rubber gloves", "Pairs"),
+      p("cleaning:garbage-bags-large", "Garbage bags (large 200L)", "Roll"),
+      p("cleaning:garbage-bags-medium", "Garbage bags (medium 100L)", "Roll"),
+      p("cleaning:toilet-paper", "Toilet paper", "Roll"),
+      p("cleaning:paper-towels", "Paper towels / kitchen roll", "Roll"),
+      // Personal hygiene
+      p("cleaning:hand-soap-bar", "Hand soap (bar)", "Pcs"),
+      p("cleaning:hand-soap-liquid", "Hand soap (liquid)", "Btls"),
+      p("cleaning:shampoo", "Shampoo", "Btls"),
+      p("cleaning:body-wash", "Body wash / shower gel", "Btls"),
+      p("cleaning:conditioner", "Conditioner", "Btls"),
+      p("cleaning:toothpaste", "Toothpaste", "Pcs"),
+      p("cleaning:toothbrushes", "Toothbrushes", "Pcs"),
+      p("cleaning:shaving-cream", "Shaving cream", "Pcs"),
+      p("cleaning:disposable-razors", "Disposable razors", "Pcs"),
+      p("cleaning:deodorant", "Deodorant", "Pcs"),
     ],
   },
   {
     key: "bonded",
     name: { es: "Bonded Stores", en: "Bonded Stores" },
     products: [
-      // Pending — not present in source document.
+      // Tobacco
+      p("bonded:cigarettes-marlboro", "Cigarettes (Marlboro)", "Carton"),
+      p("bonded:cigarettes-winston", "Cigarettes (Winston)", "Carton"),
+      p("bonded:cigarettes-lm", "Cigarettes (L&M)", "Carton"),
+      p("bonded:cigarettes-camel", "Cigarettes (Camel)", "Carton"),
+      p("bonded:rolling-tobacco", "Rolling tobacco", "Pcs"),
+      p("bonded:cigars", "Cigars", "Pcs"),
+      // Beer
+      p("bonded:beer-presidente", "Beer (Presidente)", "Case"),
+      p("bonded:beer-heineken", "Beer (Heineken)", "Case"),
+      p("bonded:beer-corona", "Beer (Corona)", "Case"),
+      p("bonded:beer-budweiser", "Beer (Budweiser)", "Case"),
+      // Spirits
+      p("bonded:rum-barcelo", "Rum (Barceló añejo)", "Btls"),
+      p("bonded:rum-brugal", "Rum (Brugal extra viejo)", "Btls"),
+      p("bonded:whisky-jw-red", "Whisky (Johnnie Walker Red)", "Btls"),
+      p("bonded:whisky-jw-black", "Whisky (Johnnie Walker Black)", "Btls"),
+      p("bonded:whisky-jd", "Whisky (Jack Daniel's)", "Btls"),
+      p("bonded:vodka-absolut", "Vodka (Absolut)", "Btls"),
+      // Miscellaneous
+      p("bonded:chocolates", "Assorted chocolates", "Pcs"),
+      p("bonded:candy", "Assorted candy / sweets", "Pcs"),
+      p("bonded:playing-cards", "Playing cards", "Pcs"),
+      p("bonded:lighters", "Cigarette lighters", "Pcs"),
     ],
   },
 ];
