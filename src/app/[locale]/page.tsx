@@ -37,8 +37,10 @@ export default async function HomePage({ params }: Props) {
         title={t("heroH1")}
         subtitle={t("heroSubtitle")}
         ctaPrimary={t("heroCtaPrimary")}
-        ctaSecondary={t("heroCtaSecondary")}
         ctaPrimaryHref={link("/cotizar/provisiones")}
+        ctaExtra={t("heroCtaDesechos")}
+        ctaExtraHref={link("/cotizar/desechos")}
+        ctaSecondary={t("heroCtaSecondary")}
         ctaSecondaryHref={link("/puertos")}
       />
 

@@ -7,8 +7,10 @@ interface HeroProps {
   title: string;
   subtitle: string;
   ctaPrimary: string;
-  ctaSecondary: string;
   ctaPrimaryHref: string;
+  ctaExtra?: string;
+  ctaExtraHref?: string;
+  ctaSecondary: string;
   ctaSecondaryHref: string;
   kicker?: string;
 }
@@ -17,8 +19,10 @@ export function Hero({
   title,
   subtitle,
   ctaPrimary,
-  ctaSecondary,
   ctaPrimaryHref,
+  ctaExtra,
+  ctaExtraHref,
+  ctaSecondary,
   ctaSecondaryHref,
   kicker = "De Jesús Ship Supply",
 }: HeroProps) {
@@ -50,7 +54,7 @@ export function Hero({
             {subtitle}
           </p>
 
-          <div className="mt-10 flex flex-col sm:flex-row gap-4">
+          <div className="mt-10 flex flex-col sm:flex-row flex-wrap gap-4">
             <Link
               href={ctaPrimaryHref}
               className="group inline-flex items-center justify-center gap-2 h-12 px-7 rounded-sm bg-gold text-navy hover:bg-gold-light transition-colors text-xs uppercase tracking-[0.22em] font-semibold"
@@ -58,6 +62,15 @@ export function Hero({
               {ctaPrimary}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" strokeWidth={2.4} />
             </Link>
+            {ctaExtra && ctaExtraHref && (
+              <Link
+                href={ctaExtraHref}
+                className="group inline-flex items-center justify-center gap-2 h-12 px-7 rounded-sm border border-gold/60 text-gold hover:bg-gold hover:text-navy transition-colors text-xs uppercase tracking-[0.22em] font-semibold"
+              >
+                {ctaExtra}
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" strokeWidth={2.4} />
+              </Link>
+            )}
             <Link
               href={ctaSecondaryHref}
               className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-sm border border-cream/30 text-cream hover:border-gold hover:text-gold transition-colors text-xs uppercase tracking-[0.22em] font-medium"
