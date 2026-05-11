@@ -105,14 +105,22 @@ export function CategorySearch() {
           <button
             type="button"
             onClick={openDrawer}
-            className="w-full flex items-center justify-between gap-3 px-4 py-2.5 rounded-sm border border-cream/10 hover:border-gold/30 hover:bg-cream/5 transition-colors group text-left"
+            className="w-full flex items-center justify-between gap-4 px-5 py-4 rounded-sm border border-gold/25 bg-gold/5 hover:border-gold/50 hover:bg-gold/10 transition-all group text-left"
           >
-            <span className="text-sm text-cream/50 group-hover:text-cream/70 transition-colors">
-              {locale === "en"
-                ? "Can't find what you need? Describe it and we'll quote it."
-                : "¿No encuentras lo que necesitas? Descríbelo y lo cotizamos."}
+            <div className="flex items-center gap-3">
+              <PlusCircle className="h-5 w-5 text-gold shrink-0" strokeWidth={1.5} />
+              <div>
+                <div className="text-sm font-semibold text-cream/90 group-hover:text-cream transition-colors">
+                  {locale === "en" ? "Can't find what you need?" : "¿No encuentras lo que necesitas?"}
+                </div>
+                <div className="text-xs text-cream/45 mt-0.5">
+                  {locale === "en" ? "Describe it and we'll quote it." : "Descríbelo y lo cotizamos."}
+                </div>
+              </div>
+            </div>
+            <span className="shrink-0 inline-flex items-center gap-1.5 h-8 px-3 rounded-sm bg-gold/15 border border-gold/30 text-gold text-[11px] uppercase tracking-[0.15em] font-semibold group-hover:bg-gold group-hover:text-navy transition-all whitespace-nowrap">
+              + {locale === "en" ? "Add" : "Agregar"}
             </span>
-            <PlusCircle className="h-4 w-4 text-gold/50 group-hover:text-gold shrink-0 transition-colors" strokeWidth={1.5} />
           </button>
 
           {filtered.length === 0 && normalized && (
