@@ -125,10 +125,11 @@ function buildInvoiceSheet(
       { key: "d", width: 26 },
     ];
   } else {
+    // Col C is intentionally wide so B+C (≈38 units) can fit the quote number in the header
     sheet.columns = [
-      { key: "a", width: 46 },
+      { key: "a", width: 40 },
       { key: "b", width:  8 },
-      { key: "c", width: 18 },
+      { key: "c", width: 30 },
     ];
   }
 
