@@ -4,7 +4,6 @@ import { buildPageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import { ProcurementHero } from "@/components/procurement/ProcurementHero";
 import { CategorySearch } from "@/components/procurement/CategorySearch";
 import { ProcurementCTA } from "@/components/procurement/ProcurementCTA";
-import { SupplierBadge } from "@/components/procurement/SupplierBadge";
 import { catalogCategories, TOTAL_PRODUCTS } from "@/data/procurement-catalog";
 
 interface Props {
@@ -63,7 +62,6 @@ export default async function ProcurementPage({ params }: Props) {
         whatsappLabel={t("ctaWhatsapp")}
       />
 
-      <SupplierBadge note={t("supplierNote")} />
     </>
   );
 }
