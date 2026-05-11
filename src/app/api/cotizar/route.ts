@@ -9,9 +9,12 @@ import {
   MAX_UPLOAD_BYTES,
   type QuoteProvisionsRichValues,
 } from "@/lib/schemas/quote-provisions";
-import { quoteMarpolSchema, type QuoteMarpolValues } from "@/lib/schemas/quote-marpol";
-import { quoteTechnicalSchema, type QuoteTechnicalValues } from "@/lib/schemas/quote-technical";
-import { quoteUnifiedSchema, type QuoteUnifiedValues } from "@/lib/schemas/quote-unified";
+import { quoteMarpolSchema } from "@/lib/schemas/quote-marpol";
+import type { QuoteMarpolValues } from "@/lib/schemas/quote-marpol";
+import { quoteTechnicalSchema } from "@/lib/schemas/quote-technical";
+import type { QuoteTechnicalValues } from "@/lib/schemas/quote-technical";
+import { quoteUnifiedSchema } from "@/lib/schemas/quote-unified";
+import type { QuoteUnifiedValues } from "@/lib/schemas/quote-unified";
 import { InternalQuoteEmail } from "@/lib/email-templates/internal-quote";
 import { InternalTechnicalQuoteEmail } from "@/lib/email-templates/internal-technical-quote";
 import { InternalUnifiedQuoteEmail } from "@/lib/email-templates/internal-unified-quote";
@@ -19,12 +22,8 @@ import {
   CustomerConfirmationEmail,
   customerConfirmationSubject,
 } from "@/lib/email-templates/customer-confirmation";
-import {
-  buildTechnicalExcel,
-  buildProvisionsExcel,
-  buildUnifiedExcel,
-  buildMarpolExcel,
-} from "@/lib/excel/quote-excel";
+// Excel builders imported dynamically to keep ExcelJS (3.8 MB) out of the
+// initial module graph — only loaded when a quote actually needs Excel output.
 
 export const runtime = "nodejs";
 
@@ -56,6 +55,53 @@ function isLocale(v: unknown): v is Locale {
 
 function isType(v: unknown): v is QuoteType {
   return v === "provisions" || v === "marpol" || v === "technical" || v === "unified";
+}
+
+/** Strip CR/LF/tab from values placed into email header fields. */
+function sanitizeHeaderValue(v: string): string {
+  return v.replace(/[\r\n\t]/g, " ").trim();
+}
+
+/**
+ * Verify that the file's magic bytes match the claimed MIME type.
+ * Also rejects known executable signatures regardless of MIME.
+ */
+function validateFileMagicBytes(bytes: Buffer, mimeType: string): boolean {
+  if (bytes.length < 4) return false;
+  const b = bytes;
+
+  // Reject executable signatures unconditionally
+  if (b[0] === 0x4d && b[1] === 0x5a) return false;                                   // MZ (Windows exe/dll)
+  if (b[0] === 0x7f && b[1] === 0x45 && b[2] === 0x4c && b[3] === 0x46) return false; // ELF
+  if (b[0] === 0x23 && b[1] === 0x21) return false;                                    // #! shebang
+  if (b[0] === 0xca && b[1] === 0xfe && b[2] === 0xba && b[3] === 0xbe) return false; // Java class
+
+  if (mimeType === "application/pdf")
+    return b[0] === 0x25 && b[1] === 0x50 && b[2] === 0x44 && b[3] === 0x46; // %PDF
+
+  if (mimeType === "application/vnd.ms-excel")
+    return b[0] === 0xd0 && b[1] === 0xcf && b[2] === 0x11 && b[3] === 0xe0; // OLE2
+
+  if (
+    mimeType === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+    mimeType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  )
+    return b[0] === 0x50 && b[1] === 0x4b && b[2] === 0x03 && b[3] === 0x04; // PK (ZIP)
+
+  if (mimeType === "image/jpeg")
+    return b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff;
+
+  if (mimeType === "image/png")
+    return b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47; // \x89PNG
+
+  if (mimeType === "text/csv" || mimeType === "text/plain") {
+    // Reject if the first 32 bytes contain non-printable control chars (< 0x09)
+    const sample = b.slice(0, Math.min(32, b.length));
+    for (const byte of sample) if (byte < 0x09) return false;
+    return true;
+  }
+
+  return false;
 }
 
 type ParsedRequest = {
@@ -157,13 +203,27 @@ async function parseRequest(request: Request): Promise<
           },
         };
       }
-      const safeName = fileRaw.name.replace(/[^\w.\-\s]/g, "_").slice(0, 200);
+      const safeName = fileRaw.name.replace(/[^a-zA-Z0-9._\-]/g, "_").slice(0, 200);
       const arrayBuf = await fileRaw.arrayBuffer();
+      const fileBytes = Buffer.from(arrayBuf);
+
+      if (mimeType && !validateFileMagicBytes(fileBytes, mimeType)) {
+        return {
+          ok: false,
+          status: 415,
+          body: {
+            ok: false,
+            error: "INVALID_FILE_CONTENT",
+            message: "El contenido del archivo no coincide con su tipo declarado / File content does not match declared type",
+          },
+        };
+      }
+
       file = {
         name: safeName,
         type: mimeType || "application/octet-stream",
         size: fileRaw.size,
-        bytes: Buffer.from(arrayBuf),
+        bytes: fileBytes,
       };
     }
 
@@ -269,17 +329,21 @@ function validatePayload(
 
 export async function POST(request: Request) {
   const origin = request.headers.get("origin");
-  if (origin) {
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
-    const allowed = [siteUrl, "http://localhost:3000", "http://localhost:3001"].filter(Boolean);
-    if (!allowed.includes(origin)) {
-      return NextResponse.json({ ok: false, error: "FORBIDDEN" }, { status: 403 });
-    }
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  const allowedOrigins = [siteUrl, "http://localhost:3000", "http://localhost:3001"].filter(Boolean);
+  const isProd = process.env.NODE_ENV === "production";
+
+  // In production, always require a valid Origin header (prevents server-side CSRF).
+  // In development, only validate when Origin is present.
+  if (isProd ? (!origin || !allowedOrigins.includes(origin)) : (origin !== null && !allowedOrigins.includes(origin))) {
+    return NextResponse.json({ ok: false, error: "FORBIDDEN" }, { status: 403 });
   }
 
+  // Prefer x-real-ip (set by Vercel edge, not spoofable by clients).
+  // Fall back to x-forwarded-for only as a secondary option.
   const ip =
-    request.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
     request.headers.get("x-real-ip") ??
+    request.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
     "anonymous";
   const { success, remaining } = await ratelimit.limit(ip);
   if (!success) {
@@ -393,27 +457,28 @@ export async function POST(request: Request) {
       : type === "unified"
       ? "Nueva cotización — Combinada"
       : "Nueva cotización — Desechos MARPOL";
-  const internalSubject = `${internalSubjectBase} · ${payload.vesselName} · ${payload.port}`;
+  const internalSubject = `${internalSubjectBase} · ${sanitizeHeaderValue(payload.vesselName)} · ${sanitizeHeaderValue(payload.port)}`;
   const customerSubject = customerConfirmationSubject(locale);
 
-  // Generate Excel attachment (best-effort — failure doesn't block the email)
+  // Generate Excel attachment (best-effort — failure doesn't block the email).
+  // Dynamic import keeps ExcelJS (3.8 MB) out of the cold-start module graph.
   let excelBuffer: Buffer | null = null;
   let excelFilename = "cotizacion.xlsx";
   try {
-    const safe = payload.vesselName.replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "_");
+    const safe = sanitizeHeaderValue(payload.vesselName).replace(/[^\w\s-]/g, "").replace(/\s+/g, "_");
     const dateStr = new Date().toISOString().slice(0, 10);
+    const excel = await import("@/lib/excel/quote-excel");
     if (type === "technical") {
-      excelBuffer = await buildTechnicalExcel(payload as unknown as QuoteTechnicalValues);
+      excelBuffer = await excel.buildTechnicalExcel(payload as unknown as QuoteTechnicalValues);
       excelFilename = `DJSS_Tecnico_${safe}_${dateStr}.xlsx`;
     } else if (type === "provisions") {
-      const richPayload = payload as unknown as QuoteProvisionsRichValues;
-      excelBuffer = await buildProvisionsExcel(richPayload);
+      excelBuffer = await excel.buildProvisionsExcel(payload as unknown as QuoteProvisionsRichValues);
       excelFilename = `DJSS_Provisiones_${safe}_${dateStr}.xlsx`;
     } else if (type === "unified") {
-      excelBuffer = await buildUnifiedExcel(payload as unknown as QuoteUnifiedValues);
+      excelBuffer = await excel.buildUnifiedExcel(payload as unknown as QuoteUnifiedValues);
       excelFilename = `DJSS_Combinada_${safe}_${dateStr}.xlsx`;
     } else if (type === "marpol") {
-      excelBuffer = await buildMarpolExcel(payload as unknown as QuoteMarpolValues);
+      excelBuffer = await excel.buildMarpolExcel(payload as unknown as QuoteMarpolValues);
       excelFilename = `DJSS_Desechos_${safe}_${dateStr}.xlsx`;
     }
   } catch (excelErr) {
@@ -455,14 +520,24 @@ export async function POST(request: Request) {
       attachments.push({ filename: file.name, content: file.bytes });
     }
 
-    const internalRes = await resend.emails.send({
-      from: fromAddress,
-      to: toAddress,
-      replyTo: payload.email,
-      subject: internalSubject,
-      html: internalHtml,
-      attachments: attachments.length > 0 ? attachments : undefined,
-    });
+    // Send both emails in parallel — internal first matters for error reporting,
+    // but customer confirmation doesn't need to block on internal delivery.
+    const [internalRes, customerRes] = await Promise.all([
+      resend.emails.send({
+        from: fromAddress,
+        to: toAddress,
+        replyTo: payload.email,
+        subject: internalSubject,
+        html: internalHtml,
+        attachments: attachments.length > 0 ? attachments : undefined,
+      }),
+      resend.emails.send({
+        from: fromAddress,
+        to: payload.email,
+        subject: customerSubject,
+        html: customerHtml,
+      }),
+    ]);
 
     if (internalRes.error) {
       console.error("[cotizar] internal email error:", internalRes.error);
@@ -478,13 +553,6 @@ export async function POST(request: Request) {
         { status: 502 }
       );
     }
-
-    const customerRes = await resend.emails.send({
-      from: fromAddress,
-      to: payload.email,
-      subject: customerSubject,
-      html: customerHtml,
-    });
 
     if (customerRes.error) {
       console.error("[cotizar] customer confirmation error:", customerRes.error);

@@ -127,7 +127,7 @@ export function ProvisionsQuoteFlow() {
       return;
     }
     if ((state.method === "upload" || state.method === "template") && !state.file) {
-      toast.error(t("upload.fileTooLarge"));
+      toast.error(t("upload.fileRequired"));
       return;
     }
     setState((s) => ({ ...s, step: 2 }));
@@ -751,7 +751,7 @@ function MethodCard({
         {title}{" "}
         <em className="not-italic text-gold italic">{titleEm}</em>
       </h3>
-      <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold mb-3">
+      <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-navy/60 mb-3">
         {subtitle}
       </div>
       <p className="text-sm text-charcoal/70 font-light leading-relaxed mb-5 flex-1">
@@ -831,6 +831,22 @@ function CatalogView({
       <div className="flex items-center gap-3">
         <BackRow onClick={onBack} label={tCommon("changeMethod")} />
       </div>
+
+      {/* Mobile floating cart button — hidden on lg where sidebar is always visible */}
+      {Object.keys(cart).length > 0 && (
+        <button
+          type="button"
+          onClick={() => {
+            document.getElementById("cart-sidebar")?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }}
+          className="lg:hidden fixed bottom-20 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2.5 bg-navy text-cream px-6 py-3 rounded-full shadow-xl border border-gold/40 font-semibold text-sm"
+        >
+          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gold text-navy text-[11px] font-bold">
+            {Object.keys(cart).length}
+          </span>
+          {t("cart.review")} →
+        </button>
+      )}
 
       <div className="grid lg:grid-cols-[minmax(0,1fr)_360px] gap-8 items-start">
         <div className="space-y-5 min-w-0">
@@ -997,7 +1013,7 @@ function ProductCard({
         <div className="flex items-center bg-cream border border-border rounded-sm overflow-hidden flex-1">
           <button
             type="button"
-            className="h-9 w-9 hover:bg-gold/15 text-navy font-bold"
+            className="h-11 w-11 hover:bg-gold/15 text-navy font-bold"
             onClick={() => setQty(qty - 1)}
           >
             −
@@ -1011,7 +1027,7 @@ function ProductCard({
           />
           <button
             type="button"
-            className="h-9 w-9 hover:bg-gold/15 text-navy font-bold"
+            className="h-11 w-11 hover:bg-gold/15 text-navy font-bold"
             onClick={() => setQty(qty + 1)}
           >
             +
@@ -1056,7 +1072,7 @@ function CartSidebar({
   }, {});
 
   return (
-    <aside className="lg:sticky lg:top-24 rounded-md border border-border bg-background overflow-hidden flex flex-col max-h-[calc(100vh-7rem)]">
+    <aside id="cart-sidebar" className="lg:sticky lg:top-24 rounded-md border border-border bg-background overflow-hidden flex flex-col max-h-[calc(100vh-7rem)]">
       <div className="bg-navy text-cream px-5 py-4 border-b-2 border-gold">
         <div className="font-serif text-xl">
           {t("title")}{" "}
@@ -1088,7 +1104,7 @@ function CartSidebar({
           <div className="space-y-4">
             {Object.entries(groups).map(([catName, list]) => (
               <div key={catName}>
-                <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-gold border-b border-border pb-1.5 mb-1.5">
+                <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-navy/60 border-b border-border pb-1.5 mb-1.5">
                   {catName} · {list.length}
                 </div>
                 {list.map((it) => (
@@ -1538,7 +1554,7 @@ function StepReview({
       {isUnified && (
         <div className="rounded-md border border-border bg-background overflow-hidden">
           <div className="bg-navy/5 px-5 py-3 border-b border-border">
-            <h3 className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold font-semibold">
+            <h3 className="font-mono text-[11px] uppercase tracking-[0.2em] text-navy font-semibold">
               {tUnified("reviewTechnicalSection")}
             </h3>
           </div>
@@ -1757,7 +1773,7 @@ function Section({
 }) {
   return (
     <section className="space-y-4">
-      <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-gold font-semibold">
+      <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-navy font-semibold">
         {title}
       </h2>
       <div className="space-y-5 rounded-md border border-border bg-background p-6 shadow-sm">
@@ -1798,7 +1814,7 @@ function Field({
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold font-medium">
+    <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-navy/60 font-medium">
       {children}
     </div>
   );
@@ -1824,7 +1840,7 @@ function Spinner() {
   return (
     <span
       aria-hidden
-      className="inline-block size-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+      className="inline-block size-4 motion-safe:animate-spin rounded-full border-2 border-current border-t-transparent"
     />
   );
 }

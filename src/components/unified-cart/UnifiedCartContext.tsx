@@ -93,14 +93,14 @@ export function UnifiedCartProvider({
   }, []);
 
   React.useEffect(() => {
-    try {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(state.provisionsItems)
-      );
-    } catch {
-      // ignore
-    }
+    const id = setTimeout(() => {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state.provisionsItems));
+      } catch {
+        // ignore
+      }
+    }, 500);
+    return () => clearTimeout(id);
   }, [state.provisionsItems]);
 
   const provisionsCount = Object.keys(state.provisionsItems).length;

@@ -318,7 +318,8 @@
           "combineTitle": "¿Necesitas algo más del catálogo?",
           "combineDesc": "Añade productos extra a tu pedido — se combinarán con tu lista subida.",
           "combineBtn": "Agregar del catálogo",
-          "fileTooLarge": "Archivo demasiado grande. Máximo 10 MB."
+          "fileTooLarge": "Archivo demasiado grande. Máximo 10 MB.",
+          "fileRequired": "Por favor adjunta el archivo antes de continuar."
         },
         "review": {
           "eyebrow": "Paso 03 · Confirmar",

@@ -122,11 +122,14 @@ export function RfqProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   React.useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.entries));
-    } catch {
-      // ignore
-    }
+    const id = setTimeout(() => {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state.entries));
+      } catch {
+        // ignore
+      }
+    }, 500);
+    return () => clearTimeout(id);
   }, [state.entries]);
 
   const count = Object.keys(state.entries).length;

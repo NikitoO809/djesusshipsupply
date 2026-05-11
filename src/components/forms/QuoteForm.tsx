@@ -356,7 +356,7 @@ function Section({
   return (
     <section className="space-y-4">
       <div>
-        <h2 className="text-xs uppercase tracking-[0.18em] text-gold font-semibold">
+        <h2 className="text-xs uppercase tracking-[0.18em] text-navy font-semibold">
           {title}
         </h2>
         {subtitle && (
@@ -570,7 +570,7 @@ function Spinner() {
   return (
     <span
       aria-hidden
-      className="inline-block size-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+      className="inline-block size-4 motion-safe:animate-spin rounded-full border-2 border-current border-t-transparent"
     />
   );
 }

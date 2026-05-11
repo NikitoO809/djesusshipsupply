@@ -185,10 +185,20 @@ export function buildPageMetadata(
       url,
       locale: supported === "es" ? "es_DO" : "en_US",
       alternateLocale: [supported === "es" ? "en_US" : "es_DO"],
+      images: [
+        {
+          url: `${SITE_URL}/og-image.svg`,
+          width: 1200,
+          height: 630,
+          alt: "De Jesús Ship Supply",
+        },
+      ],
     },
     twitter: {
+      card: "summary_large_image",
       title: copy.title,
       description: copy.description,
+      images: [`${SITE_URL}/og-image.svg`],
     },
   };
 }

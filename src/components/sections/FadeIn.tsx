@@ -2,6 +2,12 @@
 
 import { useEffect, useRef, type ReactNode, type CSSProperties } from "react";
 
+/** True when the user has requested reduced motion at the OS level. */
+function prefersReducedMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 interface FadeInProps {
   children: ReactNode;
   className?: string;
@@ -29,9 +35,11 @@ export function FadeIn({
     const el = ref.current;
     if (!el) return;
 
-    if (immediate) {
+    // Respect prefers-reduced-motion — show immediately without animation.
+    if (immediate || prefersReducedMotion()) {
       el.style.opacity = "1";
       el.style.transform = "translateY(0)";
+      el.style.transition = "none";
       return;
     }
 
@@ -83,6 +91,16 @@ export function Stagger({ children, className, stagger = 0.08, delay = 0 }: Stag
     if (!el) return;
 
     const items = Array.from(el.children) as HTMLElement[];
+
+    // Respect prefers-reduced-motion — reveal all items immediately.
+    if (prefersReducedMotion()) {
+      items.forEach((item) => {
+        item.style.opacity = "1";
+        item.style.transform = "translateY(0)";
+        item.style.transition = "none";
+      });
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {

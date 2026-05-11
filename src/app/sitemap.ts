@@ -16,6 +16,8 @@ const PATHS = [
   "/contacto",
   "/cotizar/provisiones",
   "/cotizar/desechos",
+  "/procurement",
+  "/suministro",
   "/privacidad",
   "/terminos",
 ] as const;
