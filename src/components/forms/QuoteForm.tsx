@@ -249,36 +249,55 @@ export function QuoteForm({ type }: Props) {
             </div>
           </Section>
         ) : (
-          <Section title={t("sections.wasteDetail")}>
-            <CheckboxGroupRHF
-              name="techServices"
-              label={t("fields.techServices")}
-              options={TECH_SERVICES.map((s) => ({ value: s, label: s }))}
-            />
-            <CheckboxGroupRHF
-              name="wasteTypes"
-              label={t("fields.wasteTypes")}
-              options={WASTE_TYPES.map((w) => ({ value: w, label: w }))}
-            />
-            <Grid>
-              <TextFieldRHF
-                name="volume"
-                label={t("fields.volume")}
-                placeholder={t("fields.volumePlaceholder")}
+          <>
+            <Section
+              title={t("sections.wasteDetail")}
+              subtitle={
+                locale === "es"
+                  ? "Indique qué tipos de residuo necesita retirar. Si solo requiere servicios técnicos, puede dejar esta sección vacía."
+                  : "Indicate which waste types you need removed. If you only need technical services, you may leave this section empty."
+              }
+            >
+              <CheckboxGroupRHF
+                name="wasteTypes"
+                label={t("fields.wasteTypes")}
+                options={WASTE_TYPES.map((w) => ({ value: w, label: w }))}
               />
-              <SelectFieldRHF
-                name="mode"
-                label={t("fields.mode")}
-                placeholder={t("placeholders.select")}
-                options={WASTE_MODES.map((m) => ({ value: m, label: m }))}
+              <Grid>
+                <TextFieldRHF
+                  name="volume"
+                  label={t("fields.volume")}
+                  placeholder={t("fields.volumePlaceholder")}
+                />
+                <SelectFieldRHF
+                  name="mode"
+                  label={t("fields.mode")}
+                  placeholder={t("placeholders.select")}
+                  options={WASTE_MODES.map((m) => ({ value: m, label: m }))}
+                />
+              </Grid>
+            </Section>
+
+            <Section
+              title={t("sections.techServicesDetail")}
+              subtitle={
+                locale === "es"
+                  ? "¿Necesita algún servicio técnico adicional durante la escala? Puede seleccionar uno o varios, o dejarlo vacío si solo solicita gestión de residuos."
+                  : "Do you need any additional technical service during the port call? Select one or more, or leave empty if you only need waste management."
+              }
+            >
+              <CheckboxGroupRHF
+                name="techServices"
+                label=""
+                options={TECH_SERVICES.map((s) => ({ value: s, label: s }))}
               />
-            </Grid>
-            <TextareaFieldRHF
-              name="additionalNotes"
-              label={t("fields.additionalNotes")}
-              rows={5}
-            />
-          </Section>
+              <TextareaFieldRHF
+                name="additionalNotes"
+                label={t("fields.additionalNotes")}
+                rows={4}
+              />
+            </Section>
+          </>
         )}
 
         <FormField
@@ -327,16 +346,25 @@ export function QuoteForm({ type }: Props) {
 
 function Section({
   title,
+  subtitle,
   children,
 }: {
   title: string;
+  subtitle?: string;
   children: React.ReactNode;
 }) {
   return (
     <section className="space-y-4">
-      <h2 className="text-xs uppercase tracking-[0.18em] text-gold font-semibold">
-        {title}
-      </h2>
+      <div>
+        <h2 className="text-xs uppercase tracking-[0.18em] text-gold font-semibold">
+          {title}
+        </h2>
+        {subtitle && (
+          <p className="mt-1.5 text-sm text-charcoal/60 font-light leading-relaxed">
+            {subtitle}
+          </p>
+        )}
+      </div>
       <div className="space-y-5 rounded-xl border border-border bg-background p-6 shadow-sm">
         {children}
       </div>

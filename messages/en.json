@@ -359,7 +359,8 @@
       "portCall": "Port call",
       "contact": "Contact",
       "provisionsDetail": "Request details",
-      "wasteDetail": "Waste"
+      "wasteDetail": "Waste",
+      "techServicesDetail": "Technical services"
     },
     "fields": {
       "vesselName": "Vessel name",

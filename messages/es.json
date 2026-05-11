@@ -359,7 +359,8 @@
       "portCall": "Escala",
       "contact": "Contacto",
       "provisionsDetail": "Detalle de la solicitud",
-      "wasteDetail": "Residuos"
+      "wasteDetail": "Residuos",
+      "techServicesDetail": "Servicios técnicos"
     },
     "fields": {
       "vesselName": "Nombre del buque",
