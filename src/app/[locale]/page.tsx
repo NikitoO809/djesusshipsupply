@@ -6,6 +6,7 @@ import {
   Clock,
   Trash2,
   Apple,
+  Wrench,
 } from "lucide-react";
 import { Hero } from "@/components/sections/Hero";
 import { SectionHeading } from "@/components/sections/SectionHeading";
@@ -115,7 +116,7 @@ export default async function HomePage({ params }: Props) {
               align="left"
             />
           </FadeIn>
-          <Stagger className="mt-16 grid gap-7 lg:grid-cols-2">
+          <Stagger className="mt-16 grid gap-7 lg:grid-cols-3">
             <StaggerItem>
               <ServiceCard
                 title={t("service1Title")}
@@ -140,6 +141,18 @@ export default async function HomePage({ params }: Props) {
                 icon={Apple}
                 tag="Provisions"
                 priority
+              />
+            </StaggerItem>
+            <StaggerItem>
+              <ServiceCard
+                title={t("service3Title")}
+                body={t("service3Body")}
+                href={link("/procurement")}
+                ctaLabel={t("ctaSupplies")}
+                imageSrc="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1600&q=80&fm=avif"
+                imageAlt="Marine technical supplies"
+                icon={Wrench}
+                tag="Technical"
               />
             </StaggerItem>
           </Stagger>
