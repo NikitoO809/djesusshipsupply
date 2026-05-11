@@ -479,7 +479,17 @@ export async function buildTechnicalExcel(payload: QuoteTechnicalValues): Promis
     notes      : payload.notes,
   };
 
-  buildInvoiceSheet(wb, "Suministros Técnicos", info, payload.items, 4, quoteNum, date);
+  const customItems = (payload.customItems ?? [])
+    .filter((it) => it.name.trim())
+    .map((it) => ({
+      categoryTitleEs: "Productos personalizados / Custom products",
+      name: it.name,
+      qty: it.qty,
+      unit: it.unit || "—",
+      note: "",
+    }));
+
+  buildInvoiceSheet(wb, "Suministros Técnicos", info, [...payload.items, ...customItems], 4, quoteNum, date);
   return Buffer.from(await wb.xlsx.writeBuffer());
 }
 

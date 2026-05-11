@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { baseQuoteShape, CURRENCIES } from "./shared";
+import { customItemSchema } from "./quote-provisions";
 
 const required = "Requerido / Required";
 
@@ -21,6 +22,7 @@ export const quoteTechnicalSchema = z.object({
   items: z
     .array(technicalRfqItemSchema)
     .min(1, { message: "Agregue al menos un producto / Add at least one product" }),
+  customItems: z.array(customItemSchema).max(20).default([]),
 });
 
 export type QuoteTechnicalInput = z.input<typeof quoteTechnicalSchema>;

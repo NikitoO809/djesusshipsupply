@@ -78,6 +78,20 @@ export function RfqContactStep() {
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState("");
 
+  type CustomItem = { id: string; name: string; qty: number; unit: string };
+  const [customItems, setCustomItems] = useState<CustomItem[]>([]);
+
+  function addCustomItem() {
+    if (customItems.length >= 20) return;
+    setCustomItems((prev) => [...prev, { id: `c-${Date.now()}`, name: "", qty: 1, unit: "" }]);
+  }
+  function removeCustomItem(id: string) {
+    setCustomItems((prev) => prev.filter((i) => i.id !== id));
+  }
+  function updateCustomItem(id: string, field: keyof Omit<CustomItem, "id">, value: string | number) {
+    setCustomItems((prev) => prev.map((i) => i.id === id ? { ...i, [field]: value } : i));
+  }
+
   const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -140,6 +154,8 @@ export function RfqContactStep() {
       consent: true as const,
     };
 
+    const validCustomItems = customItems.filter((i) => i.name.trim());
+
     const payload = isUnified
       ? {
           kind: "unified",
@@ -147,11 +163,13 @@ export function RfqContactStep() {
           technicalItems,
           provisionsMethod: "catalog" as const,
           provisionsItems: Object.values(provisionsItems),
+          customItems: validCustomItems,
         }
       : {
           kind: "technical",
           ...baseData,
           items: technicalItems,
+          customItems: validCustomItems,
         };
 
     const quoteType = isUnified ? "unified" : "technical";
@@ -174,6 +192,7 @@ export function RfqContactStep() {
         clear();
         if (isUnified) clearProvisions();
         setForm(emptyForm);
+        setCustomItems([]);
       }
     } catch {
       setServerError(
@@ -354,6 +373,88 @@ export function RfqContactStep() {
                 />
               </Row>
             </Section>
+
+            {/* Custom items */}
+            <div style={{ marginBottom: "1rem", borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "1rem" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+                <div>
+                  <div style={{ fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.2em", color: "#C9A961", fontWeight: 600 }}>
+                    {locale === "es" ? "¿No encuentras un producto?" : "Can't find a product?"}
+                  </div>
+                  <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", marginTop: "2px" }}>
+                    {locale === "es" ? "Agrégalo con descripción, cantidad y unidad." : "Add it with description, quantity and unit."}
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={addCustomItem}
+                  disabled={customItems.length >= 20}
+                  style={{
+                    height: "30px", padding: "0 0.75rem", fontSize: "11px",
+                    background: "transparent", border: "1px solid rgba(201,169,97,0.4)",
+                    borderRadius: "4px", color: "#C9A961", cursor: "pointer",
+                    whiteSpace: "nowrap", flexShrink: 0,
+                    opacity: customItems.length >= 20 ? 0.4 : 1,
+                  }}
+                >
+                  + {locale === "es" ? "Agregar" : "Add"}
+                </button>
+              </div>
+
+              {customItems.length > 0 && (
+                <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginTop: "0.5rem" }}>
+                  {customItems.map((item) => (
+                    <div key={item.id} style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+                      <input
+                        type="text"
+                        value={item.name}
+                        onChange={(e) => updateCustomItem(item.id, "name", e.target.value)}
+                        placeholder={locale === "es" ? "Descripción del producto…" : "Product description…"}
+                        style={{
+                          flex: 1, height: "32px", padding: "0 0.5rem", fontSize: "12px",
+                          color: "#f5f0e8", background: "rgba(255,255,255,0.05)",
+                          border: "1px solid rgba(255,255,255,0.12)", borderRadius: "4px",
+                          outline: "none", boxSizing: "border-box" as const,
+                        }}
+                      />
+                      <input
+                        type="number"
+                        min={1}
+                        value={item.qty}
+                        onChange={(e) => updateCustomItem(item.id, "qty", parseFloat(e.target.value) || 1)}
+                        style={{
+                          width: "60px", height: "32px", padding: "0 0.4rem", fontSize: "12px",
+                          textAlign: "center", color: "#f5f0e8", background: "rgba(255,255,255,0.05)",
+                          border: "1px solid rgba(255,255,255,0.12)", borderRadius: "4px",
+                          outline: "none", boxSizing: "border-box" as const,
+                        }}
+                      />
+                      <input
+                        type="text"
+                        value={item.unit}
+                        onChange={(e) => updateCustomItem(item.id, "unit", e.target.value)}
+                        placeholder={locale === "es" ? "ud, m…" : "ud, m…"}
+                        style={{
+                          width: "64px", height: "32px", padding: "0 0.4rem", fontSize: "12px",
+                          color: "#f5f0e8", background: "rgba(255,255,255,0.05)",
+                          border: "1px solid rgba(255,255,255,0.12)", borderRadius: "4px",
+                          outline: "none", boxSizing: "border-box" as const,
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeCustomItem(item.id)}
+                        aria-label={locale === "es" ? "Eliminar" : "Remove"}
+                        style={{ color: "rgba(255,255,255,0.3)", background: "none", border: "none", cursor: "pointer", padding: "4px", flexShrink: 0 }}
+                        className="hover:!text-red-400"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <label
               style={{

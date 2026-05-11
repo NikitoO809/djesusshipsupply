@@ -1,5 +1,6 @@
 import * as React from "react";
 import type { QuoteTechnicalValues } from "@/lib/schemas/quote-technical";
+import type { CustomItem } from "@/lib/schemas/quote-provisions";
 import { colors, containerStyle, headerStyle, footerStyle } from "./styles";
 
 const { navy, gold, cream, charcoal, border } = colors;
@@ -222,6 +223,35 @@ export function InternalTechnicalQuoteEmail({ payload, submittedAt }: Props) {
               ))}
             </tbody>
           </table>
+
+          {((payload as { customItems?: CustomItem[] }).customItems ?? []).filter(i => i.name.trim()).length > 0 && (() => {
+            const items = ((payload as { customItems?: CustomItem[] }).customItems ?? []).filter(i => i.name.trim());
+            return (
+              <>
+                <h3 style={{ ...sectionTitleStyle, color: navy }}>
+                  Productos personalizados / Custom products ({items.length})
+                </h3>
+                <table style={itemsTableStyle} cellPadding={0} cellSpacing={0}>
+                  <thead>
+                    <tr>
+                      <th style={itemsThStyle}>Descripción / Description</th>
+                      <th style={{ ...itemsThStyle, width: "60px", textAlign: "right" }}>Cant.</th>
+                      <th style={{ ...itemsThStyle, width: "55px" }}>Unidad</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {items.map((it) => (
+                      <tr key={it.id}>
+                        <td style={itemsTdStyle}>{it.name}</td>
+                        <td style={{ ...itemsTdStyle, textAlign: "right" }}><strong>{it.qty}</strong></td>
+                        <td style={itemsTdStyle}>{it.unit || "—"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
+            );
+          })()}
 
           <div style={footerStyle}>
             <strong style={{ color: navy }}>De Jesús Ship Supply</strong>
