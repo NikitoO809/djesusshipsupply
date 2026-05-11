@@ -12,6 +12,13 @@ export type RfqEntry = {
   note: string;
 };
 
+export type RfqCustomItem = {
+  id: string;
+  name: string;
+  qty: number;
+  unit: string;
+};
+
 type RfqAction =
   | { type: "ADD"; entry: RfqEntry }
   | { type: "UPDATE_QTY"; id: string; qty: number }
@@ -22,12 +29,14 @@ type RfqAction =
   | { type: "CLOSE_DRAWER" }
   | { type: "OPEN_CONTACT" }
   | { type: "CLOSE_CONTACT" }
-  | { type: "HYDRATE"; entries: Record<string, RfqEntry> };
+  | { type: "HYDRATE"; entries: Record<string, RfqEntry> }
+  | { type: "SET_CUSTOM_ITEMS"; items: RfqCustomItem[] };
 
 type RfqState = {
   entries: Record<string, RfqEntry>;
   drawerOpen: boolean;
   contactOpen: boolean;
+  customItems: RfqCustomItem[];
 };
 
 type RfqContextValue = {
@@ -35,6 +44,8 @@ type RfqContextValue = {
   drawerOpen: boolean;
   contactOpen: boolean;
   count: number;
+  customItems: RfqCustomItem[];
+  setCustomItems: (items: RfqCustomItem[]) => void;
   add: (item: CatalogItem, categoryId: string, categoryTitleEs: string, categoryTitleEn: string) => void;
   updateQty: (id: string, qty: number) => void;
   updateNote: (id: string, note: string) => void;
@@ -82,7 +93,7 @@ function reducer(state: RfqState, action: RfqAction): RfqState {
       return { ...state, entries: next };
     }
     case "CLEAR":
-      return { ...state, entries: {} };
+      return { ...state, entries: {}, customItems: [] };
     case "OPEN_DRAWER":
       return { ...state, drawerOpen: true };
     case "CLOSE_DRAWER":
@@ -93,6 +104,8 @@ function reducer(state: RfqState, action: RfqAction): RfqState {
       return { ...state, contactOpen: false };
     case "HYDRATE":
       return { ...state, entries: action.entries };
+    case "SET_CUSTOM_ITEMS":
+      return { ...state, customItems: action.items };
     default:
       return state;
   }
@@ -105,6 +118,7 @@ export function RfqProvider({ children }: { children: React.ReactNode }) {
     entries: {},
     drawerOpen: false,
     contactOpen: false,
+    customItems: [],
   });
 
   React.useEffect(() => {
@@ -139,6 +153,8 @@ export function RfqProvider({ children }: { children: React.ReactNode }) {
     drawerOpen: state.drawerOpen,
     contactOpen: state.contactOpen,
     count,
+    customItems: state.customItems,
+    setCustomItems: (items) => dispatch({ type: "SET_CUSTOM_ITEMS", items }),
     add: (item, categoryId, categoryTitleEs, categoryTitleEn) =>
       dispatch({
         type: "ADD",

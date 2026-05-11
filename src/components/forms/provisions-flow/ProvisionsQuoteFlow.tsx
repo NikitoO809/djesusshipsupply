@@ -592,7 +592,11 @@ function StepMethod({
 }) {
   if (state.view === "methods") {
     return (
-      <MethodPicker onSelect={onSelectMethod} />
+      <MethodPicker
+        onSelect={onSelectMethod}
+        customItems={customItems}
+        onUpdateCustomItems={onUpdateCustomItems}
+      />
     );
   }
   if (state.view === "catalog") {
@@ -639,8 +643,12 @@ function StepMethod({
 
 function MethodPicker({
   onSelect,
+  customItems,
+  onUpdateCustomItems,
 }: {
   onSelect: (m: ProvisionsMethod) => void;
+  customItems: CustomItem[];
+  onUpdateCustomItems: (items: CustomItem[]) => void;
 }) {
   const t = useTranslations("forms.provisiones.flow.methods");
 
@@ -703,6 +711,10 @@ function MethodPicker({
           </strong>
           {t("combineBody")}
         </div>
+      </div>
+
+      <div className="mx-auto max-w-2xl">
+        <CustomItemsSection items={customItems} onUpdate={onUpdateCustomItems} />
       </div>
     </div>
   );
@@ -964,8 +976,6 @@ function CatalogView({
           onProceed={onProceed}
         />
       </div>
-
-      <CustomItemsSection items={customItems} onUpdate={onUpdateCustomItems} />
     </div>
   );
 }
@@ -1265,8 +1275,6 @@ function TemplateView({
       </div>
 
       <Dropzone file={file} onFile={onFile} onProceed={onProceed} />
-
-      <CustomItemsSection items={customItems} onUpdate={onUpdateCustomItems} />
     </div>
   );
 }
@@ -1348,8 +1356,6 @@ function UploadView({
           {t("combineBtn")}
         </Button>
       </div>
-
-      <CustomItemsSection items={customItems} onUpdate={onUpdateCustomItems} />
 
       <div className="flex justify-between gap-3">
         <Button variant="outline" onClick={onBack}>

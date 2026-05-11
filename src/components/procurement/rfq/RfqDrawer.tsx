@@ -4,11 +4,11 @@ import { useEffect, useRef } from "react";
 import { X, Trash2, Minus, Plus, ArrowRight } from "lucide-react";
 import { useLocale } from "next-intl";
 import { useRfq } from "./useRfq";
-import type { RfqEntry } from "./RfqContext";
+import type { RfqEntry, RfqCustomItem } from "./RfqContext";
 import { useUnifiedCart } from "@/components/unified-cart/UnifiedCartContext";
 
 export function RfqDrawer() {
-  const { entries, drawerOpen, closeDrawer, openContact, updateQty, updateNote, remove } = useRfq();
+  const { entries, drawerOpen, closeDrawer, openContact, updateQty, updateNote, remove, customItems, setCustomItems } = useRfq();
   const { provisionsCount } = useUnifiedCart();
   const locale = useLocale();
 
@@ -110,9 +110,14 @@ export function RfqDrawer() {
         </div>
 
         {/* Body */}
-        <div style={{ flex: 1, overflowY: "auto", padding: "1rem 1.5rem" }}>
+        <div style={{ flex: 1, overflowY: "auto", padding: "1rem 1.5rem", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+
+          {/* Custom items — always visible at the top */}
+          <CustomItemsDrawer items={customItems} onUpdate={setCustomItems} locale={locale as "es" | "en"} />
+
+          {/* Catalog items */}
           {entriesList.length === 0 ? (
-            <div style={{ textAlign: "center", paddingTop: "3rem" }}>
+            <div style={{ textAlign: "center", paddingTop: "2rem" }}>
               <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "14px" }}>
                 Tu lista de cotización está vacía.
               </p>
@@ -154,7 +159,7 @@ export function RfqDrawer() {
         </div>
 
         {/* Footer */}
-        {entriesList.length > 0 && (
+        {(entriesList.length > 0 || customItems.filter(i => i.name.trim()).length > 0) && (
           <div
             style={{
               padding: "1rem 1.5rem 1.5rem",
@@ -322,6 +327,107 @@ function DrawerItem({
           boxSizing: "border-box",
         }}
       />
+    </div>
+  );
+}
+
+function CustomItemsDrawer({
+  items,
+  onUpdate,
+  locale,
+}: {
+  items: RfqCustomItem[];
+  onUpdate: (items: RfqCustomItem[]) => void;
+  locale: "es" | "en";
+}) {
+  const addItem = () => {
+    if (items.length >= 20) return;
+    onUpdate([...items, { id: `c-${Date.now()}`, name: "", qty: 1, unit: "" }]);
+  };
+  const removeItem = (id: string) => onUpdate(items.filter((i) => i.id !== id));
+  const updateItem = (id: string, field: keyof Omit<RfqCustomItem, "id">, value: string | number) =>
+    onUpdate(items.map((i) => (i.id === id ? { ...i, [field]: value } : i)));
+
+  const inputStyle: React.CSSProperties = {
+    height: "32px", padding: "0 0.5rem", fontSize: "12px",
+    color: "#f5f0e8", background: "rgba(255,255,255,0.05)",
+    border: "1px solid rgba(255,255,255,0.12)", borderRadius: "4px",
+    outline: "none", boxSizing: "border-box",
+  };
+
+  return (
+    <div
+      style={{
+        border: "1px dashed rgba(201,169,97,0.35)",
+        borderRadius: "6px",
+        padding: "0.875rem",
+        background: "rgba(201,169,97,0.04)",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.75rem", marginBottom: items.length > 0 ? "0.75rem" : 0 }}>
+        <div>
+          <div style={{ fontSize: "11px", fontWeight: 600, color: "#C9A961", textTransform: "uppercase", letterSpacing: "0.15em" }}>
+            {locale === "es" ? "¿No encuentras un producto?" : "Can't find a product?"}
+          </div>
+          <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", marginTop: "2px", lineHeight: 1.4 }}>
+            {locale === "es"
+              ? "Agrégalo directamente — lo cotizamos igual."
+              : "Add it directly — we'll quote it too."}
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={addItem}
+          disabled={items.length >= 20}
+          style={{
+            height: "28px", padding: "0 0.625rem", fontSize: "11px", whiteSpace: "nowrap",
+            background: "transparent", border: "1px solid rgba(201,169,97,0.45)",
+            borderRadius: "4px", color: "#C9A961", cursor: "pointer", flexShrink: 0,
+            opacity: items.length >= 20 ? 0.4 : 1,
+          }}
+        >
+          + {locale === "es" ? "Agregar" : "Add"}
+        </button>
+      </div>
+
+      {items.length > 0 && (
+        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+          {items.map((item) => (
+            <div key={item.id} style={{ display: "flex", gap: "5px", alignItems: "center" }}>
+              <input
+                type="text"
+                value={item.name}
+                onChange={(e) => updateItem(item.id, "name", e.target.value)}
+                placeholder={locale === "es" ? "Descripción…" : "Description…"}
+                style={{ ...inputStyle, flex: 1 }}
+              />
+              <input
+                type="number"
+                min={1}
+                value={item.qty}
+                onChange={(e) => updateItem(item.id, "qty", parseFloat(e.target.value) || 1)}
+                style={{ ...inputStyle, width: "52px", textAlign: "center" }}
+              />
+              <input
+                type="text"
+                value={item.unit}
+                onChange={(e) => updateItem(item.id, "unit", e.target.value)}
+                placeholder="ud"
+                style={{ ...inputStyle, width: "52px" }}
+              />
+              <button
+                type="button"
+                onClick={() => removeItem(item.id)}
+                aria-label={locale === "es" ? "Eliminar" : "Remove"}
+                style={{ color: "rgba(255,255,255,0.3)", background: "none", border: "none", cursor: "pointer", padding: "3px", flexShrink: 0, fontSize: "14px" }}
+                className="hover:!text-red-400 transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
