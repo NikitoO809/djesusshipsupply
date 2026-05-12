@@ -72,11 +72,11 @@ export async function generateMetadata({
   const copy = COPY[supported];
 
   const ogImage = {
-    url: "/og-image.svg",
+    url: `${SITE_URL}/api/og?locale=${supported}`,
     width: 1200,
     height: 630,
     alt: "De Jesús Ship Supply",
-    type: "image/svg+xml",
+    type: "image/png",
   };
 
   return {
@@ -103,6 +103,9 @@ export async function generateMetadata({
       "solid garbage",
     ],
     robots: { index: true, follow: true },
+    verification: {
+      google: process.env.NEXT_PUBLIC_GSC_VERIFICATION ?? "",
+    },
     icons: {
       icon: [
         { url: "/icon.svg", type: "image/svg+xml" },

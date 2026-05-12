@@ -187,7 +187,7 @@ export function buildPageMetadata(
       alternateLocale: [supported === "es" ? "en_US" : "es_DO"],
       images: [
         {
-          url: `${SITE_URL}/og-image.svg`,
+          url: `${SITE_URL}/api/og?locale=${supported}`,
           width: 1200,
           height: 630,
           alt: "De Jesús Ship Supply",
@@ -198,7 +198,7 @@ export function buildPageMetadata(
       card: "summary_large_image",
       title: copy.title,
       description: copy.description,
-      images: [`${SITE_URL}/og-image.svg`],
+      images: [`${SITE_URL}/api/og?locale=${supported}`],
     },
   };
 }
@@ -241,7 +241,15 @@ export function localBusinessJsonLd(locale: string) {
       { "@type": "Place", name: "Puerto de Manzanillo" },
     ],
     knowsLanguage: ["es", "en"],
-    sameAs: [],
+    sameAs: ["https://www.instagram.com/dejesusshipsupply"],
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 18.4861,
+      longitude: -69.9312,
+    },
+    priceRange: "$$",
+    currenciesAccepted: "USD, DOP, EUR",
+    paymentAccepted: "Bank transfer, Wire transfer",
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: [
