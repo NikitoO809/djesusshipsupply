@@ -28,6 +28,76 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return buildPageMetadata(locale, "/servicios/provisiones");
 }
 
+function faqProvisionesJsonLd(locale: string) {
+  const es = locale !== "en";
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: es
+          ? "¿Con cuánta anticipación debo solicitar las provisiones?"
+          : "How far in advance should I order provisions?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: es
+            ? "Recomendamos enviar la solicitud con al menos 24 horas de anticipación al arribo del buque. Para pedidos que incluyan bonded stores o productos especiales, el plazo mínimo es de 48 horas. Pedidos de último momento pueden atenderse con cargo adicional por servicio urgente, sujeto a disponibilidad."
+            : "We recommend submitting the request at least 24 hours before the vessel's arrival. For orders that include bonded stores or special products, the minimum lead time is 48 hours. Last-minute orders can be accommodated with an additional urgent service charge, subject to availability.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: es
+          ? "¿Qué productos incluyen las provisiones marítimas?"
+          : "What products are included in ship provisions?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: es
+            ? "Las provisiones marítimas abarcan víveres frescos (frutas, verduras, lácteos, carnes), productos congelados, alimentos secos y enlatados, bebidas alcohólicas y no alcohólicas, agua potable, y gases técnicos como CO₂, nitrógeno y acetileno. También gestionamos bonded stores (provisiones libres de impuestos de importación) bajo control aduanal."
+            : "Ship provisions include fresh stores (fruits, vegetables, dairy, meats), frozen products, dry and canned goods, alcoholic and non-alcoholic beverages, potable water, and technical gases such as CO₂, nitrogen, and acetylene. We also handle bonded stores (import duty-free provisions) under customs control.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: es
+          ? "¿Entregan a bordo en todos los puertos de RD?"
+          : "Do you deliver onboard at all DR ports?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: es
+            ? "Sí, operamos en los 8 puertos principales de República Dominicana: Caucedo, Río Haina, Boca Chica, Puerto Plata, Samaná, La Romana, San Pedro de Macorís y Manzanillo. La entrega se realiza directamente al costado del buque. Los tiempos de entrega varían según el puerto, con mayor disponibilidad logística en Caucedo y Río Haina."
+            : "Yes, we operate at all 8 main ports in the Dominican Republic: Caucedo, Río Haina, Boca Chica, Puerto Plata, Samaná, La Romana, San Pedro de Macorís, and Manzanillo. Delivery is made directly alongside the vessel. Delivery times vary by port, with greater logistical availability at Caucedo and Río Haina.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: es
+          ? "¿Aceptan listas en Excel o formato propio?"
+          : "Do you accept Excel lists or custom formats?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: es
+            ? "Sí, aceptamos la lista de provisiones en cualquier formato: Excel, PDF, lista de texto por correo o WhatsApp, o directamente a través de nuestro formulario de cotización en línea. También ofrecemos una plantilla Excel estándar que puede descargarse desde nuestra página de cotización."
+            : "Yes, we accept the provisions list in any format: Excel, PDF, plain text by email or WhatsApp, or directly through our online quotation form. We also offer a standard Excel template that can be downloaded from our quotation page.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: es
+          ? "¿Qué son los bonded stores y cómo pedirlos?"
+          : "What are bonded stores and how do I order them?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: es
+            ? "Los bonded stores son provisiones (principalmente alcohol, tabaco y algunos productos de lujo) que se suministran al buque sin pagar impuestos de importación dominicanos, ya que el consumo se realiza fuera de aguas nacionales. Para pedirlos, envíe la lista con al menos 48 horas de anticipación. Gestionamos el trámite aduanal completo en coordinación con el despachante de aduanas del puerto."
+            : "Bonded stores are provisions (mainly alcohol, tobacco, and some luxury goods) supplied to the vessel without paying Dominican import taxes, since consumption takes place outside national waters. To order them, send the list at least 48 hours in advance. We handle the complete customs process in coordination with the port customs broker.",
+        },
+      },
+    ],
+  };
+}
+
 export default async function ProvisionesPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
@@ -55,6 +125,7 @@ export default async function ProvisionesPage({ params }: Props) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd({ locale, serviceType: "provisions" })) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd({ locale, path: "/servicios/provisiones" })) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqProvisionesJsonLd(locale)) }} />
       <PageHeader
         kicker={t("kicker")}
         title={t("h1")}

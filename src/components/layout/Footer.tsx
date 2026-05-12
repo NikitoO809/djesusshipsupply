@@ -85,6 +85,14 @@ export async function Footer() {
                 {tNav("sobreNosotros")}
               </Link>
             </li>
+            <li>
+              <Link
+                href={link("/blog")}
+                className="hover:text-gold transition-colors"
+              >
+                {tNav("blog")}
+              </Link>
+            </li>
           </ul>
         </div>
 

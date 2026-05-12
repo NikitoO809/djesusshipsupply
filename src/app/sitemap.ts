@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
 import { PORTS } from "@/lib/ports";
+import { getAllSlugs } from "@/lib/blog";
 
 const SITE_URL = (
   process.env.SITE_URL ??
@@ -64,5 +65,40 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
-  return [...staticEntries, ...portEntries];
+  const blogIndexEntries = routing.locales.flatMap((locale) => {
+    const languages: Record<string, string> = {};
+    for (const alt of routing.locales) {
+      languages[alt] = `${SITE_URL}/${alt}/blog`;
+    }
+    languages["x-default"] = `${SITE_URL}/es/blog`;
+    return [
+      {
+        url: `${SITE_URL}/${locale}/blog`,
+        lastModified: now,
+        changeFrequency: "weekly" as const,
+        priority: 0.6,
+        alternates: { languages },
+      },
+    ];
+  });
+
+  const blogSlugs = getAllSlugs();
+  const blogArticleEntries = routing.locales.flatMap((locale) =>
+    blogSlugs.map((slug) => {
+      const languages: Record<string, string> = {};
+      for (const alt of routing.locales) {
+        languages[alt] = `${SITE_URL}/${alt}/blog/${slug}`;
+      }
+      languages["x-default"] = `${SITE_URL}/es/blog/${slug}`;
+      return {
+        url: `${SITE_URL}/${locale}/blog/${slug}`,
+        lastModified: now,
+        changeFrequency: "monthly" as const,
+        priority: 0.6,
+        alternates: { languages },
+      };
+    })
+  );
+
+  return [...staticEntries, ...portEntries, ...blogIndexEntries, ...blogArticleEntries];
 }

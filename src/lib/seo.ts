@@ -131,6 +131,18 @@ export const PAGE_SEO: Record<string, Record<Locale, Copy>> = {
         "Integrated maritime supply platform: industrial technical supplies, onboard provisions and MARPOL waste management across the 8 main ports of the Dominican Republic.",
     },
   },
+  "/blog": {
+    es: {
+      title: "Blog Marítimo — Guías y recursos para capitanes y agentes navieros",
+      description:
+        "Artículos técnicos y guías prácticas sobre MARPOL, provisiones marítimas, puertos de República Dominicana, bonded stores y operaciones de ship chandler en el Caribe.",
+    },
+    en: {
+      title: "Maritime Blog — Guides and resources for captains and port agents",
+      description:
+        "Technical articles and practical guides on MARPOL, ship provisions, Dominican Republic ports, bonded stores, and ship chandler operations in the Caribbean.",
+    },
+  },
   "/privacidad": {
     es: {
       title: "Política de Privacidad — De Jesús Ship Supply",
@@ -365,6 +377,7 @@ export function localBusinessJsonLd(locale: string) {
 
 const BREADCRUMB_STEPS: Record<string, Array<{ es: string; en: string; path?: string }>> = {
   "/sobre-nosotros": [{ es: "Sobre nosotros", en: "About us", path: "/sobre-nosotros" }],
+  "/blog": [{ es: "Blog", en: "Blog", path: "/blog" }],
   "/servicios/provisiones": [
     { es: "Servicios", en: "Services" },
     { es: "Provisiones marítimas", en: "Ship provisions", path: "/servicios/provisiones" },
