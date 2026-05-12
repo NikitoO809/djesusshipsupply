@@ -435,5 +435,74 @@
       "reviewProvisionsSection": "Provisions",
       "reviewCombinedNote": "Combined quote — technical supplies and provisions are sent in a single request."
     }
+  },
+  "ports_detail": {
+    "kicker": "Ship Chandler at",
+    "servicesTitle": "Services available at this port",
+    "servicesKicker": "Local operations",
+    "processTitle": "How to request our services",
+    "processKicker": "Simple process",
+    "step1Title": "Contact us or quote online",
+    "step1Body": "Submit your request by form, WhatsApp or email. Please include ETA, port of call and type of service required.",
+    "step2Title": "Confirmed in under 2 hours",
+    "step2Body": "Our team reviews availability and responds with closed pricing before your vessel arrives in port.",
+    "step3Title": "We coordinate with your shipping agent",
+    "step3Body": "We work directly with the port agent to ensure punctuality and complete documentation.",
+    "step4Title": "Onboard service with full documentation",
+    "step4Body": "We execute the service dockside and deliver all required documents: Oil Record Book entries, receipts and certificates.",
+    "serviceProvisiones": "Ship provisions",
+    "serviceProvisionesBody": "Fresh, frozen and dry provisions, bonded stores, potable water and technical gases. 266+ products delivered directly onboard.",
+    "serviceDesechos": "MARPOL waste management",
+    "serviceDesechosBody": "Certified collection and disposal of oily residues under MARPOL Annex I. Complete documentation for the Oil Record Book.",
+    "serviceTecnico": "Naval technical supplies",
+    "serviceTecnicoBody": "Spare parts and materials: electrical, hardware, safety, refrigeration and more. Direct delivery to the vessel.",
+    "caucedo": {
+      "h1": "Ship Chandler at Port of Caucedo — Provisions & MARPOL",
+      "subtitle": "The Caribbean's largest container terminal, operated by DP World ITABO. We serve container ships, general cargo vessels and service craft with onboard provisions and certified MARPOL management.",
+      "body": "Port of Caucedo is the nerve centre of Dominican maritime commerce. With direct access via the Southern Highway and deep-draught berths, it receives hundreds of liner vessels every week from the world's major shipping companies. De Jesús Ship Supply operates at Caucedo with 24-hour provision delivery and MARPOL collection coordinated with DP World. We provide confirmed quotes before your vessel arrives and immediate documentation for the Oil Record Book.",
+      "ctaTitle": "Next port call at Caucedo? Get a quote now."
+    },
+    "rio-haina": {
+      "h1": "Ship Chandler at Port of Río Haina — Provisions & MARPOL",
+      "subtitle": "High-traffic multipurpose terminal in San Cristóbal Province. We manage provisions and MARPOL waste for general cargo, bulk carriers, tankers and industrial vessels.",
+      "body": "Port of Río Haina is the Dominican Republic's busiest port by general cargo volume. Its Eastern and Western terminals handle vessels of multiple draughts with quick access to greater Santo Domingo. We operate with coordinated logistics for short and long port calls, delivering fresh and processed provisions in under 24 hours. Oily waste management is carried out by certified tanker trucks, with complete MARPOL documentation delivered on the spot.",
+      "ctaTitle": "Port call at Río Haina? Request a quote here."
+    },
+    "boca-chica": {
+      "h1": "Ship Chandler at Port of Boca Chica — Provisions & MARPOL",
+      "subtitle": "Fishing and small craft terminal in Santo Domingo Province. We serve yachts, workboats and fishing vessels with provisions and environmental compliance services.",
+      "body": "Port of Boca Chica primarily serves the regional fishing fleet and recreational and service vessels operating in the southern Dominican waters. We supply fresh provisions, potable water and fuel to meet each vessel's needs. For vessels with MARPOL obligations, we arrange certified bilge water and oily residue collection with transport from our national logistics network. Our proximity to Santo Domingo enables agile logistics, even for last-minute requests.",
+      "ctaTitle": "Arriving at Boca Chica? Contact us now."
+    },
+    "puerto-plata": {
+      "h1": "Ship Chandler at Puerto Plata Port — Cruise provisions & MARPOL",
+      "subtitle": "Main tourism port on the Dominican Republic's north coast. We supply provisions for cruise ships and cargo vessels, with MARPOL management and technical supplies coordinated through port agents.",
+      "body": "Puerto Plata hosts cruise calls from major international lines that stop on the north coast of the Dominican Republic. The port also handles general cargo bound for the Cibao region. De Jesús Ship Supply coordinates fresh provisions, bonded stores and beverages for cruise crews, with delivery directly onboard within the port call window. For cargo vessels, we manage technical supplies and certified oily waste collection with complete MARPOL documentation for the Oil Record Book.",
+      "ctaTitle": "Port call at Puerto Plata? Request your quote."
+    },
+    "samana": {
+      "h1": "Ship Chandler at Port of Samaná — Provisions & MARPOL",
+      "subtitle": "Tourism port on the scenic Samaná Peninsula. We serve cruise ships, ferries and recreational craft with onboard provisions, potable water and certified MARPOL waste management.",
+      "body": "Port of Samaná receives regional cruise ships and ferries connecting to Cayo Levantado and other tourist routes. It is a lower-volume but highly seasonal port, especially active between November and April. We offer provision services tailored to short port calls, delivering fresh produce, bottled water and technical gases. For vessels with MARPOL obligations, we arrange certified bilge and solid waste collection via our national logistics network.",
+      "ctaTitle": "Next port call at Samaná? Quote in minutes."
+    },
+    "la-romana": {
+      "h1": "Ship Chandler at Port of La Romana — Provisions & MARPOL",
+      "subtitle": "Sugar export port and cruise call destination on the southeast coast. We serve bulk carriers, luxury cruise ships and workboats with marine provisions and MARPOL waste management.",
+      "body": "Port of La Romana combines two distinct operations: the Casa de Campo sugar terminal, which exports bulk sugar to Europe and North America, and the cruise pier receiving luxury vessels including Celebrity Cruises. De Jesús Ship Supply supplies fresh, frozen and bonded store provisions for cruise crews, plus technical provisions for bulk carriers. Our MARPOL service covers sludge and bilge water collection with immediate documentation delivered to the master.",
+      "ctaTitle": "Port call at La Romana? Request a quote now."
+    },
+    "san-pedro-de-macoris": {
+      "h1": "Ship Chandler at Port of San Pedro de Macorís — Provisions & MARPOL",
+      "subtitle": "Industrial port on the south Dominican coast. We supply provisions and MARPOL oily waste management for tankers, industrial vessels and general cargo ships operating at this terminal.",
+      "body": "Port of San Pedro de Macorís is an industrial terminal handling fuel, cement and other bulk cargoes from the southeastern region. It receives clean and dirty product tankers as well as general cargo vessels serving the local free trade zone. We supply provisions for crews on multi-day port calls, and provide MARPOL waste management for tankers and product vessels with high oily residue output. Complete documentation is delivered on the same service visit.",
+      "ctaTitle": "Port call at San Pedro de Macorís? Contact us."
+    },
+    "manzanillo": {
+      "h1": "Ship Chandler at Port of Manzanillo — Provisions & MARPOL",
+      "subtitle": "Banana and cargo port on the northwest coast in Montecristi Province. We serve reefer vessels, refrigerated container ships and cargo craft with provisions and MARPOL services.",
+      "body": "Port of Manzanillo, in the bay of the same name in Montecristi Province, is the Dominican Republic's main banana export hub. It receives reefer and refrigerated container vessels from companies including Chiquita and Dole on regular schedules requiring quality fresh provisions. De Jesús Ship Supply coordinates chilled food supplies, potable water and technical gases for these vessels, with transport logistics from our central base. MARPOL management includes certified oily residue collection with Oil Record Book documentation.",
+      "ctaTitle": "Next port call at Manzanillo? Get a quote now."
+    }
   }
 }

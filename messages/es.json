@@ -435,5 +435,74 @@
       "reviewProvisionsSection": "Provisiones",
       "reviewCombinedNote": "Cotización combinada — suministros técnicos y provisiones se envían en una sola solicitud."
     }
+  },
+  "ports_detail": {
+    "kicker": "Ship Chandler en",
+    "servicesTitle": "Servicios disponibles en este puerto",
+    "servicesKicker": "Operación local",
+    "processTitle": "Cómo solicitar nuestros servicios",
+    "processKicker": "Proceso simple",
+    "step1Title": "Contáctenos o cotice online",
+    "step1Body": "Envíe su solicitud por formulario, WhatsApp o email. Indicar fecha de arribo (ETA), puerto y tipo de servicio requerido.",
+    "step2Title": "Confirmamos en menos de 2 horas",
+    "step2Body": "Nuestro equipo revisa disponibilidad y le responde con precio cerrado antes de que su buque llegue a puerto.",
+    "step3Title": "Coordinamos con su agente naviero",
+    "step3Body": "Trabajamos directamente con el agente de escala para garantizar puntualidad y documentación completa.",
+    "step4Title": "Servicio a bordo con documentación",
+    "step4Body": "Ejecutamos el servicio en el muelle y entregamos toda la documentación requerida: Oil Record Book, recibos y certificados.",
+    "serviceProvisiones": "Provisiones marítimas",
+    "serviceProvisionesBody": "Víveres frescos, congelados y secos, bonded stores, agua potable y gases técnicos. Más de 266 productos entregados directamente a bordo.",
+    "serviceDesechos": "Gestión de desechos MARPOL",
+    "serviceDesechosBody": "Recolección y disposición certificada de residuos oleosos bajo MARPOL Anexo I. Documentación completa para el Oil Record Book.",
+    "serviceTecnico": "Suministros técnicos navales",
+    "serviceTecnicoBody": "Repuestos y materiales: eléctricos, ferretería, seguridad, refrigeración y más. Entrega directa al buque.",
+    "caucedo": {
+      "h1": "Ship Chandler en Puerto de Caucedo — Provisiones y MARPOL",
+      "subtitle": "El mayor terminal de contenedores del Caribe, operado por DP World ITABO. Atendemos escalas de portacontenedores, buques de carga general y embarcaciones de servicio con provisiones a bordo y gestión MARPOL certificada.",
+      "body": "Puerto de Caucedo es el centro neurálgico del comercio marítimo dominicano. Con acceso directo desde la Autopista del Sur y muelles con calado profundo, recibe semanalmente cientos de buques de línea de las principales navieras globales. De Jesús Ship Supply opera en Caucedo con tiempos de entrega de provisiones en 24 horas y recolección MARPOL coordinada con DP World. Ofrecemos cotización confirmada antes del arribo del buque y documentación inmediata para el Oil Record Book.",
+      "ctaTitle": "¿Próxima escala en Caucedo? Cotice ahora."
+    },
+    "rio-haina": {
+      "h1": "Ship Chandler en Puerto Río Haina — Provisiones y MARPOL",
+      "subtitle": "Terminal multipropósito de alto tráfico en la provincia San Cristóbal. Gestionamos provisiones y residuos MARPOL para buques de carga general, graneleros, tanqueros y buques industriales.",
+      "body": "Puerto Río Haina es el puerto más activo de República Dominicana por volumen de carga general. Sus terminales Oriental y Occidental atienden buques de múltiples calados con acceso rápido a la zona metropolitana de Santo Domingo. Operamos con logística coordinada para escalas cortas y largas, con suministro de provisiones frescas y procesadas en menos de 24 horas. La gestión de residuos oleosos se ejecuta con cisterneros certificados y documentación MARPOL completa entregada en el momento del servicio.",
+      "ctaTitle": "¿Escala en Río Haina? Solicite cotización aquí."
+    },
+    "boca-chica": {
+      "h1": "Ship Chandler en Puerto de Boca Chica — Provisiones y MARPOL",
+      "subtitle": "Terminal pesquero y de embarcaciones menores en la provincia Santo Domingo. Atendemos yates, embarcaciones de trabajo y buques pesqueros con provisiones y servicios de cumplimiento ambiental.",
+      "body": "Puerto de Boca Chica sirve principalmente a la flota pesquera regional y a embarcaciones de recreo y servicio que operan en las aguas del sur dominicano. Proveemos provisiones frescas, agua potable y combustible de acuerdo a las necesidades de cada embarcación. Para buques con obligaciones MARPOL, coordinamos la recolección de sentina y residuos oleosos con transporte certificado. Nuestra cercanía con Santo Domingo permite respuesta logística ágil, incluso para solicitudes de último momento.",
+      "ctaTitle": "¿Arribo a Boca Chica? Contáctenos ahora."
+    },
+    "puerto-plata": {
+      "h1": "Ship Chandler en Puerto Plata — Provisiones para cruceros y MARPOL",
+      "subtitle": "Principal puerto turístico de la costa norte dominicana. Proveemos provisiones para cruceros y buques de carga, con gestión MARPOL y suministros técnicos en coordinación con agentes de escala.",
+      "body": "Puerto Plata atiende cruceros de las principales líneas internacionales que hacen escala en la costa norte de República Dominicana. El puerto también maneja carga general destinada a la región del Cibao. De Jesús Ship Supply coordina provisiones de víveres frescos, bonded stores y bebidas para cruceros, con entrega directa a bordo dentro del horario de escala. Para buques de carga, gestionamos suministros técnicos y la recolección de residuos oleosos con documentación MARPOL completa para el Oil Record Book.",
+      "ctaTitle": "¿Escala en Puerto Plata? Solicite su cotización."
+    },
+    "samana": {
+      "h1": "Ship Chandler en Puerto de Samaná — Provisiones y MARPOL",
+      "subtitle": "Puerto turístico en la pintoresca Península de Samaná. Atendemos cruceros, ferrys y embarcaciones de recreo con provisiones a bordo, agua potable y gestión certificada de residuos MARPOL.",
+      "body": "Puerto de Samaná recibe cruceros regionales y ferrys que conectan con la isla de Cayo Levantado y otras rutas turísticas. Es un puerto de menor volumen pero alta frecuencia estacional, especialmente entre noviembre y abril. Ofrecemos servicio de provisiones adaptado a escalas cortas, con entrega de productos frescos, agua embotellada y gases técnicos. Para embarcaciones con requerimientos MARPOL, coordinamos la recolección de sentina y sólidos con transporte certificado desde nuestra red logística nacional.",
+      "ctaTitle": "¿Próxima escala en Samaná? Cotice en minutos."
+    },
+    "la-romana": {
+      "h1": "Ship Chandler en Puerto de La Romana — Provisiones y MARPOL",
+      "subtitle": "Puerto de exportación azucarera y escala de cruceros en la costa sureste. Atendemos buques graneleros, cruceros de lujo y embarcaciones de trabajo con provisiones marítimas y gestión de desechos MARPOL.",
+      "body": "Puerto de La Romana combina dos operaciones bien diferenciadas: el terminal azucarero de Casa de Campo, que exporta azúcar a granel hacia Europa y Norteamérica, y el muelle turístico que recibe cruceros de lujo como los de Celebrity Cruises. De Jesús Ship Supply provee víveres frescos, congelados y bonded stores para las tripulaciones de cruceros, así como provisiones técnicas para buques graneleros. La gestión MARPOL incluye recolección de sludge y sentina con documentación inmediata para el capitán.",
+      "ctaTitle": "¿Escala en La Romana? Solicite cotización ahora."
+    },
+    "san-pedro-de-macoris": {
+      "h1": "Ship Chandler en San Pedro de Macorís — Provisiones y MARPOL",
+      "subtitle": "Puerto industrial en la costa sur dominicana. Proveemos provisiones y gestión de residuos oleosos MARPOL para buques industriales, tanqueros y de carga general que operan en este terminal.",
+      "body": "Puerto de San Pedro de Macorís es un terminal industrial que maneja combustible, cemento y otras cargas a granel provenientes de la región del sureste. Recibe tanqueros de producto limpio y sucio, así como buques de carga general con descarga en la zona franca local. Operamos con suministro de provisiones para tripulaciones que realizan escalas de varios días, y con servicio de gestión MARPOL para tanqueros y buques de producto con alta generación de residuos oleosos. Documentación completa entregada en el mismo servicio.",
+      "ctaTitle": "¿Escala en San Pedro de Macorís? Contáctenos."
+    },
+    "manzanillo": {
+      "h1": "Ship Chandler en Puerto de Manzanillo — Provisiones y MARPOL",
+      "subtitle": "Puerto bananero y de carga en la costa noroeste, provincia Montecristi. Atendemos buques frigoríficos, portacontenedores refrigerados y embarcaciones de carga con provisiones y servicios MARPOL.",
+      "body": "Puerto de Manzanillo, en la bahía homónima de la provincia Montecristi, es el principal punto de exportación bananera de República Dominicana. Recibe buques frigoríficos y reefer de empresas como Chiquita y Dole, con escalas regulares que requieren provisiones frescas de calidad. De Jesús Ship Supply coordina suministro de víveres refrigerados, agua potable y gases técnicos para estos buques, con logística de transporte desde nuestra base central. La gestión MARPOL incluye recolección certificada de residuos oleosos con documentación para el Oil Record Book.",
+      "ctaTitle": "¿Próxima escala en Manzanillo? Cotice ahora."
+    }
   }
 }

@@ -155,6 +155,102 @@ export const PAGE_SEO: Record<string, Record<Locale, Copy>> = {
         "Terms and conditions applicable to ship provisioning and MARPOL waste management services in the Dominican Republic.",
     },
   },
+  "/puertos/caucedo": {
+    es: {
+      title: "Ship Chandler en Puerto de Caucedo — Provisiones y MARPOL RD",
+      description:
+        "Servicios de ship chandler en Puerto de Caucedo: provisiones marítimas, gestión de desechos MARPOL y suministros técnicos. El mayor terminal de contenedores del Caribe. Respuesta 24/7.",
+    },
+    en: {
+      title: "Ship Chandler at Port of Caucedo — Provisions & MARPOL DR",
+      description:
+        "Ship chandler services at Port of Caucedo: ship provisions, MARPOL waste management and technical supplies. The Caribbean's largest container terminal. 24/7 response.",
+    },
+  },
+  "/puertos/rio-haina": {
+    es: {
+      title: "Ship Chandler en Puerto Río Haina — Provisiones y MARPOL RD",
+      description:
+        "Servicios de ship chandler en Puerto Río Haina: provisiones marítimas, gestión de residuos oleosos MARPOL y suministros industriales. Terminal multipropósito de alto tráfico en República Dominicana.",
+    },
+    en: {
+      title: "Ship Chandler at Port of Río Haina — Provisions & MARPOL DR",
+      description:
+        "Ship chandler services at Port of Río Haina: ship provisions, MARPOL oily waste management and industrial supplies. High-traffic multipurpose terminal in the Dominican Republic.",
+    },
+  },
+  "/puertos/boca-chica": {
+    es: {
+      title: "Ship Chandler en Puerto de Boca Chica — Provisiones y MARPOL RD",
+      description:
+        "Servicios de ship chandler en Puerto de Boca Chica: provisiones marítimas, gestión de desechos MARPOL y suministros navales. Terminal pesquero y embarcaciones menores en Santo Domingo.",
+    },
+    en: {
+      title: "Ship Chandler at Port of Boca Chica — Provisions & MARPOL DR",
+      description:
+        "Ship chandler services at Port of Boca Chica: ship provisions, MARPOL waste management and marine supplies. Fishing and small craft terminal near Santo Domingo.",
+    },
+  },
+  "/puertos/puerto-plata": {
+    es: {
+      title: "Ship Chandler en Puerto Plata — Provisiones cruceros y MARPOL RD",
+      description:
+        "Servicios de ship chandler en Puerto Plata: provisiones para cruceros y carga, gestión de desechos MARPOL. Principal puerto turístico de la costa norte de República Dominicana.",
+    },
+    en: {
+      title: "Ship Chandler at Puerto Plata Port — Cruise provisions & MARPOL DR",
+      description:
+        "Ship chandler services at Puerto Plata Port: cruise and cargo provisions, MARPOL waste management. Main tourism port on the north coast of the Dominican Republic.",
+    },
+  },
+  "/puertos/samana": {
+    es: {
+      title: "Ship Chandler en Puerto de Samaná — Provisiones y MARPOL RD",
+      description:
+        "Servicios de ship chandler en Puerto de Samaná: provisiones marítimas para cruceros y ferrys, gestión de desechos MARPOL. Puerto turístico en la península de Samaná, República Dominicana.",
+    },
+    en: {
+      title: "Ship Chandler at Port of Samaná — Provisions & MARPOL DR",
+      description:
+        "Ship chandler services at Port of Samaná: marine provisions for cruise and ferry vessels, MARPOL waste management. Tourism port on the Samaná Peninsula, Dominican Republic.",
+    },
+  },
+  "/puertos/la-romana": {
+    es: {
+      title: "Ship Chandler en Puerto de La Romana — Provisiones y MARPOL RD",
+      description:
+        "Servicios de ship chandler en Puerto de La Romana: provisiones marítimas para cruceros y buques azucareros, gestión de desechos MARPOL. Costa sureste de República Dominicana.",
+    },
+    en: {
+      title: "Ship Chandler at Port of La Romana — Provisions & MARPOL DR",
+      description:
+        "Ship chandler services at Port of La Romana: marine provisions for cruise and bulk sugar vessels, MARPOL waste management. Southeast coast of the Dominican Republic.",
+    },
+  },
+  "/puertos/san-pedro-de-macoris": {
+    es: {
+      title: "Ship Chandler en San Pedro de Macorís — Provisiones y MARPOL RD",
+      description:
+        "Servicios de ship chandler en Puerto de San Pedro de Macorís: provisiones marítimas, gestión de desechos MARPOL y suministros industriales. Puerto industrial clave de la costa sur dominicana.",
+    },
+    en: {
+      title: "Ship Chandler at Port of San Pedro de Macorís — Provisions & MARPOL DR",
+      description:
+        "Ship chandler services at Port of San Pedro de Macorís: ship provisions, MARPOL waste management and industrial supplies. Key industrial port on the south coast of the Dominican Republic.",
+    },
+  },
+  "/puertos/manzanillo": {
+    es: {
+      title: "Ship Chandler en Puerto de Manzanillo — Provisiones y MARPOL RD",
+      description:
+        "Servicios de ship chandler en Puerto de Manzanillo: provisiones marítimas, gestión de desechos MARPOL y suministros navales. Puerto bananero y de carga en la costa noroeste de República Dominicana.",
+    },
+    en: {
+      title: "Ship Chandler at Port of Manzanillo — Provisions & MARPOL DR",
+      description:
+        "Ship chandler services at Port of Manzanillo: ship provisions, MARPOL waste management and marine supplies. Banana and cargo port on the northwest coast of the Dominican Republic.",
+    },
+  },
 };
 
 export function buildPageMetadata(
@@ -294,6 +390,38 @@ const BREADCRUMB_STEPS: Record<string, Array<{ es: string; en: string; path?: st
   ],
   "/privacidad": [{ es: "Privacidad", en: "Privacy", path: "/privacidad" }],
   "/terminos": [{ es: "Términos", en: "Terms", path: "/terminos" }],
+  "/puertos/caucedo": [
+    { es: "Puertos", en: "Ports", path: "/puertos" },
+    { es: "Puerto de Caucedo", en: "Port of Caucedo", path: "/puertos/caucedo" },
+  ],
+  "/puertos/rio-haina": [
+    { es: "Puertos", en: "Ports", path: "/puertos" },
+    { es: "Puerto Río Haina", en: "Port of Río Haina", path: "/puertos/rio-haina" },
+  ],
+  "/puertos/boca-chica": [
+    { es: "Puertos", en: "Ports", path: "/puertos" },
+    { es: "Puerto de Boca Chica", en: "Port of Boca Chica", path: "/puertos/boca-chica" },
+  ],
+  "/puertos/puerto-plata": [
+    { es: "Puertos", en: "Ports", path: "/puertos" },
+    { es: "Puerto Plata", en: "Puerto Plata Port", path: "/puertos/puerto-plata" },
+  ],
+  "/puertos/samana": [
+    { es: "Puertos", en: "Ports", path: "/puertos" },
+    { es: "Puerto de Samaná", en: "Port of Samaná", path: "/puertos/samana" },
+  ],
+  "/puertos/la-romana": [
+    { es: "Puertos", en: "Ports", path: "/puertos" },
+    { es: "Puerto de La Romana", en: "Port of La Romana", path: "/puertos/la-romana" },
+  ],
+  "/puertos/san-pedro-de-macoris": [
+    { es: "Puertos", en: "Ports", path: "/puertos" },
+    { es: "Puerto de San Pedro de Macorís", en: "Port of San Pedro de Macorís", path: "/puertos/san-pedro-de-macoris" },
+  ],
+  "/puertos/manzanillo": [
+    { es: "Puertos", en: "Ports", path: "/puertos" },
+    { es: "Puerto de Manzanillo", en: "Port of Manzanillo", path: "/puertos/manzanillo" },
+  ],
 };
 
 export function breadcrumbJsonLd({ locale, path }: { locale: string; path: string }) {

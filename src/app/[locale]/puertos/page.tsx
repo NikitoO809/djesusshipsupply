@@ -5,6 +5,7 @@ import { PortCard } from "@/components/sections/PortCard";
 import { CTASection } from "@/components/sections/CTASection";
 import { Stagger, StaggerItem } from "@/components/sections/FadeIn";
 import { buildPageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { PORTS } from "@/lib/ports";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -19,19 +20,20 @@ export default async function PuertosPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("ports");
+  const td = await getTranslations("ports_detail");
 
   const link = (path: string) => `/${locale}${path}`;
 
-  const ports = [
-    { name: t("p1Name"), body: t("p1Body") },
-    { name: t("p2Name"), body: t("p2Body") },
-    { name: t("p3Name"), body: t("p3Body") },
-    { name: t("p4Name"), body: t("p4Body") },
-    { name: t("p5Name"), body: t("p5Body") },
-    { name: t("p6Name"), body: t("p6Body") },
-    { name: t("p7Name"), body: t("p7Body") },
-    { name: t("p8Name"), body: t("p8Body") },
-  ];
+  const ports = PORTS.map((port) => {
+    const portCopy = td.raw(port.slug as Parameters<typeof td.raw>[0]) as {
+      subtitle: string;
+    };
+    return {
+      name: locale === "es" ? port.nameEs : port.nameEn,
+      body: portCopy.subtitle,
+      slug: port.slug,
+    };
+  });
 
   return (
     <>
@@ -49,7 +51,12 @@ export default async function PuertosPage({ params }: Props) {
           <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {ports.map((p, i) => (
               <StaggerItem key={i}>
-                <PortCard index={i + 1} name={p.name} body={p.body} />
+                <PortCard
+                  index={i + 1}
+                  name={p.name}
+                  body={p.body}
+                  href={link(`/puertos/${p.slug}`)}
+                />
               </StaggerItem>
             ))}
           </Stagger>
