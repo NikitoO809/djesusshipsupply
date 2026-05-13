@@ -604,8 +604,35 @@ export async function POST(request: Request) {
       ? createHmac("sha256", leadSecret).update(`${erpTimestamp}.${erpBody}`).digest("hex")
       : null;
     after(async () => {
+      // Si el push al ERP falla (caído, URL mal, firma mala, etc.) el lead
+      // se perdería sin alerta. Mandamos un email de respaldo al admin con
+      // el JSON crudo para que pueda crearlo a mano.
+      const notifyAdminFailure = async (reason: string) => {
+        if (!apiKey || !toAddress) return;
+        try {
+          const resendFallback = new Resend(apiKey);
+          await resendFallback.emails.send({
+            from: fromAddress,
+            to: toAddress,
+            subject: `⚠️ Lead NO sincronizado con ERP · ${sanitizeHeaderValue(payload.vesselName)}`,
+            html:
+              `<h2>El lead llegó al email pero NO al panel del ERP</h2>` +
+              `<p><strong>Motivo:</strong> ${reason}</p>` +
+              `<p>Cliente: ${payload.contactName} &lt;${payload.email}&gt;</p>` +
+              `<p>Buque: ${payload.vesselName} · Puerto: ${payload.port}</p>` +
+              `<p>Crea el lead manualmente en el ERP con estos datos:</p>` +
+              `<pre style="background:#f4f4f4;padding:12px;border-radius:6px;font-size:12px;overflow:auto;">` +
+              erpBody.replace(/</g, "&lt;") +
+              `</pre>`,
+          });
+        } catch (mailErr) {
+          console.error("[cotizar] fallback email failed:", mailErr);
+        }
+      };
+
       if (!leadSecret) {
         console.warn("[cotizar] LEAD_SHARED_SECRET no configurado — push al ERP omitido");
+        await notifyAdminFailure("LEAD_SHARED_SECRET no configurado en el sitio web");
         return;
       }
       try {
@@ -619,10 +646,13 @@ export async function POST(request: Request) {
           body: erpBody,
         });
         if (!res.ok) {
-          console.error(`[cotizar] ERP lead sync HTTP ${res.status}`);
+          const statusText = `HTTP ${res.status}`;
+          console.error(`[cotizar] ERP lead sync ${statusText}`);
+          await notifyAdminFailure(`Respuesta del ERP: ${statusText}`);
         }
       } catch (e) {
         console.error("[cotizar] ERP lead sync failed:", e);
+        await notifyAdminFailure(`Excepción de red: ${e instanceof Error ? e.message : String(e)}`);
       }
     });
     // ─────────────────────────────────────────────────────────────────
