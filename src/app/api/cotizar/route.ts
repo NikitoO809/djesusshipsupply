@@ -1,4 +1,5 @@
 import { NextResponse, after } from "next/server";
+import { createHmac } from "node:crypto";
 import { Resend } from "resend";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
@@ -594,13 +595,32 @@ export async function POST(request: Request) {
       volume:         str(p.volume),
       mode:           str(p.mode),
     });
+    // Firma HMAC-SHA256 sobre `${timestamp}.${body}` para que el ERP
+    // verifique que el lead viene realmente de este servidor (no de un
+    // bot que descubrió la URL pública de /api/leads).
+    const leadSecret = process.env.LEAD_SHARED_SECRET;
+    const erpTimestamp = Date.now().toString();
+    const erpSignature = leadSecret
+      ? createHmac("sha256", leadSecret).update(`${erpTimestamp}.${erpBody}`).digest("hex")
+      : null;
     after(async () => {
+      if (!leadSecret) {
+        console.warn("[cotizar] LEAD_SHARED_SECRET no configurado — push al ERP omitido");
+        return;
+      }
       try {
-        await fetch(`${erpUrl}/api/leads`, {
+        const res = await fetch(`${erpUrl}/api/leads`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "x-djss-timestamp": erpTimestamp,
+            "x-djss-signature": erpSignature!,
+          },
           body: erpBody,
         });
+        if (!res.ok) {
+          console.error(`[cotizar] ERP lead sync HTTP ${res.status}`);
+        }
       } catch (e) {
         console.error("[cotizar] ERP lead sync failed:", e);
       }
