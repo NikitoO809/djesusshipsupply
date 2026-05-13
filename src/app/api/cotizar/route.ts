@@ -330,7 +330,8 @@ function validatePayload(
 export async function POST(request: Request) {
   const origin = request.headers.get("origin");
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
-  const allowedOrigins = [siteUrl, "http://localhost:3000", "http://localhost:3001"].filter(Boolean);
+  const wwwSiteUrl = siteUrl.replace("://", "://www.");
+  const allowedOrigins = [siteUrl, wwwSiteUrl, "http://localhost:3000", "http://localhost:3001"].filter(Boolean);
   const isProd = process.env.NODE_ENV === "production";
 
   // In production, always require a valid Origin header (prevents server-side CSRF).
