@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { Resend } from "resend";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
@@ -559,11 +559,9 @@ export async function POST(request: Request) {
       console.error("[cotizar] customer confirmation error:", customerRes.error);
     }
 
-    // ── Enviar lead al ERP (fire-and-forget, no bloquea) ────────────
+    // ── Enviar lead al ERP usando after() para que Vercel no mate el fetch ──
     const erpUrl = process.env.ERP_URL ?? "https://dejesus-erp.vercel.app";
     const p = payload as Record<string, unknown>;
-    // Para el tipo "unified", los productos de provisiones están en provisionsItems
-    // y los técnicos en technicalItems. Normalizamos a items[] para el ERP.
     const erpItems = type === "unified"
       ? (Array.isArray(p.provisionsItems) ? p.provisionsItems : [])
       : (Array.isArray(p.items) ? p.items : []);
@@ -571,28 +569,39 @@ export async function POST(request: Request) {
       ? (Array.isArray(p.items) ? p.items : Array.isArray(p.technicalItems) ? p.technicalItems : [])
       : [];
     const str = (v: unknown) => (typeof v === "string" && v.trim() ? v.trim() : undefined);
-    fetch(`${erpUrl}/api/leads`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nombre:         str(p.contactName),
-        empresa:        str(p.company),
-        email:          str(p.email),
-        telefono:       str(p.phone),
-        buque:          str(p.vesselName),
-        puerto:         str(p.port),
-        eta:            str(p.eta),
-        mensaje:        str(p.notes) ?? str(p.additionalNotes),
-        categories:     Array.isArray(p.categories) ? p.categories : [],
-        items:          erpItems,
-        technicalItems: erpTechnicalItems,
-        customItems:    Array.isArray(p.customItems) ? p.customItems : [],
-        method:         str(p.method) ?? (type === "unified" ? str(p.provisionsMethod) : undefined),
-        currency:       str(p.currency),
-        quoteType:      type,
-      }),
-    }).catch((e) => console.error("[cotizar] ERP lead sync failed (non-fatal):", e));
-    // ────────────────────────────────────────────────────────────────
+    const erpBody = JSON.stringify({
+      nombre:         str(p.contactName),
+      empresa:        str(p.company),
+      email:          str(p.email),
+      telefono:       str(p.phone),
+      buque:          str(p.vesselName),
+      puerto:         str(p.port),
+      eta:            str(p.eta),
+      mensaje:        str(p.notes) ?? str(p.additionalNotes),
+      categories:     Array.isArray(p.categories) ? p.categories : [],
+      items:          erpItems,
+      technicalItems: erpTechnicalItems,
+      customItems:    Array.isArray(p.customItems) ? p.customItems : [],
+      method:         str(p.method) ?? (type === "unified" ? str(p.provisionsMethod) : undefined),
+      currency:       str(p.currency),
+      quoteType:      type,
+      wasteTypes:     Array.isArray(p.wasteTypes) ? p.wasteTypes : [],
+      techServices:   Array.isArray(p.techServices) ? p.techServices : [],
+      volume:         str(p.volume),
+      mode:           str(p.mode),
+    });
+    after(async () => {
+      try {
+        await fetch(`${erpUrl}/api/leads`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: erpBody,
+        });
+      } catch (e) {
+        console.error("[cotizar] ERP lead sync failed:", e);
+      }
+    });
+    // ─────────────────────────────────────────────────────────────────
 
     return NextResponse.json({ ok: true });
   } catch (err) {
