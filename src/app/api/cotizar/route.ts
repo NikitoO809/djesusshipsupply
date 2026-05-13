@@ -558,6 +558,25 @@ export async function POST(request: Request) {
       console.error("[cotizar] customer confirmation error:", customerRes.error);
     }
 
+    // ── Enviar lead al ERP (fire-and-forget, no bloquea) ────────────
+    const erpUrl = process.env.ERP_URL ?? "https://dejesus-erp.vercel.app";
+    const p = payload as Record<string, unknown>;
+    fetch(`${erpUrl}/api/leads`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nombre:   p.contactName   ?? null,
+        empresa:  p.company       ?? null,
+        email:    p.email         ?? null,
+        telefono: p.phone         ?? null,
+        buque:    p.vesselName    ?? null,
+        puerto:   p.port          ?? null,
+        eta:      p.eta           ?? null,
+        mensaje:  p.notes ?? p.additionalNotes ?? null,
+      }),
+    }).catch((e) => console.error("[cotizar] ERP lead sync failed (non-fatal):", e));
+    // ────────────────────────────────────────────────────────────────
+
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("[cotizar] unexpected error:", err);
