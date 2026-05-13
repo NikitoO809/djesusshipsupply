@@ -616,6 +616,7 @@ export async function POST(request: Request) {
             to: toAddress,
             subject: `⚠️ Lead NO sincronizado con ERP · ${sanitizeHeaderValue(payload.vesselName)}`,
             html:
+              `<!doctype html><html lang="es"><head><meta charset="utf-8"/></head><body>` +
               `<h2>El lead llegó al email pero NO al panel del ERP</h2>` +
               `<p><strong>Motivo:</strong> ${reason}</p>` +
               `<p>Cliente: ${payload.contactName} &lt;${payload.email}&gt;</p>` +
@@ -623,7 +624,7 @@ export async function POST(request: Request) {
               `<p>Crea el lead manualmente en el ERP con estos datos:</p>` +
               `<pre style="background:#f4f4f4;padding:12px;border-radius:6px;font-size:12px;overflow:auto;">` +
               erpBody.replace(/</g, "&lt;") +
-              `</pre>`,
+              `</pre></body></html>`,
           });
         } catch (mailErr) {
           console.error("[cotizar] fallback email failed:", mailErr);

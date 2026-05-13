@@ -80,6 +80,9 @@ export function CustomerConfirmationEmail({ locale, contactName, type }: Props) 
   const t = COPY[locale];
   return (
     <html lang={locale}>
+      <head>
+        <meta charSet="utf-8" />
+      </head>
       <body style={containerStyle}>
         <div style={cardStyle}>
           <div style={headerStyle}>

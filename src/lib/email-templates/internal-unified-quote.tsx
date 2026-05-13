@@ -143,6 +143,9 @@ export function InternalUnifiedQuoteEmail({ payload, submittedAt, attachmentName
 
   return (
     <html lang="es">
+      <head>
+        <meta charSet="utf-8" />
+      </head>
       <body style={containerStyle}>
         <div style={cardStyle}>
           <div style={headerStyle}>
