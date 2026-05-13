@@ -119,6 +119,9 @@ export function QuoteForm({ type }: Props) {
     mode: "onTouched",
   });
 
+  const watchedWasteTypes = form.watch("wasteTypes" as keyof FormValues) as string[] | undefined;
+  const hasWasteTypes = (watchedWasteTypes?.length ?? 0) > 0;
+
   const onSubmit = async (values: FormValues) => {
     try {
       const res = await fetch("/api/cotizar", {
@@ -268,12 +271,14 @@ export function QuoteForm({ type }: Props) {
                   name="volume"
                   label={t("fields.volume")}
                   placeholder={t("fields.volumePlaceholder")}
+                  required={hasWasteTypes}
                 />
                 <SelectFieldRHF
                   name="mode"
                   label={t("fields.mode")}
                   placeholder={t("placeholders.select")}
                   options={WASTE_MODES.map((m) => ({ value: m, label: m }))}
+                  required={hasWasteTypes}
                 />
               </Grid>
             </Section>

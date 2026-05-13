@@ -60,7 +60,7 @@ export const initialFlowState: FlowState = {
   method: null,
   file: null,
   notes: "",
-  currency: "",
+  currency: "USD",
   consent: false,
   submitting: false,
   submitted: false,
