@@ -565,14 +565,18 @@ export async function POST(request: Request) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        nombre:   p.contactName   ?? null,
-        empresa:  p.company       ?? null,
-        email:    p.email         ?? null,
-        telefono: p.phone         ?? null,
-        buque:    p.vesselName    ?? null,
-        puerto:   p.port          ?? null,
-        eta:      p.eta           ?? null,
-        mensaje:  p.notes ?? p.additionalNotes ?? null,
+        nombre:     p.contactName      ?? null,
+        empresa:    p.company          ?? null,
+        email:      p.email            ?? null,
+        telefono:   p.phone            ?? null,
+        buque:      p.vesselName       ?? null,
+        puerto:     p.port             ?? null,
+        eta:        p.eta              ?? null,
+        mensaje:    p.notes ?? p.additionalNotes ?? null,
+        // Provisiones seleccionadas por el cliente
+        categories: Array.isArray(p.categories) ? p.categories : [],
+        currency:   p.currency ?? null,
+        quoteType:  type,
       }),
     }).catch((e) => console.error("[cotizar] ERP lead sync failed (non-fatal):", e));
     // ────────────────────────────────────────────────────────────────
