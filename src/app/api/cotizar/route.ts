@@ -561,7 +561,7 @@ export async function POST(request: Request) {
     }
 
     // ── Enviar lead al ERP usando after() para que Vercel no mate el fetch ──
-    const erpUrl = process.env.ERP_URL ?? "https://dejesus-erp.vercel.app";
+    const erpUrl = process.env.ERP_URL;
     const p = payload as Record<string, unknown>;
     // En provisions con método upload/template los productos extra viven en
     // `extraItems` (no `items`). Sin este fallback el ERP recibía un lead vacío.
@@ -630,6 +630,11 @@ export async function POST(request: Request) {
         }
       };
 
+      if (!erpUrl) {
+        console.warn("[cotizar] ERP_URL no configurado — push al ERP omitido");
+        await notifyAdminFailure("ERP_URL no configurado en el sitio web");
+        return;
+      }
       if (!leadSecret) {
         console.warn("[cotizar] LEAD_SHARED_SECRET no configurado — push al ERP omitido");
         await notifyAdminFailure("LEAD_SHARED_SECRET no configurado en el sitio web");
