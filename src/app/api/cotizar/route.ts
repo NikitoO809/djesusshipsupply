@@ -562,25 +562,34 @@ export async function POST(request: Request) {
     // ── Enviar lead al ERP (fire-and-forget, no bloquea) ────────────
     const erpUrl = process.env.ERP_URL ?? "https://dejesus-erp.vercel.app";
     const p = payload as Record<string, unknown>;
+    // Para el tipo "unified", los productos de provisiones están en provisionsItems
+    // y los técnicos en technicalItems. Normalizamos a items[] para el ERP.
+    const erpItems = type === "unified"
+      ? (Array.isArray(p.provisionsItems) ? p.provisionsItems : [])
+      : (Array.isArray(p.items) ? p.items : []);
+    const erpTechnicalItems = type === "unified" || type === "technical"
+      ? (Array.isArray(p.items) ? p.items : Array.isArray(p.technicalItems) ? p.technicalItems : [])
+      : [];
+    const str = (v: unknown) => (typeof v === "string" && v.trim() ? v.trim() : undefined);
     fetch(`${erpUrl}/api/leads`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        nombre:     p.contactName      ?? null,
-        empresa:    p.company          ?? null,
-        email:      p.email            ?? null,
-        telefono:   p.phone            ?? null,
-        buque:      p.vesselName       ?? null,
-        puerto:     p.port             ?? null,
-        eta:        p.eta              ?? null,
-        mensaje:    p.notes ?? p.additionalNotes ?? null,
-        // Provisiones seleccionadas por el cliente
-        categories:   Array.isArray(p.categories) ? p.categories : [],
-        items:        Array.isArray(p.items) ? p.items : [],        // CartItem[] con cantidades
-        customItems:  Array.isArray(p.customItems) ? p.customItems : [],
-        method:       p.method ?? null,
-        currency:     p.currency ?? null,
-        quoteType:    type,
+        nombre:         str(p.contactName),
+        empresa:        str(p.company),
+        email:          str(p.email),
+        telefono:       str(p.phone),
+        buque:          str(p.vesselName),
+        puerto:         str(p.port),
+        eta:            str(p.eta),
+        mensaje:        str(p.notes) ?? str(p.additionalNotes),
+        categories:     Array.isArray(p.categories) ? p.categories : [],
+        items:          erpItems,
+        technicalItems: erpTechnicalItems,
+        customItems:    Array.isArray(p.customItems) ? p.customItems : [],
+        method:         str(p.method) ?? (type === "unified" ? str(p.provisionsMethod) : undefined),
+        currency:       str(p.currency),
+        quoteType:      type,
       }),
     }).catch((e) => console.error("[cotizar] ERP lead sync failed (non-fatal):", e));
     // ────────────────────────────────────────────────────────────────
