@@ -562,9 +562,13 @@ export async function POST(request: Request) {
     // ── Enviar lead al ERP usando after() para que Vercel no mate el fetch ──
     const erpUrl = process.env.ERP_URL ?? "https://dejesus-erp.vercel.app";
     const p = payload as Record<string, unknown>;
+    // En provisions con método upload/template los productos extra viven en
+    // `extraItems` (no `items`). Sin este fallback el ERP recibía un lead vacío.
     const erpItems = type === "unified"
       ? (Array.isArray(p.provisionsItems) ? p.provisionsItems : [])
-      : (Array.isArray(p.items) ? p.items : []);
+      : (Array.isArray(p.items)
+          ? p.items
+          : Array.isArray(p.extraItems) ? p.extraItems : []);
     const erpTechnicalItems = type === "unified" || type === "technical"
       ? (Array.isArray(p.items) ? p.items : Array.isArray(p.technicalItems) ? p.technicalItems : [])
       : [];
