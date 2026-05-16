@@ -46,4 +46,7 @@ next-env.d.ts
 memory/
 skills-lock.json
 
+# n8n workflows (contienen secrets — solo locales)
+n8n-workflows/
+
 .vercel

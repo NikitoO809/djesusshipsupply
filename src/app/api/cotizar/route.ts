@@ -661,6 +661,25 @@ export async function POST(request: Request) {
         await notifyAdminFailure(`Excepción de red: ${e instanceof Error ? e.message : String(e)}`);
       }
     });
+
+    // ── Webhook a n8n en paralelo (no afecta al ERP si falla) ────────
+    after(async () => {
+      const n8nUrl = process.env.N8N_WEBHOOK_URL;
+      const n8nSecret = process.env.N8N_WEBHOOK_SECRET;
+      if (!n8nUrl || !n8nSecret) return;
+      try {
+        await fetch(n8nUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-djss-secret": n8nSecret,
+          },
+          body: erpBody,
+        });
+      } catch (e) {
+        console.error("[cotizar] n8n notify failed:", e);
+      }
+    });
     // ─────────────────────────────────────────────────────────────────
 
     return NextResponse.json({ ok: true });
