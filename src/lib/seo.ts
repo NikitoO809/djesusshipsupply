@@ -457,6 +457,21 @@ export function breadcrumbJsonLd({ locale, path }: { locale: string; path: strin
   };
 }
 
+export function faqJsonLd(items: Array<{ question: string; answer: string }>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((it) => ({
+      "@type": "Question",
+      name: it.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: it.answer,
+      },
+    })),
+  };
+}
+
 export function serviceJsonLd({
   locale,
   serviceType,

@@ -457,6 +457,34 @@
     "serviceDesechosBody": "Recolección y disposición certificada de residuos oleosos bajo MARPOL Anexo I. Documentación completa para el Oil Record Book.",
     "serviceTecnico": "Suministros técnicos navales",
     "serviceTecnicoBody": "Repuestos y materiales: eléctricos, ferretería, seguridad, refrigeración y más. Entrega directa al buque.",
+    "aboutKicker": "Sobre el puerto",
+    "aboutTitle": "Ship chandler en {port}: cobertura completa",
+    "faqKicker": "Preguntas frecuentes",
+    "faqTitle": "Servicios de ship chandler en {port}",
+    "faq": {
+      "q1": {
+        "question": "¿Cuánto tarda la cotización para una escala en {port}?",
+        "answer": "Confirmamos cotización en menos de 2 horas tras recibir la solicitud, siempre que indique ETA, tipo de buque y volumen estimado. Para escalas en {port} con menos de 24 horas de aviso, priorizamos la coordinación logística para garantizar entrega a bordo dentro del horario de muelle."
+      },
+      "q2": {
+        "question": "¿Trabajan 24/7 en {port}?",
+        "answer": "Sí. Operamos los 7 días de la semana, incluyendo madrugadas y festivos. WhatsApp y correo de operaciones están atendidos 24 horas para coordinar escalas en {port} y cualquier puerto de República Dominicana."
+      },
+      "q3": {
+        "question": "¿Pueden coordinar el servicio directamente con mi agente naviero en {port}?",
+        "answer": "Sí. Trabajamos rutinariamente con todos los agentes de escala que operan en {port}. Solo necesitamos los datos del agente y el número de escala; nosotros coordinamos accesos al muelle, ventana de entrega y documentación."
+      },
+      "q4": {
+        "question": "¿Qué documentación MARPOL entregan tras el servicio?",
+        "answer": "Entregamos al capitán toda la documentación requerida para el Oil Record Book: certificado de recolección del cisternero autorizado, manifiesto de transporte de residuos y comprobante de disposición final. Toda la documentación se firma y entrega en el momento del servicio."
+      },
+      "q5": {
+        "question": "¿Atienden buques pequeños o solo grandes navíos en {port}?",
+        "answer": "Atendemos desde yates y embarcaciones de trabajo hasta portacontenedores y cruceros. En {port} adaptamos el volumen y tipo de servicio a la operación de cada buque, sin mínimo de pedido."
+      }
+    },
+    "nearbyKicker": "Puertos cercanos",
+    "nearbyTitle": "También operamos en estos puertos de RD",
     "caucedo": {
       "h1": "Ship Chandler en Puerto de Caucedo — Provisiones y MARPOL",
       "subtitle": "El mayor terminal de contenedores del Caribe, operado por DP World ITABO. Atendemos escalas de portacontenedores, buques de carga general y embarcaciones de servicio con provisiones a bordo y gestión MARPOL certificada.",

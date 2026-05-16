@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/sections/PageHeader";
 import { SectionHeading } from "@/components/sections/SectionHeading";
 import { CTASection } from "@/components/sections/CTASection";
 import { FadeIn, Stagger, StaggerItem } from "@/components/sections/FadeIn";
-import { buildPageMetadata, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { buildPageMetadata, breadcrumbJsonLd, faqJsonLd, SITE_URL } from "@/lib/seo";
 import { PORTS, getPort } from "@/lib/ports";
 import { routing } from "@/i18n/routing";
 import { ArrowRight } from "lucide-react";
@@ -98,9 +98,22 @@ export default async function PortDetailPage({ params }: Props) {
     ctaTitle: string;
   };
 
+  const portName = locale === "es" ? port.nameEs : port.nameEn;
+
+  const faqs = [1, 2, 3, 4, 5].map((n) => ({
+    question: t(`faq.q${n}.question`, { port: portName }),
+    answer: t(`faq.q${n}.answer`, { port: portName }),
+  }));
+
+  const nearbyPorts = PORTS.filter((p) => p.slug !== slug).map((p) => ({
+    name: locale === "es" ? p.nameEs : p.nameEn,
+    href: link(`/puertos/${p.slug}`),
+  }));
+
   const breadcrumb = breadcrumbJsonLd({ locale, path: `/puertos/${slug}` });
   const place = portPlaceJsonLd(port, locale);
   const service = portServiceJsonLd(port, locale, slug);
+  const faq = faqJsonLd(faqs);
 
   const steps = [
     { title: t("step1Title"), body: t("step1Body"), num: "01" },
@@ -148,6 +161,10 @@ export default async function PortDetailPage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}
         />
       )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
+      />
 
       <PageHeader
         kicker={`${t("kicker")} ${locale === "es" ? port.nameEs : port.nameEn}`}
@@ -223,13 +240,81 @@ export default async function PortDetailPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="bg-cream/40 py-16 md:py-20">
+      <section className="bg-cream/40 py-24 md:py-32">
         <div className="container mx-auto px-6">
           <FadeIn>
-            <p className="text-base md:text-lg text-charcoal/80 leading-relaxed max-w-3xl">
+            <SectionHeading
+              kicker={t("aboutKicker")}
+              title={t("aboutTitle", { port: portName })}
+            />
+          </FadeIn>
+          <FadeIn>
+            <p className="mt-10 text-base md:text-lg text-charcoal/80 leading-relaxed max-w-3xl">
               {portCopy.body}
             </p>
           </FadeIn>
+        </div>
+      </section>
+
+      <section className="bg-background py-24 md:py-32">
+        <div className="container mx-auto px-6">
+          <FadeIn>
+            <SectionHeading
+              kicker={t("faqKicker")}
+              title={t("faqTitle", { port: portName })}
+            />
+          </FadeIn>
+          <Stagger className="mt-14 max-w-3xl divide-y divide-navy/10 border-y border-navy/10">
+            {faqs.map((item, i) => (
+              <StaggerItem key={i}>
+                <details className="group py-6">
+                  <summary className="flex items-center justify-between gap-6 cursor-pointer list-none">
+                    <h3 className="font-serif text-lg md:text-xl text-navy leading-snug">
+                      {item.question}
+                    </h3>
+                    <span
+                      aria-hidden="true"
+                      className="flex-shrink-0 text-gold-dark text-2xl leading-none transition-transform group-open:rotate-45"
+                    >
+                      +
+                    </span>
+                  </summary>
+                  <p className="mt-4 text-charcoal/75 leading-relaxed text-[15px] max-w-2xl">
+                    {item.answer}
+                  </p>
+                </details>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      <section className="bg-cream/40 py-20 md:py-24">
+        <div className="container mx-auto px-6">
+          <FadeIn>
+            <SectionHeading
+              kicker={t("nearbyKicker")}
+              title={t("nearbyTitle")}
+            />
+          </FadeIn>
+          <Stagger className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {nearbyPorts.map((p, i) => (
+              <StaggerItem key={i}>
+                <Link
+                  href={p.href}
+                  className="group flex items-center justify-between gap-3 px-5 py-4 rounded-sm bg-white border border-navy/8 hover:border-gold/50 transition-colors"
+                >
+                  <span className="font-serif text-base text-navy leading-snug">
+                    {p.name}
+                  </span>
+                  <ArrowRight
+                    className="h-4 w-4 text-navy/40 group-hover:text-gold-dark transition-colors flex-shrink-0"
+                    strokeWidth={2}
+                  />
+                </Link>
+              </StaggerItem>
+            ))}
+          </Stagger>
         </div>
       </section>
 

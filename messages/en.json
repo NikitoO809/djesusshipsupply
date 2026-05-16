@@ -457,6 +457,34 @@
     "serviceDesechosBody": "Certified collection and disposal of oily residues under MARPOL Annex I. Complete documentation for the Oil Record Book.",
     "serviceTecnico": "Naval technical supplies",
     "serviceTecnicoBody": "Spare parts and materials: electrical, hardware, safety, refrigeration and more. Direct delivery to the vessel.",
+    "aboutKicker": "About the port",
+    "aboutTitle": "Ship chandler at {port}: complete coverage",
+    "faqKicker": "Frequently asked questions",
+    "faqTitle": "Ship chandler services at {port}",
+    "faq": {
+      "q1": {
+        "question": "How long does a quote take for a call at {port}?",
+        "answer": "We confirm quotes in under 2 hours after receiving the request, provided you include ETA, vessel type and estimated volume. For calls at {port} with less than 24 hours notice, we prioritize logistics coordination to guarantee onboard delivery within the berthing window."
+      },
+      "q2": {
+        "question": "Do you operate 24/7 at {port}?",
+        "answer": "Yes. We operate 7 days a week, including overnight and holidays. WhatsApp and operations email are monitored 24 hours to coordinate calls at {port} and at any Dominican Republic port."
+      },
+      "q3": {
+        "question": "Can you coordinate the service directly with my port agent at {port}?",
+        "answer": "Yes. We routinely work with every port agent operating at {port}. We only need the agent contact and call reference; we coordinate berth access, delivery window and documentation."
+      },
+      "q4": {
+        "question": "What MARPOL documentation do you provide after service?",
+        "answer": "We deliver to the captain all the documentation required for the Oil Record Book: certificate of collection from the authorized tanker, waste transport manifest and final disposal record. All documentation is signed and handed over at the moment of service."
+      },
+      "q5": {
+        "question": "Do you serve small craft or only large vessels at {port}?",
+        "answer": "We serve everything from yachts and workboats to container ships and cruise vessels. At {port} we adapt the volume and type of service to each vessel's operation, with no minimum order."
+      }
+    },
+    "nearbyKicker": "Nearby ports",
+    "nearbyTitle": "We also operate at these DR ports",
     "caucedo": {
       "h1": "Ship Chandler at Port of Caucedo — Provisions & MARPOL",
       "subtitle": "The Caribbean's largest container terminal, operated by DP World ITABO. We serve container ships, general cargo vessels and service craft with onboard provisions and certified MARPOL management.",
