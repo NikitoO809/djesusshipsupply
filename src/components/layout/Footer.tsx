@@ -148,6 +148,17 @@ export async function Footer() {
           <p>
             © {year} De Jesús Ship Supply. {t("rights")}.
           </p>
+          <p>
+            {t("adminBy")}{" "}
+            <a
+              href="https://miguelflx.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-orange-400 hover:text-orange-300 transition-colors font-medium"
+            >
+              MiguelFlux
+            </a>
+          </p>
           <div className="flex items-center gap-6">
             <Link href={link("/privacidad")} className="hover:text-gold transition-colors">
               {t("privacidad")}
