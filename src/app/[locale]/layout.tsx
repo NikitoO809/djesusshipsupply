@@ -3,6 +3,7 @@ import { DM_Sans, Playfair_Display, JetBrains_Mono } from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "@/components/ui/sonner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -176,6 +177,7 @@ export default async function LocaleLayout({
             </RfqProvider>
           </UnifiedCartProvider>
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );
