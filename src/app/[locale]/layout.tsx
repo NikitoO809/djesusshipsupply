@@ -11,6 +11,7 @@ import { routing } from "@/i18n/routing";
 import { localBusinessJsonLd, SITE_URL } from "@/lib/seo";
 import { UnifiedCartProvider } from "@/components/unified-cart/UnifiedCartContext";
 import { RfqProvider } from "@/components/procurement/rfq/RfqContext";
+import { Analytics } from "@vercel/analytics/next";
 import "../globals.css";
 
 const dmSans = DM_Sans({
@@ -176,6 +177,7 @@ export default async function LocaleLayout({
             </RfqProvider>
           </UnifiedCartProvider>
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );
