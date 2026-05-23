@@ -17,6 +17,10 @@ type UnifiedCartState = {
 type UnifiedCartContextValue = {
   provisionsItems: Record<string, CartItem>;
   provisionsCount: number;
+  /** True once the cart has been hydrated from localStorage on mount. */
+  isHydrated: boolean;
+  /** True if the cart was hydrated with at least one item from a previous visit. */
+  hadStoredItems: boolean;
   addProvision: (item: CartItem) => void;
   updateProvisionQty: (id: string, qty: number) => void;
   removeProvision: (id: string) => void;
@@ -77,6 +81,8 @@ export function UnifiedCartProvider({
   const [state, dispatch] = React.useReducer(reducer, {
     provisionsItems: {},
   });
+  const [isHydrated, setIsHydrated] = React.useState(false);
+  const [hadStoredItems, setHadStoredItems] = React.useState(false);
 
   React.useEffect(() => {
     try {
@@ -85,11 +91,13 @@ export function UnifiedCartProvider({
         const parsed = JSON.parse(raw) as Record<string, CartItem>;
         if (parsed && typeof parsed === "object") {
           dispatch({ type: "HYDRATE", items: parsed });
+          if (Object.keys(parsed).length > 0) setHadStoredItems(true);
         }
       }
     } catch {
       // ignore corrupt storage
     }
+    setIsHydrated(true);
   }, []);
 
   React.useEffect(() => {
@@ -108,6 +116,8 @@ export function UnifiedCartProvider({
   const value: UnifiedCartContextValue = {
     provisionsItems: state.provisionsItems,
     provisionsCount,
+    isHydrated,
+    hadStoredItems,
     addProvision: (item) => dispatch({ type: "ADD", item }),
     updateProvisionQty: (id, qty) =>
       dispatch({ type: "UPDATE_QTY", id, qty }),

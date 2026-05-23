@@ -12,6 +12,12 @@ export type ProvisionProduct = {
   name: string;
   /** Unit of measure. Empty string = pending. */
   unit: string;
+  /**
+   * Path to product image relative to /public. Optional.
+   * Convention: `/products/<category-key>/<slug>.webp` (e.g. `/products/fresh-fruits/banana.webp`).
+   * If absent, the UI renders a fallback (category initial avatar).
+   */
+  image?: string;
 };
 
 export type ProvisionCategory = {
@@ -20,48 +26,57 @@ export type ProvisionCategory = {
   products: ProvisionProduct[];
 };
 
-const p = (id: string, name: string, unit = ""): ProvisionProduct => ({ id, name, unit });
+const p = (
+  id: string,
+  name: string,
+  unit = "",
+  image?: string
+): ProvisionProduct => ({ id, name, unit, ...(image ? { image } : {}) });
+
+/** Build a product image path from a category key and slug. */
+const img = (category: string, slug: string) =>
+  `/products/${category}/${slug}.webp`;
 
 export const PROVISION_CATALOG: ProvisionCategory[] = [
   {
     key: "fresh-vegetables",
     name: { es: "Frescos · Vegetales", en: "Fresh · Vegetables" },
     products: [
-      p("fresh-vegetables:beetroot", "Beetroot"),
-      p("fresh-vegetables:broccoli", "Broccoli"),
-      p("fresh-vegetables:cabbage-white", "Cabbage (white)"),
-      p("fresh-vegetables:carrots", "Carrots"),
-      p("fresh-vegetables:celery", "Celery"),
-      p("fresh-vegetables:chayote", "Chayote"),
-      p("fresh-vegetables:chickpeas-dry", "Chickpeas (dry)"),
-      p("fresh-vegetables:chili-pepper-hot", "Chili pepper (hot)"),
-      p("fresh-vegetables:cauliflower", "Cauliflower"),
-      p("fresh-vegetables:corn-young", "Corn (young)"),
-      p("fresh-vegetables:cucumbers", "Cucumbers"),
-      p("fresh-vegetables:dill-fresh", "Dill (fresh)"),
-      p("fresh-vegetables:eggplants", "Eggplants"),
-      p("fresh-vegetables:garlic-dry", "Garlic (dry)"),
-      p("fresh-vegetables:ginger-fresh", "Ginger (fresh)"),
-      p("fresh-vegetables:lemon-grass", "Lemon grass"),
-      p("fresh-vegetables:lemons-yellow", "Lemons (yellow)"),
-      p("fresh-vegetables:lettuce", "Lettuce"),
-      p("fresh-vegetables:okra-fresh", "Okra (fresh, small)"),
-      p("fresh-vegetables:onions-dry", "Onions (dry)"),
-      p("fresh-vegetables:parsley-fresh", "Parsley (fresh)"),
-      p("fresh-vegetables:peppers-green-red", "Peppers (green & red)"),
-      p("fresh-vegetables:pak-choi", "Pak choi"),
-      p("fresh-vegetables:potatoes-fresh", "Potatoes (fresh)"),
-      p("fresh-vegetables:pumpkins", "Pumpkins"),
-      p("fresh-vegetables:spinach", "Spinach"),
-      p("fresh-vegetables:string-beans", "String beans"),
-      p("fresh-vegetables:spring-onions", "Spring onions"),
-      p("fresh-vegetables:tomatoes-cherry", "Tomatoes (cherry)"),
-      p("fresh-vegetables:tomatoes-half-ripe", "Tomatoes (half ripe, large)"),
-      p("fresh-vegetables:tomatoes-red", "Tomatoes (red)"),
-      p("fresh-vegetables:zucchini", "Zucchini"),
-      p("fresh-vegetables:white-radish-long", "White radish (long)"),
-      p("fresh-vegetables:green-chili-long", "Green chili (long)"),
-      p("fresh-vegetables:leeks", "Leeks"),
+      p("fresh-vegetables:beetroot", "Beetroot", "", img("fresh-vegetables", "beetroot")),
+      p("fresh-vegetables:broccoli", "Broccoli", "", img("fresh-vegetables", "broccoli")),
+      p("fresh-vegetables:cabbage-white", "Cabbage (white)", "", img("fresh-vegetables", "cabbage-white")),
+      p("fresh-vegetables:carrots", "Carrots", "", img("fresh-vegetables", "carrots")),
+      p("fresh-vegetables:celery", "Celery", "", img("fresh-vegetables", "celery")),
+      p("fresh-vegetables:chayote", "Chayote", "", img("fresh-vegetables", "chayote")),
+      p("fresh-vegetables:chickpeas-dry", "Chickpeas (dry)", "", img("fresh-vegetables", "chickpeas-dry")),
+      p("fresh-vegetables:chili-pepper-hot", "Chili pepper (hot)", "", img("fresh-vegetables", "chili-pepper-hot")),
+      p("fresh-vegetables:cauliflower", "Cauliflower", "", img("fresh-vegetables", "cauliflower")),
+      p("fresh-vegetables:corn-young", "Corn (young)", "", img("fresh-vegetables", "corn-young")),
+      p("fresh-vegetables:cucumbers", "Cucumbers", "", img("fresh-vegetables", "cucumbers")),
+      p("fresh-vegetables:dill-fresh", "Dill (fresh)", "", img("fresh-vegetables", "dill-fresh")),
+      p("fresh-vegetables:eggplants", "Eggplants", "", img("fresh-vegetables", "eggplants")),
+      p("fresh-vegetables:garlic-dry", "Garlic (dry)", "", img("fresh-vegetables", "garlic-dry")),
+      p("fresh-vegetables:ginger-fresh", "Ginger (fresh)", "", img("fresh-vegetables", "ginger-fresh")),
+      p("fresh-vegetables:lemon-grass", "Lemon grass", "", img("fresh-vegetables", "lemon-grass")),
+      p("fresh-vegetables:lemons-yellow", "Lemons (yellow)", "", img("fresh-vegetables", "lemons-yellow")),
+      p("fresh-vegetables:lettuce", "Lettuce", "", img("fresh-vegetables", "lettuce")),
+      p("fresh-vegetables:okra-fresh", "Okra (fresh, small)", "", img("fresh-vegetables", "okra-fresh")),
+      p("fresh-vegetables:onions-dry", "Onions (dry)", "", img("fresh-vegetables", "onions-dry")),
+      p("fresh-vegetables:parsley-fresh", "Parsley (fresh)", "", img("fresh-vegetables", "parsley-fresh")),
+      p("fresh-vegetables:peppers-green-red", "Peppers (green & red)", "", img("fresh-vegetables", "peppers-green-red")),
+      p("fresh-vegetables:pak-choi", "Pak choi", "", img("fresh-vegetables", "pak-choi")),
+      p("fresh-vegetables:potatoes-fresh", "Potatoes (fresh)", "", img("fresh-vegetables", "potatoes-fresh")),
+      p("fresh-vegetables:pumpkins", "Pumpkins", "", img("fresh-vegetables", "pumpkins")),
+      p("fresh-vegetables:spinach", "Spinach", "", img("fresh-vegetables", "spinach")),
+      p("fresh-vegetables:string-beans", "String beans", "", img("fresh-vegetables", "string-beans")),
+      p("fresh-vegetables:spring-onions", "Spring onions", "", img("fresh-vegetables", "spring-onions")),
+      p("fresh-vegetables:tomatoes-cherry", "Tomatoes (cherry)", "", img("fresh-vegetables", "tomatoes-cherry")),
+      p("fresh-vegetables:tomatoes-half-ripe", "Tomatoes (half ripe, large)", "", img("fresh-vegetables", "tomatoes-half-ripe")),
+      p("fresh-vegetables:tomatoes-red", "Tomatoes (red)", "", img("fresh-vegetables", "tomatoes-red")),
+      p("fresh-vegetables:zucchini", "Zucchini", "", img("fresh-vegetables", "zucchini")),
+      p("fresh-vegetables:white-radish-long", "White radish (long)", "", img("fresh-vegetables", "white-radish-long")),
+      p("fresh-vegetables:green-chili-long", "Green chili (long)", "", img("fresh-vegetables", "green-chili-long")),
+      p("fresh-vegetables:leeks", "Leeks", "", img("fresh-vegetables", "leeks")),
     ],
   },
   {
@@ -85,18 +100,18 @@ export const PROVISION_CATALOG: ProvisionCategory[] = [
     key: "fresh-fruits",
     name: { es: "Frescos · Frutas", en: "Fresh · Fruits" },
     products: [
-      p("fresh-fruits:apple-red", "Apple (red)"),
-      p("fresh-fruits:avocado", "Avocado"),
-      p("fresh-fruits:bananas", "Bananas"),
-      p("fresh-fruits:mandarin", "Mandarin"),
-      p("fresh-fruits:mango", "Mango"),
-      p("fresh-fruits:orange", "Orange"),
-      p("fresh-fruits:papaya-yellow", "Papaya (yellow)"),
-      p("fresh-fruits:pears", "Pears"),
-      p("fresh-fruits:pineapple", "Pineapple"),
-      p("fresh-fruits:sweet-melon", "Sweet melon"),
-      p("fresh-fruits:watermelon", "Watermelon"),
-      p("fresh-fruits:papaya-green", "Papaya (young, green)"),
+      p("fresh-fruits:apple-red", "Apple (red)", "", img("fresh-fruits", "apple-red")),
+      p("fresh-fruits:avocado", "Avocado", "", img("fresh-fruits", "avocado")),
+      p("fresh-fruits:bananas", "Bananas", "", img("fresh-fruits", "bananas")),
+      p("fresh-fruits:mandarin", "Mandarin", "", img("fresh-fruits", "mandarin")),
+      p("fresh-fruits:mango", "Mango", "", img("fresh-fruits", "mango")),
+      p("fresh-fruits:orange", "Orange", "", img("fresh-fruits", "orange")),
+      p("fresh-fruits:papaya-yellow", "Papaya (yellow)", "", img("fresh-fruits", "papaya-yellow")),
+      p("fresh-fruits:pears", "Pears", "", img("fresh-fruits", "pears")),
+      p("fresh-fruits:pineapple", "Pineapple", "", img("fresh-fruits", "pineapple")),
+      p("fresh-fruits:sweet-melon", "Sweet melon", "", img("fresh-fruits", "sweet-melon")),
+      p("fresh-fruits:watermelon", "Watermelon", "", img("fresh-fruits", "watermelon")),
+      p("fresh-fruits:papaya-green", "Papaya (young, green)", "", img("fresh-fruits", "papaya-green")),
     ],
   },
   {
@@ -376,6 +391,71 @@ export const PROVISION_PRODUCT_COUNT = PROVISION_CATALOG.reduce(
   (sum, c) => sum + c.products.length,
   0
 );
+
+/**
+ * High-level groups for quick cross-category filter chips on the catalog UI.
+ * Each category key belongs to exactly one group.
+ */
+export type ProvisionGroupKey =
+  | "all"
+  | "fresh"
+  | "frozen"
+  | "meat"
+  | "dry"
+  | "drinks"
+  | "non-food";
+
+export const PROVISION_GROUPS: Array<{
+  key: ProvisionGroupKey;
+  name: { es: string; en: string };
+  categoryKeys: string[];
+}> = [
+  {
+    key: "all",
+    name: { es: "Todos", en: "All" },
+    categoryKeys: PROVISION_CATALOG.map((c) => c.key),
+  },
+  {
+    key: "fresh",
+    name: { es: "Frescos", en: "Fresh" },
+    categoryKeys: ["fresh-vegetables", "fresh-fruits", "dairy"],
+  },
+  {
+    key: "frozen",
+    name: { es: "Congelados", en: "Frozen" },
+    categoryKeys: ["frozen-vegetables", "frozen-fish"],
+  },
+  {
+    key: "meat",
+    name: { es: "Carnes", en: "Meat" },
+    categoryKeys: ["meat"],
+  },
+  {
+    key: "dry",
+    name: { es: "Despensa", en: "Pantry" },
+    categoryKeys: ["grocery"],
+  },
+  {
+    key: "drinks",
+    name: { es: "Bebidas", en: "Drinks" },
+    categoryKeys: ["drinks"],
+  },
+  {
+    key: "non-food",
+    name: { es: "No-alimentos", en: "Non-food" },
+    categoryKeys: ["cleaning", "bonded"],
+  },
+];
+
+/** Map from category key → group key, for fast lookup. */
+export const CATEGORY_TO_GROUP: Record<string, ProvisionGroupKey> = (() => {
+  const map: Record<string, ProvisionGroupKey> = {};
+  for (const group of PROVISION_GROUPS) {
+    if (group.key === "all") continue;
+    for (const catKey of group.categoryKeys) map[catKey] = group.key;
+  }
+  return map;
+})();
 
 /** Lookup a product by its stable id. Returns undefined if not found. */
 export function findProvisionProduct(id: string): ProvisionProduct | undefined {

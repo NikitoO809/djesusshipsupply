@@ -271,8 +271,17 @@
           "subtitle": "Browse by category or search what you need. Your cart is saved automatically.",
           "searchPlaceholder": "Search product (e.g. 'beef', 'tomato', 'water')...",
           "noResults": "No products found for",
+          "searchResults": "{count, plural, one {# result} other {# results}} across {cats, plural, one {# category} other {# categories}}",
+          "clearSearch": "Clear search",
           "addedBadge": "Added",
           "addBtn": "Add",
+          "removeBtn": "Remove",
+          "increment": "Increase quantity",
+          "decrement": "Decrease quantity",
+          "presetAria": "Set quantity to {n}",
+          "openCart": "View cart",
+          "closeCart": "Close",
+          "cartBtnAria": "Open cart ({n} products)",
           "cart": {
             "title": "Your",
             "titleEm": "order",
@@ -325,6 +334,12 @@
           "combineBtn": "Add from catalog",
           "fileTooLarge": "File too large. Maximum 10 MB.",
           "fileRequired": "Please attach a file before continuing."
+        },
+        "restore": {
+          "title": "{count, plural, one {We saved # product} other {We saved # products}} from your last visit",
+          "body": "Your cart was kept automatically. Restore it or start fresh?",
+          "keep": "Keep",
+          "clear": "Clear"
         },
         "custom": {
           "title": "Can't find a product?",

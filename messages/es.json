@@ -271,8 +271,17 @@
           "subtitle": "Explora por categoría o busca lo que necesitas. Tu carrito se guarda automáticamente.",
           "searchPlaceholder": "Buscar producto (ej: 'beef', 'tomato', 'water')...",
           "noResults": "No se encontraron productos para",
+          "searchResults": "{count, plural, one {# resultado} other {# resultados}} en {cats, plural, one {# categoría} other {# categorías}}",
+          "clearSearch": "Limpiar búsqueda",
           "addedBadge": "Agregado",
           "addBtn": "Agregar",
+          "removeBtn": "Quitar",
+          "increment": "Aumentar cantidad",
+          "decrement": "Disminuir cantidad",
+          "presetAria": "Establecer cantidad a {n}",
+          "openCart": "Ver carrito",
+          "closeCart": "Cerrar",
+          "cartBtnAria": "Abrir carrito ({n} productos)",
           "cart": {
             "title": "Tu",
             "titleEm": "pedido",
@@ -325,6 +334,12 @@
           "combineBtn": "Agregar del catálogo",
           "fileTooLarge": "Archivo demasiado grande. Máximo 10 MB.",
           "fileRequired": "Por favor adjunta el archivo antes de continuar."
+        },
+        "restore": {
+          "title": "{count, plural, one {Recuperamos # producto} other {Recuperamos # productos}} de tu última visita",
+          "body": "Tu carrito se guardó automáticamente. ¿Lo mantenemos o empezamos de cero?",
+          "keep": "Mantener",
+          "clear": "Vaciar"
         },
         "custom": {
           "title": "¿No encuentras un producto?",

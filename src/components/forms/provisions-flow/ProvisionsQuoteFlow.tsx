@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 
@@ -25,6 +26,9 @@ import {
 import {
   PROVISION_CATALOG,
   PROVISION_PRODUCT_COUNT,
+  PROVISION_GROUPS,
+  CATEGORY_TO_GROUP,
+  type ProvisionGroupKey,
 } from "@/lib/catalog/provisions";
 import type { CartItem } from "@/lib/schemas/quote-provisions";
 import { useUnifiedCart } from "@/components/unified-cart/UnifiedCartContext";
@@ -55,6 +59,8 @@ export function ProvisionsQuoteFlow() {
   const {
     provisionsItems,
     provisionsCount,
+    isHydrated,
+    hadStoredItems,
     addProvision,
     removeProvision,
     updateProvisionQty,
@@ -69,6 +75,14 @@ export function ProvisionsQuoteFlow() {
   const [vesselErrors, setVesselErrors] = React.useState<
     Partial<Record<keyof VesselContactData, string>>
   >({});
+  const [restoreDismissed, setRestoreDismissed] = React.useState(false);
+  const showRestoreBanner =
+    isHydrated &&
+    hadStoredItems &&
+    provisionsCount > 0 &&
+    !restoreDismissed &&
+    state.step === 1 &&
+    state.view === "catalog";
 
   // ----- Step 1: vessel form -----
   const handleVesselSubmit = () => {
@@ -287,6 +301,17 @@ export function ProvisionsQuoteFlow() {
         </div>
       )}
 
+      {showRestoreBanner && (
+        <RestoreCartBanner
+          count={provisionsCount}
+          onClear={() => {
+            clearProvisions();
+            setRestoreDismissed(true);
+          }}
+          onKeep={() => setRestoreDismissed(true)}
+        />
+      )}
+
       <Stepper step={state.step} />
 
       {state.step === 1 && (
@@ -417,7 +442,7 @@ function StepVessel({
 
   return (
     <form
-      className="space-y-8"
+      className="mx-auto max-w-4xl space-y-8"
       onSubmit={(e) => {
         e.preventDefault();
         onSubmit();
@@ -653,7 +678,7 @@ function MethodPicker({
   const t = useTranslations("forms.provisiones.flow.methods");
 
   return (
-    <div className="space-y-8">
+    <div className="mx-auto max-w-5xl space-y-8">
       <div className="text-center space-y-3">
         <Eyebrow>{t("eyebrow")}</Eyebrow>
         <h2 className="font-serif text-3xl md:text-4xl text-navy">
@@ -822,40 +847,104 @@ function CatalogView({
 }) {
   const t = useTranslations("forms.provisiones.flow.catalog");
   const tCommon = useTranslations("forms.provisiones.flow.common");
+  const locale = useLocale() as "es" | "en";
 
+  const [activeGroup, setActiveGroup] =
+    React.useState<ProvisionGroupKey>("all");
   const [activeKey, setActiveKey] = React.useState(PROVISION_CATALOG[0].key);
   const [search, setSearch] = React.useState("");
+  const searchInputRef = React.useRef<HTMLInputElement>(null);
+  const [cartOpen, setCartOpen] = React.useState(false);
+  const [pulseTick, setPulseTick] = React.useState(0);
 
-  const activeCategory = PROVISION_CATALOG.find((c) => c.key === activeKey)!;
+  // Wrap onAdd so each addition gives the floating cart button a brief pulse.
+  const handleAdd = React.useCallback(
+    (item: CartItem) => {
+      onAdd(item);
+      setPulseTick((t) => t + 1);
+    },
+    [onAdd]
+  );
 
-  const visibleProducts = React.useMemo(() => {
-    if (!search.trim()) {
-      return activeCategory.products.map((p) => ({
-        ...p,
-        category: activeCategory.key,
-        categoryName: activeCategory.name.es,
-      }));
+  // Categories that belong to the active group.
+  const groupCategories = React.useMemo(() => {
+    if (activeGroup === "all") return PROVISION_CATALOG;
+    return PROVISION_CATALOG.filter(
+      (c) => CATEGORY_TO_GROUP[c.key] === activeGroup
+    );
+  }, [activeGroup]);
+
+  // When the group changes, make sure activeKey is inside it.
+  React.useEffect(() => {
+    if (!groupCategories.find((c) => c.key === activeKey)) {
+      setActiveKey(groupCategories[0]?.key ?? PROVISION_CATALOG[0].key);
     }
-    const q = search.toLowerCase();
-    const out: Array<
-      (typeof activeCategory.products)[number] & {
-        category: string;
-        categoryName: string;
+  }, [groupCategories, activeKey]);
+
+  // Keyboard shortcuts: `/` focuses search, `Esc` clears it.
+  React.useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      const isTyping =
+        target?.tagName === "INPUT" ||
+        target?.tagName === "TEXTAREA" ||
+        target?.isContentEditable;
+      if (e.key === "/" && !isTyping) {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      } else if (e.key === "Escape" && target === searchInputRef.current) {
+        setSearch("");
+        searchInputRef.current?.blur();
       }
-    > = [];
-    for (const cat of PROVISION_CATALOG) {
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  const activeCategory =
+    groupCategories.find((c) => c.key === activeKey) ?? groupCategories[0];
+
+  type EnrichedProduct = {
+    id: string;
+    name: string;
+    unit: string;
+    category: string;
+    categoryName: string;
+  };
+
+  // Products to render: either the active category, or search results across the active group.
+  const { visibleProducts, searchCategoriesHit } = React.useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) {
+      const cat = activeCategory;
+      const out: EnrichedProduct[] = cat
+        ? cat.products.map((p) => ({
+            ...p,
+            category: cat.key,
+            categoryName: cat.name[locale],
+          }))
+        : [];
+      return { visibleProducts: out, searchCategoriesHit: 0 };
+    }
+    const out: EnrichedProduct[] = [];
+    const hitCats = new Set<string>();
+    for (const cat of groupCategories) {
       for (const p of cat.products) {
         if (p.name.toLowerCase().includes(q)) {
           out.push({
             ...p,
             category: cat.key,
-            categoryName: cat.name.es,
+            categoryName: cat.name[locale],
           });
+          hitCats.add(cat.key);
         }
       }
     }
-    return out;
-  }, [activeCategory, search]);
+    return { visibleProducts: out, searchCategoriesHit: hitCats.size };
+  }, [activeCategory, groupCategories, search, locale]);
+
+  const showCategoryTabs = !search.trim() && groupCategories.length > 1;
+  const isSearching = search.trim().length > 0;
 
   return (
     <div className="space-y-6">
@@ -863,24 +952,7 @@ function CatalogView({
         <BackRow onClick={onBack} label={tCommon("changeMethod")} />
       </div>
 
-      {/* Mobile floating cart button — hidden on lg where sidebar is always visible */}
-      {Object.keys(cart).length > 0 && (
-        <button
-          type="button"
-          onClick={() => {
-            document.getElementById("cart-sidebar")?.scrollIntoView({ behavior: "smooth", block: "start" });
-          }}
-          className="lg:hidden fixed bottom-20 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2.5 bg-navy text-cream px-6 py-3 rounded-full shadow-xl border border-gold/40 font-semibold text-sm"
-        >
-          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gold text-navy text-[11px] font-bold">
-            {Object.keys(cart).length}
-          </span>
-          {t("cart.review")} →
-        </button>
-      )}
-
-      <div className="grid lg:grid-cols-[minmax(0,1fr)_360px] gap-8 items-start">
-        <div className="space-y-5 min-w-0">
+      <div className="space-y-5 min-w-0">
           <div>
             <Eyebrow>
               {t("eyebrow", { count: PROVISION_PRODUCT_COUNT })}
@@ -891,6 +963,54 @@ function CatalogView({
             <p className="text-charcoal/70 font-light mt-1">{t("subtitle")}</p>
           </div>
 
+          {/* Group filter chips */}
+          <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {PROVISION_GROUPS.map((g) => {
+              const isActive = g.key === activeGroup;
+              const total =
+                g.key === "all"
+                  ? PROVISION_PRODUCT_COUNT
+                  : PROVISION_CATALOG.filter(
+                      (c) => CATEGORY_TO_GROUP[c.key] === g.key
+                    ).reduce((sum, c) => sum + c.products.length, 0);
+              const inCart =
+                g.key === "all"
+                  ? Object.keys(cart).length
+                  : Object.values(cart).filter(
+                      (i) => CATEGORY_TO_GROUP[i.category] === g.key
+                    ).length;
+              return (
+                <button
+                  key={g.key}
+                  type="button"
+                  onClick={() => setActiveGroup(g.key)}
+                  className={[
+                    "shrink-0 inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-medium whitespace-nowrap border transition-all",
+                    isActive
+                      ? "bg-navy border-navy text-gold-light shadow-sm"
+                      : "bg-background border-border text-charcoal/70 hover:border-gold hover:text-navy",
+                  ].join(" ")}
+                >
+                  <span>{g.name[locale]}</span>
+                  <span
+                    className={[
+                      "font-mono text-[10px] rounded-full px-1.5 py-0.5",
+                      isActive
+                        ? "bg-white/10 text-gold-light"
+                        : "bg-cream text-charcoal/70",
+                    ].join(" ")}
+                  >
+                    {total}
+                  </span>
+                  {inCart > 0 && (
+                    <span className="h-1.5 w-1.5 rounded-full bg-gold" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Search bar with kbd hint */}
           <div className="relative">
             <svg
               className="absolute left-3.5 top-1/2 -translate-y-1/2 text-navy/50"
@@ -905,16 +1025,52 @@ function CatalogView({
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
             <Input
-              className="h-11 pl-10"
+              ref={searchInputRef}
+              className="h-11 pl-10 pr-24"
               placeholder={t("searchPlaceholder")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5 pointer-events-none">
+              {search ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearch("");
+                    searchInputRef.current?.focus();
+                  }}
+                  aria-label={t("clearSearch")}
+                  className="pointer-events-auto p-1.5 text-charcoal/50 hover:text-navy"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              ) : (
+                <kbd className="hidden sm:inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-sm bg-cream border border-border font-mono text-[10px] text-charcoal/60">
+                  /
+                </kbd>
+              )}
+            </div>
           </div>
 
-          {!search.trim() && (
+          {/* Search results count */}
+          {isSearching && (
+            <div className="font-mono text-[11px] text-charcoal/70">
+              {visibleProducts.length === 0
+                ? t("noResults") + ` "${search}"`
+                : t("searchResults", {
+                    count: visibleProducts.length,
+                    cats: searchCategoriesHit,
+                  })}
+            </div>
+          )}
+
+          {/* Category tabs (only when not searching and group has multiple categories) */}
+          {showCategoryTabs && (
             <div className="flex gap-1 overflow-x-auto rounded-md border border-border bg-background p-1">
-              {PROVISION_CATALOG.map((cat) => {
+              {groupCategories.map((cat) => {
                 const isActive = cat.key === activeKey;
                 const inCart = Object.values(cart).filter(
                   (i) => i.category === cat.key
@@ -930,7 +1086,7 @@ function CatalogView({
                         : "text-charcoal/70 hover:bg-cream hover:text-navy",
                     ].join(" ")}
                   >
-                    <span>{cat.name.es}</span>
+                    <span>{cat.name[locale]}</span>
                     <span
                       className={[
                         "font-mono text-[10px] rounded-sm px-1.5 py-0.5",
@@ -948,37 +1104,43 @@ function CatalogView({
             </div>
           )}
 
-          {visibleProducts.length === 0 ? (
-            <div className="rounded-md border border-border bg-background p-10 text-center">
-              <p className="text-sm text-charcoal/60 font-light">
-                {t("noResults")} &ldquo;<strong>{search}</strong>&rdquo;
-              </p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
-              {visibleProducts.map((p) => (
-                <ProductCard
-                  key={p.id}
-                  product={p}
-                  cartItem={cart[p.id]}
-                  onAdd={onAdd}
-                  onRemove={onRemove}
-                  onUpdateQty={onUpdateQty}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-
-        <CartSidebar
-          cart={cart}
-          onRemove={onRemove}
-          onProceed={onProceed}
-        />
+        {visibleProducts.length === 0 ? (
+          <div className="rounded-md border border-border bg-background p-10 text-center">
+            <p className="text-sm text-charcoal/60 font-light">
+              {t("noResults")} &ldquo;<strong>{search}</strong>&rdquo;
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3 pb-24">
+            {visibleProducts.map((p) => (
+              <ProductCard
+                key={p.id}
+                product={p}
+                cartItem={cart[p.id]}
+                onAdd={handleAdd}
+                onRemove={onRemove}
+                onUpdateQty={onUpdateQty}
+                highlight={search.trim()}
+                showCategoryHint={isSearching}
+              />
+            ))}
+          </div>
+        )}
       </div>
+
+      <CartDrawer
+        cart={cart}
+        onRemove={onRemove}
+        onProceed={onProceed}
+        open={cartOpen}
+        onOpenChange={setCartOpen}
+        pulseTick={pulseTick}
+      />
     </div>
   );
 }
+
+const QTY_PRESETS = [5, 10, 25, 50];
 
 function ProductCard({
   product,
@@ -986,111 +1148,281 @@ function ProductCard({
   onAdd,
   onRemove,
   onUpdateQty,
+  highlight,
+  showCategoryHint,
 }: {
-  product: { id: string; name: string; unit: string; category: string; categoryName: string };
+  product: { id: string; name: string; unit: string; category: string; categoryName: string; image?: string };
   cartItem?: CartItem;
   onAdd: (item: CartItem) => void;
   onRemove: (id: string) => void;
   onUpdateQty: (id: string, qty: number) => void;
+  highlight?: string;
+  showCategoryHint?: boolean;
 }) {
   const t = useTranslations("forms.provisiones.flow.catalog");
   const [draftQty, setDraftQty] = React.useState(1);
+  const [imgFailed, setImgFailed] = React.useState(false);
   const inCart = !!cartItem;
   const qty = cartItem?.qty ?? draftQty;
+  const showImage = !!product.image && !imgFailed;
+
+  const addToCart = (q: number) => {
+    onAdd({
+      id: product.id,
+      name: product.name,
+      unit: product.unit,
+      qty: Math.max(1, q),
+      category: product.category,
+      categoryName: product.categoryName,
+    });
+  };
 
   const handleToggle = () => {
     if (inCart) onRemove(product.id);
-    else
-      onAdd({
-        id: product.id,
-        name: product.name,
-        unit: product.unit,
-        qty: draftQty,
-        category: product.category,
-        categoryName: product.categoryName,
-      });
+    else addToCart(draftQty);
   };
 
   const setQty = (val: number) => {
-    if (inCart) onUpdateQty(product.id, val);
+    if (inCart) onUpdateQty(product.id, Math.max(1, val));
     else setDraftQty(Math.max(1, val));
+  };
+
+  const applyPreset = (n: number) => {
+    if (inCart) {
+      onUpdateQty(product.id, n);
+    } else {
+      setDraftQty(n);
+      addToCart(n);
+    }
   };
 
   return (
     <div
       className={[
-        "rounded-md border p-4 flex flex-col gap-3 transition-all relative",
+        "group rounded-md border flex flex-col overflow-hidden transition-all relative",
         inCart
-          ? "border-gold bg-gradient-to-b from-background to-cream/30"
+          ? "border-gold shadow-sm"
           : "border-border bg-background hover:border-gold hover:shadow-md hover:-translate-y-0.5",
       ].join(" ")}
     >
-      {inCart && (
-        <span className="absolute top-3 right-3 flex h-5 w-5 items-center justify-center rounded-full bg-gold text-[11px] font-bold text-navy">
-          ✓
-        </span>
-      )}
-      <div className="pr-6">
-        <div className="text-sm font-semibold text-navy leading-tight">
-          {product.name}
-        </div>
-        {product.unit ? (
-          <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-charcoal/60 mt-1">
-            {product.unit}
-          </div>
-        ) : null}
-      </div>
-      <div className="flex items-center gap-2 mt-auto">
-        <div className="flex items-center bg-cream border border-border rounded-sm overflow-hidden flex-1">
-          <button
-            type="button"
-            className="h-11 w-11 hover:bg-gold/15 text-navy font-bold"
-            onClick={() => setQty(qty - 1)}
-          >
-            −
-          </button>
-          <input
-            type="number"
-            min={1}
-            value={qty}
-            onChange={(e) => setQty(parseInt(e.target.value) || 1)}
-            className="flex-1 w-full bg-transparent text-center text-sm font-semibold text-navy outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+      {/* Image / fallback */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-cream to-cream/40">
+        {showImage ? (
+          <Image
+            src={product.image!}
+            alt={product.name}
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1536px) 20vw, 16vw"
+            loading="lazy"
+            onError={() => setImgFailed(true)}
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="font-serif text-5xl text-navy/15 select-none">
+              {product.name.charAt(0).toUpperCase()}
+            </span>
+          </div>
+        )}
+        {inCart && (
+          <span className="absolute top-2 right-2 inline-flex items-center gap-1 rounded-full bg-gold px-2 py-0.5 text-[10px] font-bold text-navy shadow">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3.5}>
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            ×{cartItem!.qty}
+          </span>
+        )}
+      </div>
+
+      {/* Body */}
+      <div className={[
+        "flex flex-col gap-2 p-3",
+        inCart ? "bg-gradient-to-b from-background to-cream/30" : "bg-background",
+      ].join(" ")}>
+        <div>
+          <div className="text-[13px] font-semibold text-navy leading-tight line-clamp-2 min-h-[2.2em]">
+            <HighlightText text={product.name} query={highlight} />
+          </div>
+          <div className="mt-1 flex items-center gap-1.5 flex-wrap">
+            {product.unit ? (
+              <span className="font-mono text-[9px] uppercase tracking-[0.1em] text-charcoal/60">
+                {product.unit}
+              </span>
+            ) : null}
+            {showCategoryHint && product.categoryName ? (
+              <span className="font-mono text-[9px] uppercase tracking-[0.1em] text-gold/80 truncate">
+                · {product.categoryName}
+              </span>
+            ) : null}
+          </div>
+        </div>
+
+        {/* Preset chips */}
+        <div className="flex items-center gap-1">
+          {QTY_PRESETS.map((n) => {
+            const isCurrent = inCart && cartItem!.qty === n;
+            return (
+              <button
+                key={n}
+                type="button"
+                onClick={() => applyPreset(n)}
+                aria-label={t("presetAria", { n })}
+                className={[
+                  "flex-1 h-6 rounded-sm font-mono text-[10px] font-semibold border transition-colors",
+                  isCurrent
+                    ? "bg-navy border-navy text-gold-light"
+                    : "bg-background border-border text-charcoal/70 hover:border-gold hover:text-navy",
+                ].join(" ")}
+              >
+                {n}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Qty stepper + add/remove */}
+        <div className="flex items-center gap-1.5 mt-auto">
+          <div className="flex items-center bg-cream border border-border rounded-sm overflow-hidden flex-1">
+            <button
+              type="button"
+              aria-label={t("decrement")}
+              className="h-8 w-8 hover:bg-gold/15 text-navy font-bold text-sm"
+              onClick={() => setQty(qty - 1)}
+            >
+              −
+            </button>
+            <input
+              type="number"
+              min={1}
+              value={qty}
+              onChange={(e) => setQty(parseInt(e.target.value) || 1)}
+              className="flex-1 w-full bg-transparent text-center text-sm font-semibold text-navy outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            />
+            <button
+              type="button"
+              aria-label={t("increment")}
+              className="h-8 w-8 hover:bg-gold/15 text-navy font-bold text-sm"
+              onClick={() => setQty(qty + 1)}
+            >
+              +
+            </button>
+          </div>
           <button
             type="button"
-            className="h-11 w-11 hover:bg-gold/15 text-navy font-bold"
-            onClick={() => setQty(qty + 1)}
+            onClick={handleToggle}
+            aria-label={inCart ? t("removeBtn") : t("addBtn")}
+            className={[
+              "h-8 px-3 rounded-sm font-mono text-[10px] font-semibold uppercase tracking-[0.08em] transition-colors whitespace-nowrap",
+              inCart
+                ? "bg-emerald-700 text-white hover:bg-emerald-800"
+                : "bg-gold text-navy hover:bg-gold-light",
+            ].join(" ")}
           >
-            +
+            {inCart ? t("removeBtn") : t("addBtn")}
           </button>
         </div>
-        <button
-          type="button"
-          onClick={handleToggle}
-          className={[
-            "h-9 px-4 rounded-sm font-mono text-[11px] font-semibold uppercase tracking-[0.1em] transition-colors whitespace-nowrap",
-            inCart
-              ? "bg-emerald-700 text-white"
-              : "bg-gold text-navy hover:bg-gold-light",
-          ].join(" ")}
-        >
-          {inCart ? "✓" : t("addBtn")}
-        </button>
       </div>
     </div>
   );
 }
 
-function CartSidebar({
+/** Highlights occurrences of `query` inside `text` with a gold background. */
+function HighlightText({ text, query }: { text: string; query?: string }) {
+  if (!query || !query.trim()) return <>{text}</>;
+  const q = query.trim();
+  const lower = text.toLowerCase();
+  const ql = q.toLowerCase();
+  const parts: React.ReactNode[] = [];
+  let i = 0;
+  let k = 0;
+  while (i < text.length) {
+    const idx = lower.indexOf(ql, i);
+    if (idx === -1) {
+      parts.push(text.slice(i));
+      break;
+    }
+    if (idx > i) parts.push(text.slice(i, idx));
+    parts.push(
+      <mark
+        key={`m-${k++}`}
+        className="bg-gold/30 text-navy rounded-sm px-0.5"
+      >
+        {text.slice(idx, idx + q.length)}
+      </mark>
+    );
+    i = idx + q.length;
+  }
+  return <>{parts}</>;
+}
+
+/** Banner shown when the user lands on the catalog with items restored from localStorage. */
+function RestoreCartBanner({
+  count,
+  onClear,
+  onKeep,
+}: {
+  count: number;
+  onClear: () => void;
+  onKeep: () => void;
+}) {
+  const t = useTranslations("forms.provisiones.flow.restore");
+  return (
+    <div className="mx-auto max-w-3xl rounded-md border border-gold/50 bg-gold/10 px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+      <div className="flex items-start gap-3 flex-1">
+        <div className="shrink-0 mt-0.5 flex h-8 w-8 items-center justify-center rounded-full bg-gold text-navy">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </div>
+        <div className="min-w-0">
+          <div className="text-sm font-semibold text-navy">
+            {t("title", { count })}
+          </div>
+          <div className="text-sm text-charcoal/70 font-light">
+            {t("body")}
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center gap-2 sm:shrink-0">
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          onClick={onClear}
+          className="border-border text-charcoal/70 hover:border-red-500 hover:text-red-600"
+        >
+          {t("clear")}
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          onClick={onKeep}
+          className="bg-navy text-cream hover:bg-navy-light"
+        >
+          {t("keep")}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function CartDrawer({
   cart,
   onRemove,
   onProceed,
+  open,
+  onOpenChange,
+  pulseTick,
 }: {
   cart: Record<string, CartItem>;
   onRemove: (id: string) => void;
   onProceed: () => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  pulseTick: number;
 }) {
   const t = useTranslations("forms.provisiones.flow.catalog.cart");
+  const tCatalog = useTranslations("forms.provisiones.flow.catalog");
 
   const items = Object.values(cart);
   const totalQty = items.reduce((sum, i) => sum + i.qty, 0);
@@ -1102,98 +1434,184 @@ function CartSidebar({
     return acc;
   }, {});
 
+  // Brief scale pulse on the FAB each time a product is added.
+  const [pulsing, setPulsing] = React.useState(false);
+  React.useEffect(() => {
+    if (pulseTick === 0) return;
+    setPulsing(true);
+    const id = setTimeout(() => setPulsing(false), 450);
+    return () => clearTimeout(id);
+  }, [pulseTick]);
+
+  // Close drawer on Escape and lock body scroll when open.
+  React.useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onOpenChange(false);
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open, onOpenChange]);
+
+  const hasItems = items.length > 0;
+
   return (
-    <aside id="cart-sidebar" className="lg:sticky lg:top-24 rounded-md border border-border bg-background overflow-hidden flex flex-col max-h-[calc(100vh-7rem)]">
-      <div className="bg-navy text-cream px-5 py-4 border-b-2 border-gold">
-        <div className="font-serif text-xl">
-          {t("title")}{" "}
-          <em className="not-italic text-gold-light italic">{t("titleEm")}</em>
-        </div>
-        <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold mt-1">
-          {t("count", { products: items.length, categories: cats.size })}
-        </div>
-      </div>
-
-      <div className="flex-1 overflow-y-auto px-5 py-4 max-h-96 lg:max-h-none">
-        {items.length === 0 ? (
-          <div className="text-center py-10">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-border text-navy/50">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <path d="M16 10a4 4 0 0 1-8 0" />
-              </svg>
-            </div>
-            <p className="text-sm font-light text-charcoal/70">
-              <strong className="block text-navy font-semibold mb-1">
-                {t("emptyTitle")}
-              </strong>
-              {t("emptyBody")}
-            </p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {Object.entries(groups).map(([catName, list]) => (
-              <div key={catName}>
-                <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-navy/60 border-b border-border pb-1.5 mb-1.5">
-                  {catName} · {list.length}
-                </div>
-                {list.map((it) => (
-                  <div
-                    key={it.id}
-                    className="flex items-center justify-between py-1.5 border-b border-border last:border-0"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <div className="text-sm font-semibold text-navy truncate">
-                        {it.name}
-                      </div>
-                      <div className="font-mono text-[10px] text-charcoal/60">
-                        <strong className="text-gold">{it.qty}</strong>{" "}
-                        {it.unit}
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => onRemove(it.id)}
-                      className="p-1.5 text-charcoal/50 hover:text-red-600 transition-colors"
-                      aria-label="Remove"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-                        <line x1="18" y1="6" x2="6" y2="18" />
-                        <line x1="6" y1="6" x2="18" y2="18" />
-                      </svg>
-                    </button>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
+    <>
+      {/* Floating Action Button */}
+      <button
+        type="button"
+        onClick={() => onOpenChange(true)}
+        aria-label={tCatalog("cartBtnAria", { n: items.length })}
+        className={[
+          "fixed bottom-6 right-6 z-40 inline-flex items-center justify-center h-14 w-14 rounded-full text-cream shadow-xl border-2 border-gold transition-transform duration-300",
+          hasItems ? "bg-navy" : "bg-navy/70 hover:bg-navy",
+          pulsing ? "motion-safe:scale-110" : "scale-100",
+        ].join(" ")}
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <path d="M16 10a4 4 0 0 1-8 0" />
+        </svg>
+        {hasItems && (
+          <span className="absolute -top-1 -right-1 min-w-[22px] h-[22px] px-1 inline-flex items-center justify-center rounded-full bg-gold text-navy text-[11px] font-bold border-2 border-background">
+            {items.length}
+          </span>
         )}
-      </div>
+      </button>
 
-      <div className="bg-cream/50 border-t border-border px-5 py-4">
-        <div className="flex items-baseline justify-between border-b border-border pb-3 mb-3">
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-charcoal/60">
-            {t("total")}
-          </span>
-          <span className="font-serif text-2xl text-navy">
-            <em className="text-gold not-italic italic">{totalQty}</em>
-          </span>
+      {/* Overlay */}
+      <div
+        onClick={() => onOpenChange(false)}
+        aria-hidden={!open}
+        className={[
+          "fixed inset-0 z-40 bg-navy/40 backdrop-blur-sm transition-opacity duration-300",
+          open ? "opacity-100" : "opacity-0 pointer-events-none",
+        ].join(" ")}
+      />
+
+      {/* Drawer */}
+      <aside
+        role="dialog"
+        aria-modal="true"
+        aria-label={t("title")}
+        className={[
+          "fixed inset-y-0 right-0 z-50 w-full sm:w-[440px] bg-background shadow-2xl flex flex-col transition-transform duration-300 ease-out",
+          open ? "translate-x-0" : "translate-x-full",
+        ].join(" ")}
+      >
+        <div className="bg-navy text-cream px-5 py-4 border-b-2 border-gold flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <div className="font-serif text-xl">
+              {t("title")}{" "}
+              <em className="not-italic text-gold-light italic">{t("titleEm")}</em>
+            </div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold mt-1">
+              {t("count", { products: items.length, categories: cats.size })}
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => onOpenChange(false)}
+            aria-label={tCatalog("closeCart")}
+            className="shrink-0 p-2 -mr-2 text-cream/80 hover:text-gold transition-colors"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
-        <Button
-          type="button"
-          onClick={onProceed}
-          disabled={items.length === 0}
-          className="w-full"
-          size="lg"
-        >
-          {t("review")} →
-        </Button>
-        <p className="text-[11px] text-charcoal/60 text-center mt-3 italic font-light">
-          {t("note")}
-        </p>
-      </div>
-    </aside>
+
+        <div className="flex-1 overflow-y-auto px-5 py-4">
+          {items.length === 0 ? (
+            <div className="text-center py-10">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-border text-navy/50">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+              </div>
+              <p className="text-sm font-light text-charcoal/70">
+                <strong className="block text-navy font-semibold mb-1">
+                  {t("emptyTitle")}
+                </strong>
+                {t("emptyBody")}
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {Object.entries(groups).map(([catName, list]) => (
+                <div key={catName}>
+                  <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-navy/60 border-b border-border pb-1.5 mb-1.5">
+                    {catName} · {list.length}
+                  </div>
+                  {list.map((it) => (
+                    <div
+                      key={it.id}
+                      className="flex items-center justify-between py-1.5 border-b border-border last:border-0"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <div className="text-sm font-semibold text-navy truncate">
+                          {it.name}
+                        </div>
+                        <div className="font-mono text-[10px] text-charcoal/60">
+                          <strong className="text-gold">{it.qty}</strong>{" "}
+                          {it.unit}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => onRemove(it.id)}
+                        className="p-1.5 text-charcoal/50 hover:text-red-600 transition-colors"
+                        aria-label="Remove"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                          <line x1="18" y1="6" x2="6" y2="18" />
+                          <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="bg-cream/50 border-t border-border px-5 py-4">
+          <div className="flex items-baseline justify-between border-b border-border pb-3 mb-3">
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-charcoal/60">
+              {t("total")}
+            </span>
+            <span className="font-serif text-2xl text-navy">
+              <em className="text-gold not-italic italic">{totalQty}</em>
+            </span>
+          </div>
+          <Button
+            type="button"
+            onClick={() => {
+              onOpenChange(false);
+              onProceed();
+            }}
+            disabled={items.length === 0}
+            className="w-full"
+            size="lg"
+          >
+            {t("review")} →
+          </Button>
+          <p className="text-[11px] text-charcoal/60 text-center mt-3 italic font-light">
+            {t("note")}
+          </p>
+        </div>
+      </aside>
+    </>
   );
 }
 

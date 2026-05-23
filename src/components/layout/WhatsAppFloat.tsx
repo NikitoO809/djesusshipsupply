@@ -1,9 +1,15 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
 
 export function WhatsAppFloat() {
   const t = useTranslations("whatsappFloat");
+  const pathname = usePathname();
+
+  // The provisions catalog has its own floating cart button in the same corner.
+  // Hide WhatsApp there so the cart is the single focused action.
+  if (pathname?.includes("/cotizar/provisiones")) return null;
 
   return (
     <a

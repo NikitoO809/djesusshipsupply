@@ -24,8 +24,8 @@ export default async function CotizarProvisionesPage({ params }: Props) {
         <strong className="text-gold-light mr-1.5">⚓ {t("flow.bannerTip")}:</strong>
         {t("flow.banner")}
       </div>
-      <section className="container mx-auto max-w-6xl px-4 sm:px-6 py-12 md:py-16">
-        <header className="mb-10 space-y-3 text-center">
+      <section className="w-full px-4 sm:px-6 lg:px-10 py-12 md:py-16">
+        <header className="mx-auto max-w-3xl mb-10 space-y-3 text-center">
           <h1 className="text-3xl md:text-4xl font-serif text-navy tracking-tight">
             {t("title")}
           </h1>
