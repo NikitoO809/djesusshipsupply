@@ -15,8 +15,8 @@ export function PageHeader({
   kicker,
   title,
   subtitle,
-  imageSrc = "https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&w=2200&q=80&fm=avif",
-  imageAlt = "Port at dawn",
+  imageSrc = "/images/posters/Port-ship.jpg",
+  imageAlt = "Buque portacontenedores atracado en puerto",
   videoSrcMp4,
   posterSrc,
 }: PageHeaderProps) {
