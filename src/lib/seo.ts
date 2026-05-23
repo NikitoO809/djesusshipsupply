@@ -379,11 +379,11 @@ const BREADCRUMB_STEPS: Record<string, Array<{ es: string; en: string; path?: st
   "/sobre-nosotros": [{ es: "Sobre nosotros", en: "About us", path: "/sobre-nosotros" }],
   "/blog": [{ es: "Blog", en: "Blog", path: "/blog" }],
   "/servicios/provisiones": [
-    { es: "Servicios", en: "Services" },
+    { es: "Servicios", en: "Services", path: "/" },
     { es: "Provisiones marítimas", en: "Ship provisions", path: "/servicios/provisiones" },
   ],
   "/servicios/gestion-desechos": [
-    { es: "Servicios", en: "Services" },
+    { es: "Servicios", en: "Services", path: "/" },
     { es: "Gestión de desechos MARPOL", en: "MARPOL waste management", path: "/servicios/gestion-desechos" },
   ],
   "/suministro": [{ es: "Suministro", en: "Supply", path: "/suministro" }],
@@ -394,11 +394,11 @@ const BREADCRUMB_STEPS: Record<string, Array<{ es: string; en: string; path?: st
   "/puertos": [{ es: "Puertos", en: "Ports", path: "/puertos" }],
   "/contacto": [{ es: "Contacto", en: "Contact", path: "/contacto" }],
   "/cotizar/provisiones": [
-    { es: "Cotizar", en: "Request quote" },
+    { es: "Cotizar", en: "Request quote", path: "/" },
     { es: "Provisiones", en: "Provisions", path: "/cotizar/provisiones" },
   ],
   "/cotizar/desechos": [
-    { es: "Cotizar", en: "Request quote" },
+    { es: "Cotizar", en: "Request quote", path: "/" },
     { es: "Gestión de desechos", en: "Waste management", path: "/cotizar/desechos" },
   ],
   "/privacidad": [{ es: "Privacidad", en: "Privacy", path: "/privacidad" }],
