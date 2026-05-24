@@ -9,7 +9,7 @@ import { FadeIn, Stagger, StaggerItem } from "@/components/sections/FadeIn";
 import { buildPageMetadata, breadcrumbJsonLd, faqJsonLd, SITE_URL } from "@/lib/seo";
 import { PORTS, getPort } from "@/lib/ports";
 import { routing } from "@/i18n/routing";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -170,40 +170,56 @@ export default async function PortDetailPage({ params }: Props) {
         kicker={`${t("kicker")} ${locale === "es" ? port.nameEs : port.nameEn}`}
         title={portCopy.h1}
         subtitle={portCopy.subtitle}
+        variant="editorial"
       />
 
-      <section className="bg-cream/40 py-24 md:py-32">
+      <section className="relative bg-cream/40 py-28 md:py-40 overflow-hidden">
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10 [background-image:radial-gradient(ellipse_60%_40%_at_15%_15%,rgba(201,169,97,0.10),transparent_60%)]"
+        />
         <div className="container mx-auto px-6">
           <FadeIn>
             <SectionHeading
               kicker={t("servicesKicker")}
               title={t("servicesTitle")}
+              variant="editorial"
             />
           </FadeIn>
-          <Stagger className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <Stagger className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s, i) => (
               <StaggerItem key={i}>
-                <div className="group h-full flex flex-col p-7 md:p-8 rounded-sm bg-white border border-navy/8 hover:border-gold/50 transition-all duration-300">
-                  <h3 className="font-serif text-xl text-navy mb-3 leading-snug">
-                    {s.title}
-                  </h3>
-                  <p className="text-charcoal/75 leading-relaxed text-[14.5px] flex-1 mb-6">
-                    {s.body}
-                  </p>
-                  <div className="flex gap-3 flex-wrap">
-                    <Link
-                      href={s.cta}
-                      className="inline-flex items-center gap-1.5 h-9 px-4 rounded-sm bg-gold text-navy hover:bg-gold-light transition-colors text-[11px] uppercase tracking-[0.2em] font-semibold"
-                    >
-                      {locale === "es" ? "Cotizar" : "Get a quote"}
-                      <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.4} />
-                    </Link>
-                    <Link
-                      href={s.href}
-                      className="inline-flex items-center gap-1.5 h-9 px-4 rounded-sm border border-navy/20 text-navy hover:border-gold hover:text-gold-dark transition-colors text-[11px] uppercase tracking-[0.2em] font-medium"
-                    >
-                      {locale === "es" ? "Ver servicio" : "Learn more"}
-                    </Link>
+                <div className="group relative h-full rounded-[2rem] p-1.5 bg-cream/60 ring-1 ring-navy/10 shadow-[0_1px_0_rgba(255,255,255,0.6)_inset,0_20px_50px_-30px_rgba(10,37,64,0.18)] transition-[transform,box-shadow] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_1px_0_rgba(255,255,255,0.6)_inset,0_30px_70px_-30px_rgba(10,37,64,0.28)]">
+                  <div className="relative h-full flex flex-col rounded-[calc(2rem-0.375rem)] bg-white p-7 md:p-8">
+                    <div className="flex items-baseline gap-3 mb-6">
+                      <span className="font-mono text-[10px] text-gold-dark tracking-[0.2em]">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="h-px flex-1 bg-navy/8" />
+                    </div>
+                    <h3 className="font-serif text-xl md:text-[22px] text-navy mb-3 leading-[1.15] tracking-tight">
+                      {s.title}
+                    </h3>
+                    <p className="text-charcoal/70 leading-relaxed text-[14.5px] flex-1 mb-7">
+                      {s.body}
+                    </p>
+                    <div className="flex gap-2.5 flex-wrap">
+                      <Link
+                        href={s.cta}
+                        className="inline-flex items-center gap-2 rounded-full bg-navy text-cream pl-4 pr-1 py-1 text-[11px] uppercase tracking-[0.18em] font-medium transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-gold hover:text-navy"
+                      >
+                        {locale === "es" ? "Cotizar" : "Get a quote"}
+                        <span className="inline-flex items-center justify-center h-7 w-7 rounded-full bg-gold text-navy">
+                          <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} />
+                        </span>
+                      </Link>
+                      <Link
+                        href={s.href}
+                        className="inline-flex items-center px-4 h-9 rounded-full ring-1 ring-navy/15 text-navy text-[11px] uppercase tracking-[0.18em] font-medium transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-navy hover:text-cream hover:ring-navy"
+                      >
+                        {locale === "es" ? "Ver servicio" : "Learn more"}
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </StaggerItem>
@@ -212,27 +228,34 @@ export default async function PortDetailPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="bg-background py-24 md:py-32">
+      <section className="relative bg-background py-28 md:py-40 overflow-hidden">
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10 opacity-[0.5] [background-image:radial-gradient(ellipse_70%_50%_at_50%_-10%,rgba(201,169,97,0.08),transparent_60%)]"
+        />
         <div className="container mx-auto px-6">
           <FadeIn>
             <SectionHeading
               kicker={t("processKicker")}
               title={t("processTitle")}
+              variant="editorial"
             />
           </FadeIn>
-          <Stagger className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <Stagger className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, i) => (
               <StaggerItem key={i}>
-                <div className="flex flex-col h-full">
-                  <span className="font-serif text-3xl text-gold-dark/80 mb-4">
-                    {step.num}
-                  </span>
-                  <h3 className="font-serif text-lg text-navy mb-2 leading-snug">
-                    {step.title}
-                  </h3>
-                  <p className="text-charcoal/75 leading-relaxed text-[14.5px]">
-                    {step.body}
-                  </p>
+                <div className="group relative h-full rounded-[2rem] p-1.5 bg-cream/60 ring-1 ring-navy/10 shadow-[0_1px_0_rgba(255,255,255,0.6)_inset] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5">
+                  <div className="relative h-full rounded-[calc(2rem-0.375rem)] bg-white p-7 md:p-8">
+                    <span className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-navy text-gold font-serif text-xl ring-4 ring-cream mb-5 transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:bg-gold group-hover:text-navy">
+                      {step.num}
+                    </span>
+                    <h3 className="font-serif text-lg md:text-xl text-navy mb-2.5 leading-snug tracking-tight">
+                      {step.title}
+                    </h3>
+                    <p className="text-charcoal/70 leading-relaxed text-[14.5px]">
+                      {step.body}
+                    </p>
+                  </div>
                 </div>
               </StaggerItem>
             ))}
@@ -240,48 +263,58 @@ export default async function PortDetailPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="bg-cream/40 py-24 md:py-32">
+      <section className="bg-cream/40 py-28 md:py-40 border-y border-navy/8">
         <div className="container mx-auto px-6">
           <FadeIn>
             <SectionHeading
               kicker={t("aboutKicker")}
               title={t("aboutTitle", { port: portName })}
+              variant="editorial"
             />
           </FadeIn>
           <FadeIn>
-            <p className="mt-10 text-base md:text-lg text-charcoal/80 leading-relaxed max-w-3xl">
-              {portCopy.body}
-            </p>
+            <div className="mt-12 max-w-3xl">
+              <div className="rounded-[2rem] p-1.5 bg-cream/60 ring-1 ring-navy/10 shadow-[0_1px_0_rgba(255,255,255,0.6)_inset]">
+                <div className="rounded-[calc(2rem-0.375rem)] bg-white p-9 md:p-12">
+                  <p className="text-base md:text-[17px] text-charcoal/80 leading-[1.7]">
+                    {portCopy.body}
+                  </p>
+                </div>
+              </div>
+            </div>
           </FadeIn>
         </div>
       </section>
 
-      <section className="bg-background py-24 md:py-32">
+      <section className="bg-background py-28 md:py-40">
         <div className="container mx-auto px-6">
           <FadeIn>
             <SectionHeading
               kicker={t("faqKicker")}
               title={t("faqTitle", { port: portName })}
+              variant="editorial"
             />
           </FadeIn>
-          <Stagger className="mt-14 max-w-3xl divide-y divide-navy/10 border-y border-navy/10">
+          <Stagger className="mt-14 max-w-3xl space-y-3">
             {faqs.map((item, i) => (
               <StaggerItem key={i}>
-                <details className="group py-6">
-                  <summary className="flex items-center justify-between gap-6 cursor-pointer list-none">
-                    <h3 className="font-serif text-lg md:text-xl text-navy leading-snug">
+                <details className="group rounded-[2rem] p-1.5 bg-cream/60 ring-1 ring-navy/10 shadow-[0_1px_0_rgba(255,255,255,0.6)_inset] transition-colors duration-500 hover:bg-cream/80">
+                  <summary className="flex items-center justify-between gap-6 cursor-pointer list-none rounded-[calc(2rem-0.375rem)] bg-white px-7 md:px-8 py-6">
+                    <h3 className="font-serif text-lg md:text-xl text-navy leading-snug tracking-tight">
                       {item.question}
                     </h3>
                     <span
                       aria-hidden="true"
-                      className="flex-shrink-0 text-gold-dark text-2xl leading-none transition-transform group-open:rotate-45"
+                      className="flex-shrink-0 inline-flex items-center justify-center h-8 w-8 rounded-full bg-navy/5 ring-1 ring-navy/10 text-navy text-lg leading-none transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-open:rotate-45 group-open:bg-gold group-open:text-navy group-open:ring-gold"
                     >
                       +
                     </span>
                   </summary>
-                  <p className="mt-4 text-charcoal/75 leading-relaxed text-[15px] max-w-2xl">
-                    {item.answer}
-                  </p>
+                  <div className="rounded-[calc(2rem-0.375rem)] bg-white px-7 md:px-8 pb-7 -mt-2">
+                    <p className="text-charcoal/70 leading-relaxed text-[15px] max-w-2xl">
+                      {item.answer}
+                    </p>
+                  </div>
                 </details>
               </StaggerItem>
             ))}
@@ -289,28 +322,28 @@ export default async function PortDetailPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="bg-cream/40 py-20 md:py-24">
+      <section className="bg-cream/40 py-24 md:py-32 border-t border-navy/8">
         <div className="container mx-auto px-6">
           <FadeIn>
             <SectionHeading
               kicker={t("nearbyKicker")}
               title={t("nearbyTitle")}
+              variant="editorial"
             />
           </FadeIn>
-          <Stagger className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <Stagger className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {nearbyPorts.map((p, i) => (
               <StaggerItem key={i}>
                 <Link
                   href={p.href}
-                  className="group flex items-center justify-between gap-3 px-5 py-4 rounded-sm bg-white border border-navy/8 hover:border-gold/50 transition-colors"
+                  className="group flex items-center justify-between gap-3 rounded-full bg-white ring-1 ring-navy/10 pl-5 pr-2 py-2 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-navy hover:ring-navy"
                 >
-                  <span className="font-serif text-base text-navy leading-snug">
+                  <span className="font-serif text-[15px] text-navy leading-snug transition-colors duration-500 group-hover:text-cream">
                     {p.name}
                   </span>
-                  <ArrowRight
-                    className="h-4 w-4 text-navy/40 group-hover:text-gold-dark transition-colors flex-shrink-0"
-                    strokeWidth={2}
-                  />
+                  <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-navy/5 text-navy transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:bg-gold group-hover:text-navy group-hover:translate-x-0.5">
+                    <ArrowUpRight className="h-4 w-4" strokeWidth={2} />
+                  </span>
                 </Link>
               </StaggerItem>
             ))}

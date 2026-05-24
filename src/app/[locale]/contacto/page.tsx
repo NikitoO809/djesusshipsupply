@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import Link from "next/link";
-import { Mail, MessageCircle, MapPin, Briefcase, ArrowRight } from "lucide-react";
+import { Mail, MessageCircle, MapPin, Briefcase, ArrowUpRight } from "lucide-react";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { ContactChannels } from "@/components/sections/ContactChannels";
 import { FadeIn } from "@/components/sections/FadeIn";
@@ -58,44 +58,48 @@ export default async function ContactoPage({ params }: Props) {
         subtitle={t("intro")}
         imageSrc="/images/Contactanos.jpg"
         imageAlt="Maritime port with vessels"
+        variant="editorial"
       />
 
-      <section className="bg-background py-24 md:py-32">
+      <section className="relative bg-background py-28 md:py-40 overflow-hidden">
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10 opacity-[0.5] [background-image:radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(201,169,97,0.10),transparent_60%)]"
+        />
         <div className="container mx-auto px-6">
           <FadeIn>
-            <div className="max-w-3xl mb-14">
-              <div className="flex items-center gap-3 text-gold-dark text-[11px] uppercase tracking-[0.22em] mb-5">
-                <span className="h-px w-8 bg-gold-dark/50" />
-                <span>{t("kicker")}</span>
-              </div>
-              <h2 className="font-serif text-3xl md:text-4xl text-navy leading-[1.15] tracking-tight">
+            <div className="max-w-3xl mb-16">
+              <span className="inline-flex items-center gap-2 rounded-full bg-navy/5 ring-1 ring-navy/10 px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-navy/70 font-medium mb-7">
+                <span className="h-1 w-1 rounded-full bg-gold-dark" />
+                {t("kicker")}
+              </span>
+              <h2 className="font-serif text-[40px] md:text-[56px] lg:text-[72px] leading-[0.95] tracking-[-0.02em] text-navy">
                 {t("channelsTitle")}
+                <span className="text-gold">.</span>
               </h2>
             </div>
           </FadeIn>
 
-          <ContactChannels channels={channels} />
+          <ContactChannels channels={channels} variant="editorial" />
 
           <div className="mt-16 grid gap-4 sm:grid-cols-2 max-w-2xl">
             <Link
               href={link("/cotizar/provisiones")}
-              className="group inline-flex items-center justify-center gap-2 h-13 py-4 px-7 rounded-sm bg-navy text-cream hover:bg-navy-dark transition-colors text-xs uppercase tracking-[0.22em] font-semibold"
+              className="group inline-flex items-center justify-center gap-3 rounded-full bg-navy text-cream pl-7 pr-2 py-2 text-[11px] uppercase tracking-[0.22em] font-semibold transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-gold hover:text-navy"
             >
               {t("ctaProvisions")}
-              <ArrowRight
-                className="h-4 w-4 transition-transform group-hover:translate-x-1"
-                strokeWidth={2.4}
-              />
+              <span className="inline-flex items-center justify-center h-9 w-9 rounded-full bg-gold text-navy transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-[1px] group-hover:bg-navy group-hover:text-cream">
+                <ArrowUpRight className="h-4 w-4" strokeWidth={2} />
+              </span>
             </Link>
             <Link
               href={link("/cotizar/desechos")}
-              className="group inline-flex items-center justify-center gap-2 h-13 py-4 px-7 rounded-sm border border-navy text-navy hover:bg-navy hover:text-cream transition-colors text-xs uppercase tracking-[0.22em] font-semibold"
+              className="group inline-flex items-center justify-center gap-3 rounded-full bg-white ring-1 ring-navy/20 text-navy pl-7 pr-2 py-2 text-[11px] uppercase tracking-[0.22em] font-semibold transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-navy hover:text-cream hover:ring-navy"
             >
               {t("ctaWaste")}
-              <ArrowRight
-                className="h-4 w-4 transition-transform group-hover:translate-x-1"
-                strokeWidth={2.4}
-              />
+              <span className="inline-flex items-center justify-center h-9 w-9 rounded-full bg-navy text-cream transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-[1px] group-hover:bg-gold group-hover:text-navy">
+                <ArrowUpRight className="h-4 w-4" strokeWidth={2} />
+              </span>
             </Link>
           </div>
         </div>

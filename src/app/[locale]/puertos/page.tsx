@@ -44,9 +44,14 @@ export default async function PuertosPage({ params }: Props) {
         subtitle={t("subtitle")}
         videoSrcMp4="/videos/Port-ships.mp4"
         posterSrc="/images/posters/Port-ships.jpg"
+        variant="editorial"
       />
 
-      <section className="bg-background py-24 md:py-32">
+      <section className="relative bg-background py-28 md:py-40 overflow-hidden">
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10 opacity-[0.5] [background-image:radial-gradient(ellipse_70%_40%_at_80%_-10%,rgba(10,37,64,0.06),transparent_60%)]"
+        />
         <div className="container mx-auto px-6">
           <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {ports.map((p, i) => (
@@ -56,6 +61,7 @@ export default async function PuertosPage({ params }: Props) {
                   name={p.name}
                   body={p.body}
                   href={link(`/puertos/${p.slug}`)}
+                  variant="editorial"
                 />
               </StaggerItem>
             ))}
