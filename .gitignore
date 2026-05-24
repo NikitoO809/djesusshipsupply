@@ -56,3 +56,4 @@ public/products/_backup-wikipedia/
 
 # Generation script logs (ruido de ejecución)
 scripts/.generate-all.log
+scripts/.generate-procurement.log

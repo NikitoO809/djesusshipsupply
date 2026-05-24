@@ -4,6 +4,13 @@ export type CatalogItem = {
   id: string;
   name: string;
   unit: CatalogItemUnit;
+  /**
+   * Image path relative to /public, derived from id by convention if absent.
+   * Convention: `/procurement/<category-id>/<item-id>.webp`
+   * (item-id already starts with the category-id, so we split it.)
+   * If the file does not exist at runtime, the UI falls back to an initial avatar.
+   */
+  image?: string;
 };
 
 export type CatalogCategory = {
@@ -14,6 +21,16 @@ export type CatalogCategory = {
   color: string;
   items: CatalogItem[];
 };
+
+/**
+ * Build the conventional image path for a procurement item.
+ * id "electricos-01" → "/procurement/electricos/electricos-01.webp"
+ */
+export function procurementItemImagePath(item: { id: string }): string {
+  const dashIdx = item.id.indexOf("-");
+  const categoryId = dashIdx > 0 ? item.id.slice(0, dashIdx) : item.id;
+  return `/procurement/${categoryId}/${item.id}.webp`;
+}
 
 export const catalogCategories: CatalogCategory[] = [
   {
