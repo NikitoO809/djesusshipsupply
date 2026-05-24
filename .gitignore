@@ -50,3 +50,9 @@ skills-lock.json
 n8n-workflows/
 
 .vercel
+
+# Wikipedia photos backup (local-only, fallback en caso de querer volver a alguna)
+public/products/_backup-wikipedia/
+
+# Generation script logs (ruido de ejecución)
+scripts/.generate-all.log
