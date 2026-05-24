@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import Image from "next/image";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { Droplet, Recycle, Satellite, Zap, Snowflake } from "lucide-react";
+import { Droplet, Recycle, Satellite, Zap, Snowflake, Check, ArrowRight } from "lucide-react";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { SectionHeading } from "@/components/sections/SectionHeading";
-import { AnnexBlock } from "@/components/sections/AnnexBlock";
 import { Timeline } from "@/components/sections/Timeline";
 import { FeatureGrid } from "@/components/sections/FeatureGrid";
 import { CTASection } from "@/components/sections/CTASection";
@@ -134,23 +135,87 @@ export default async function GestionDesechosPage({ params }: Props) {
         imageAlt="Gestión de residuos oleosos MARPOL"
       />
 
-      <section className="bg-background py-24 md:py-32">
-        <div className="container mx-auto px-6 space-y-24 md:space-y-32">
-          <AnnexBlock
-            tag={t("annex1Tag")}
-            title={t("annex1Title")}
-            body={t("annex1Body")}
-            includesLabel={t("annex1Includes")}
-            items={[
-              t("annex1Item1"),
-              t("annex1Item2"),
-              t("annex1Item3"),
-            ]}
-            icon={Droplet}
-            imageSrc="/images/oleosos.jpg"
-            imageAlt={t("annex1Title")}
-          />
+      <section className="relative bg-navy text-cream py-24 md:py-32 overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-[0.08] pointer-events-none"
+          aria-hidden="true"
+          style={{
+            background:
+              "radial-gradient(60% 50% at 30% 30%, var(--gold) 0%, transparent 70%)",
+          }}
+        />
+        <div className="container mx-auto px-6 relative">
+          <FadeIn>
+            <div className="text-center mb-14 md:mb-16">
+              <div className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-gold font-semibold mb-4">
+                <span className="h-px w-8 bg-gold/60" />
+                {locale === "en" ? "Core service" : "Servicio principal"}
+                <span className="h-px w-8 bg-gold/60" />
+              </div>
+              <h2 className="font-serif text-3xl md:text-5xl text-cream leading-[1.08] tracking-tight max-w-3xl mx-auto">
+                {t("annex1Title")}
+              </h2>
+            </div>
+          </FadeIn>
 
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <FadeIn>
+              <div className="relative aspect-[4/3] overflow-hidden rounded-sm ring-1 ring-gold/20 shadow-2xl">
+                <Image
+                  src="/images/oleosos.jpg"
+                  alt={t("annex1Title")}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-tr from-navy/60 via-navy/10 to-transparent" />
+                <span className="absolute top-5 left-5 inline-flex items-center px-3 py-1.5 rounded-sm bg-gold text-navy text-[10px] uppercase tracking-[0.22em] font-semibold">
+                  {t("annex1Tag")}
+                </span>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={0.1}>
+              <div>
+                <div className="inline-flex items-center justify-center h-12 w-12 rounded-sm bg-gold text-navy mb-6">
+                  <Droplet className="h-5 w-5" strokeWidth={1.8} />
+                </div>
+
+                <p className="text-cream/80 leading-relaxed text-base md:text-lg mb-8">
+                  {t("annex1Body")}
+                </p>
+
+                <p className="text-[11px] uppercase tracking-[0.22em] text-gold font-medium mb-4">
+                  {t("annex1Includes")}
+                </p>
+                <ul className="space-y-3 mb-10">
+                  {[t("annex1Item1"), t("annex1Item2"), t("annex1Item3")].map(
+                    (item, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <span className="mt-0.5 inline-flex items-center justify-center h-5 w-5 rounded-full bg-gold/20 text-gold shrink-0">
+                          <Check className="h-3 w-3" strokeWidth={3} />
+                        </span>
+                        <span className="text-cream/85 text-[15px]">
+                          {item}
+                        </span>
+                      </li>
+                    )
+                  )}
+                </ul>
+
+                <Link
+                  href={link("/cotizar/desechos")}
+                  className="group inline-flex items-center gap-3 h-12 px-7 rounded-sm bg-gold text-navy hover:bg-gold-light transition-colors text-[12px] uppercase tracking-[0.18em] font-semibold"
+                >
+                  {t("ctaText")}
+                  <ArrowRight
+                    className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                    strokeWidth={2.5}
+                  />
+                </Link>
+              </div>
+            </FadeIn>
+          </div>
         </div>
       </section>
 
