@@ -133,6 +133,7 @@ export default async function GestionDesechosPage({ params }: Props) {
         videoSrcMp4="/videos/Servicios.mp4"
         posterSrc="/images/oleosos.jpg"
         imageAlt="Gestión de residuos oleosos MARPOL"
+        variant="editorial"
       />
 
       <section className="relative bg-navy text-cream py-24 md:py-32 overflow-hidden">
@@ -219,7 +220,11 @@ export default async function GestionDesechosPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="bg-background py-24 md:py-32 border-t border-navy/8">
+      <section className="relative bg-background py-28 md:py-40 border-t border-navy/8 overflow-hidden">
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10 opacity-[0.5] [background-image:radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(201,169,97,0.10),transparent_60%)]"
+        />
         <div className="container mx-auto px-6">
           <FadeIn>
             <SectionHeading
@@ -227,25 +232,27 @@ export default async function GestionDesechosPage({ params }: Props) {
               title={t("techTitle")}
               subtitle={t("techSubtitle")}
               align="center"
+              variant="editorial"
             />
           </FadeIn>
           <div className="mt-16 md:mt-20">
-            <FeatureGrid features={techServices} columns={4} />
+            <FeatureGrid features={techServices} columns={4} variant="editorial" />
           </div>
         </div>
       </section>
 
-      <section className="bg-cream/30 py-24 md:py-32 border-y border-navy/8">
+      <section className="bg-cream/40 py-28 md:py-40 border-y border-navy/8">
         <div className="container mx-auto px-6">
           <FadeIn>
             <SectionHeading
               kicker={t("howKicker")}
               title={t("howTitle")}
               align="center"
+              variant="editorial"
             />
           </FadeIn>
           <div className="mt-16 md:mt-20">
-            <Timeline steps={steps} />
+            <Timeline steps={steps} variant="editorial" />
           </div>
         </div>
       </section>

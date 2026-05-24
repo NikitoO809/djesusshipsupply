@@ -132,30 +132,36 @@ export default async function ProvisionesPage({ params }: Props) {
         subtitle={t("subtitle")}
         imageSrc="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=2200&q=80&fm=avif"
         imageAlt="Fresh produce market"
+        variant="editorial"
       />
 
-      <section className="bg-background py-24 md:py-32">
+      <section className="relative bg-background py-28 md:py-40 overflow-hidden">
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10 opacity-[0.5] [background-image:radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(201,169,97,0.10),transparent_60%)]"
+        />
         <div className="container mx-auto px-6">
           <FadeIn>
             <SectionHeading
               kicker={t("categoriesKicker")}
               title={t("categoriesTitle")}
               align="center"
+              variant="editorial"
             />
           </FadeIn>
           <div className="mt-16 md:mt-20">
-            <FeatureGrid features={categories} columns={3} />
+            <FeatureGrid features={categories} columns={3} variant="editorial" />
           </div>
         </div>
       </section>
 
-      <section className="bg-cream/30 py-24 md:py-32 border-y border-navy/8">
+      <section className="bg-cream/40 py-28 md:py-40 border-y border-navy/8">
         <div className="container mx-auto px-6">
           <FadeIn>
-            <SectionHeading title={t("whyTitle")} align="center" />
+            <SectionHeading title={t("whyTitle")} align="center" variant="editorial" />
           </FadeIn>
           <div className="mt-16">
-            <FeatureGrid features={why} columns={4} variant="minimal" />
+            <FeatureGrid features={why} columns={4} variant="editorial" />
           </div>
         </div>
       </section>
