@@ -3,14 +3,11 @@ import { DM_Sans, Playfair_Display, JetBrains_Mono } from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { Toaster } from "@/components/ui/sonner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { routing } from "@/i18n/routing";
 import { localBusinessJsonLd, SITE_URL } from "@/lib/seo";
-import { UnifiedCartProvider } from "@/components/unified-cart/UnifiedCartContext";
-import { RfqProvider } from "@/components/procurement/rfq/RfqContext";
 import { Analytics } from "@vercel/analytics/next";
 import "../globals.css";
 
@@ -161,22 +158,17 @@ export default async function LocaleLayout({
           }}
         />
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <UnifiedCartProvider>
-            <RfqProvider>
-              <a
-                href="#main-content"
-                className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 focus:rounded-sm focus:bg-gold focus:text-navy focus:text-sm focus:font-semibold focus:shadow-lg"
-              >
-                {locale === "en" ? "Skip to main content" : "Saltar al contenido"}
-              </a>
-              <Header />
-              <main id="main-content" className="flex-1">{children}</main>
-              <Footer />
-              <WhatsAppFloat />
-              <Toaster />
-            </RfqProvider>
-          </UnifiedCartProvider>
-        </NextIntlClientProvider>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 focus:rounded-sm focus:bg-gold focus:text-navy focus:text-sm focus:font-semibold focus:shadow-lg"
+          >
+            {locale === "en" ? "Skip to main content" : "Saltar al contenido"}
+          </a>
+          <Header />
+          <main id="main-content" className="flex-1">{children}</main>
+          <Footer />
+          <WhatsAppFloat />
+    </NextIntlClientProvider>
         <Analytics />
       </body>
     </html>

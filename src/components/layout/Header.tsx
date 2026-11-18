@@ -14,7 +14,6 @@ export async function Header() {
   const navItems = [
     { label: t("provisiones"), href: link("/servicios/provisiones") },
     { label: t("gestionDesechos"), href: link("/servicios/gestion-desechos") },
-    { label: t("procurement"), href: link("/suministro") },
     { label: t("puertos"), href: link("/puertos") },
     { label: t("sobreNosotros"), href: link("/sobre-nosotros") },
     { label: t("contacto"), href: link("/contacto") },
@@ -56,7 +55,7 @@ export async function Header() {
         <div className="flex items-center gap-3 sm:gap-5">
           <LanguageSwitcher />
           <Link
-            href={link("/cotizar/provisiones")}
+            href={link("/contacto")}
             className="group hidden lg:inline-flex items-center justify-center gap-1.5 h-10 px-5 rounded-sm bg-gold text-navy hover:bg-gold-light transition-colors text-[11px] uppercase tracking-[0.22em] font-semibold"
           >
             {t("cotizar")}
@@ -69,7 +68,7 @@ export async function Header() {
             <MobileNav
               items={navItems}
               cotizarLabel={t("cotizar")}
-              cotizarHref={link("/cotizar/provisiones")}
+              cotizarHref={link("/contacto")}
             />
           </Suspense>
         </div>

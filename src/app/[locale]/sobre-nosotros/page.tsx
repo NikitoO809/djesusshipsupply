@@ -90,11 +90,11 @@ export default async function SobreNosotrosPage({ params }: Props) {
         buttons={[
           {
             label: tHome("ctaProvisions"),
-            href: link("/cotizar/provisiones"),
+            href: link("/contacto"),
           },
           {
             label: tHome("ctaWaste"),
-            href: link("/cotizar/desechos"),
+            href: link("/contacto"),
             variant: "outline",
           },
         ]}

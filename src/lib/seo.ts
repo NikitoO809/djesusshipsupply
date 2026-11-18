@@ -83,54 +83,6 @@ export const PAGE_SEO: Record<string, Record<Locale, Copy>> = {
         "Reach De Jesús Ship Supply: 24/7 WhatsApp, operations email and direct form. Quote responses in under 2 hours.",
     },
   },
-  "/cotizar/provisiones": {
-    es: {
-      title: "Cotizar provisiones marítimas — Solicitud directa",
-      description:
-        "Solicite cotización de provisiones para su buque. Suba lista en Excel, escriba a mano o use nuestra plantilla. Respuesta en menos de 2 horas.",
-    },
-    en: {
-      title: "Request a provisions quote — Direct submission",
-      description:
-        "Request a ship provisions quote: upload Excel, free text, or use our template. Response in under 2 hours.",
-    },
-  },
-  "/cotizar/desechos": {
-    es: {
-      title: "Cotizar gestión de desechos MARPOL — Solicitud directa",
-      description:
-        "Solicite cotización de gestión MARPOL: anexo, volumen estimado y puerto. Coordinamos atención al buque con documentación completa.",
-    },
-    en: {
-      title: "Request a MARPOL waste quote — Direct submission",
-      description:
-        "Request a MARPOL waste management quote: annex, estimated volume and port. We coordinate vessel service with complete documentation.",
-    },
-  },
-  "/procurement": {
-    es: {
-      title: "Marine Procurement — Suministros industriales y navales en RD",
-      description:
-        "Catálogo de suministros industriales y navales: eléctricos, ferretería, seguridad, pintura, refrigeración y más. Entrega directa al buque en los 8 puertos de RD. Cotización en 2 horas.",
-    },
-    en: {
-      title: "Marine Procurement — Industrial & naval supplies in DR",
-      description:
-        "Industrial and marine supply catalog: electrical, hardware, safety, coatings, refrigeration and more. Direct delivery to your vessel at all 8 DR ports. Quote in 2 hours.",
-    },
-  },
-  "/suministro": {
-    es: {
-      title: "Suministro marítimo — Técnicos, Provisiones y MARPOL en RD",
-      description:
-        "Plataforma de suministro marítimo integral: suministros técnicos industriales, provisiones a bordo y gestión de desechos MARPOL en los 8 puertos de República Dominicana.",
-    },
-    en: {
-      title: "Maritime supply — Technical, Provisions & MARPOL in DR",
-      description:
-        "Integrated maritime supply platform: industrial technical supplies, onboard provisions and MARPOL waste management across the 8 main ports of the Dominican Republic.",
-    },
-  },
   "/blog": {
     es: {
       title: "Blog Marítimo — Guías y recursos para capitanes y agentes navieros",
@@ -386,21 +338,8 @@ const BREADCRUMB_STEPS: Record<string, Array<{ es: string; en: string; path?: st
     { es: "Servicios", en: "Services", path: "/" },
     { es: "Gestión de desechos MARPOL", en: "MARPOL waste management", path: "/servicios/gestion-desechos" },
   ],
-  "/suministro": [{ es: "Suministro", en: "Supply", path: "/suministro" }],
-  "/procurement": [
-    { es: "Suministro", en: "Supply", path: "/suministro" },
-    { es: "Suministros técnicos", en: "Technical supplies", path: "/procurement" },
-  ],
   "/puertos": [{ es: "Puertos", en: "Ports", path: "/puertos" }],
   "/contacto": [{ es: "Contacto", en: "Contact", path: "/contacto" }],
-  "/cotizar/provisiones": [
-    { es: "Cotizar", en: "Request quote", path: "/" },
-    { es: "Provisiones", en: "Provisions", path: "/cotizar/provisiones" },
-  ],
-  "/cotizar/desechos": [
-    { es: "Cotizar", en: "Request quote", path: "/" },
-    { es: "Gestión de desechos", en: "Waste management", path: "/cotizar/desechos" },
-  ],
   "/privacidad": [{ es: "Privacidad", en: "Privacy", path: "/privacidad" }],
   "/terminos": [{ es: "Términos", en: "Terms", path: "/terminos" }],
   "/puertos/caucedo": [

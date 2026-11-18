@@ -192,12 +192,6 @@ export default async function ArticlePage({ params }: Props) {
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
-                    href={`/${locale}/cotizar/provisiones`}
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-gold text-navy text-[11px] uppercase tracking-[0.2em] font-semibold rounded-sm hover:bg-gold/90 transition-colors"
-                  >
-                    {lang === "es" ? "Cotizar provisiones" : "Request provisions quote"}
-                  </Link>
-                  <Link
                     href={`/${locale}/contacto`}
                     className="inline-flex items-center gap-2 px-6 py-3 border border-navy text-navy text-[11px] uppercase tracking-[0.2em] font-semibold rounded-sm hover:bg-navy hover:text-cream transition-colors"
                   >

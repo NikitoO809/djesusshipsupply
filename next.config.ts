@@ -37,6 +37,16 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    // Secciones retiradas (suministro, procurement, cotizador de provisiones):
+    // los enlaces antiguos llevan a contacto para no dar 404 ni perder SEO.
+    return [
+      { source: "/:locale(es|en)/suministro", destination: "/:locale/contacto", permanent: true },
+      { source: "/:locale(es|en)/procurement/:path*", destination: "/:locale/contacto", permanent: true },
+      { source: "/:locale(es|en)/cotizar/provisiones", destination: "/:locale/contacto", permanent: true },
+      { source: "/:locale(es|en)/cotizar/desechos", destination: "/:locale/contacto", permanent: true },
+    ];
+  },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },

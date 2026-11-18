@@ -168,7 +168,7 @@ export default async function ProvisionesPage({ params }: Props) {
 
       <CTASection
         title={t("ctaText")}
-        buttons={[{ label: t("ctaText"), href: link("/cotizar/provisiones") }]}
+        buttons={[{ label: t("ctaText"), href: link("/contacto") }]}
       />
     </>
   );

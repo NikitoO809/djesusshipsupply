@@ -17,12 +17,9 @@ No test suite is configured.
 
 ## Stack
 
-- **Next.js 16.2.6** — App Router, Server Components by default, React 19
+- **Next.js 16.4.6** — App Router, Server Components by default, React 19
 - **Tailwind v4** — no `tailwind.config.js`; theme lives entirely in `src/app/globals.css` under `@theme inline` and CSS custom properties
 - **next-intl 4.x** — all routes under `src/app/[locale]/`; locales `es` (default) and `en`
-- **Zod 4** — shared validation between client forms and the API route
-- **Resend** — transactional email
-- **Upstash Redis** — rate limiting (5 req / 1 h per IP) on the quote endpoint
 - **shadcn/ui** components in `src/components/ui/`
 - **Framer Motion** — `FadeIn` / `Stagger` scroll-reveal primitives in `src/components/sections/FadeIn.tsx`
 
@@ -40,17 +37,11 @@ There is no `tailwind.config.js`. Brand tokens (`navy`, `gold`, `cream`, `charco
 
 Wrap all animations in `motion-safe:` to respect `prefers-reduced-motion`.
 
-### Quote flow
+### Cotizaciones (sin formulario)
 
-`ProvisionsQuoteFlow` (`src/components/forms/provisions-flow/`) is a 3-step client form:
+La web **no tiene formularios, API de correo ni backend**: es 100 % estática/SSG. Las cotizaciones llegan por correo (`ops@` / `info@djshipsupply.com`, que reenvían a Gmail vía Cloudflare Email Routing) o por WhatsApp. Todos los botones "Cotizar…" del sitio llevan a `/contacto`, donde un botón `mailto:` abre un correo con la plantilla de MARPOL ya escrita (`contact.mailSubject` / `contact.mailBody` en `messages/`).
 
-1. **Vessel** — vessel + port call + contact data (`VesselContactData`)
-2. **Order** — one of three methods: catalog (cart), Excel template, or file upload
-3. **Review** — currency, notes, consent, submit
-
-All submission goes to `POST /api/cotizar` (`src/app/api/cotizar/route.ts`), which accepts either JSON (catalog / MARPOL) or `multipart/form-data` (file upload). It validates against the Zod schemas in `src/lib/schemas/`, enforces rate limiting, then sends two emails via Resend — one internal, one customer confirmation.
-
-The API distinguishes between `quoteProvisionsSchema` (legacy simple form) and `quoteProvisionsRichSchema` (3-method flow) by detecting the presence of a `method` field in the payload.
+Retirado en el mantenimiento de nov-2026: catálogo, cotizador de provisiones, procurement, carrito/RFQ, formulario MARPOL, `/api/cotizar`, Resend, Upstash, ExcelJS, ERP y n8n. Estas URLs redirigen (308) a `/contacto`: `/suministro`, `/procurement/*`, `/cotizar/provisiones`, `/cotizar/desechos` (ver `redirects()` en `next.config.ts`). El historial de git conserva todo ese código si hiciera falta recuperarlo.
 
 ### SEO
 
@@ -68,16 +59,7 @@ It requires a `posterSrc` prop (images in `public/images/posters/`). Pass `prior
 
 ### Environment variables
 
-See `.env.local.example`. Required for email to work in production:
-
-```
-RESEND_API_KEY
-RESEND_TO_EMAIL
-RESEND_FROM_EMAIL
-NEXT_PUBLIC_SITE_URL   # used for CORS origin check in /api/cotizar
-```
-
-Without `RESEND_API_KEY` / `RESEND_TO_EMAIL`, the API returns `{ ok: true, simulated: true }` in development and a 500 in production.
+Ya no se necesita ninguna para que la web funcione. `.env.local.example` solo lista `SITE_URL`/`NEXT_PUBLIC_SITE_URL`, los datos de contacto públicos y la verificación de Google Search Console.
 
 ### WhatsApp float button
 

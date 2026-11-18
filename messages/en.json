@@ -3,7 +3,6 @@
     "servicios": "Services",
     "provisiones": "Provisions",
     "gestionDesechos": "Services",
-    "procurement": "Procurement",
     "puertos": "Ports",
     "sobreNosotros": "About Us",
     "contacto": "Contact",
@@ -54,9 +53,6 @@
     "service1Body": "Certified collection and disposal of oily residues (sludge, bilge water, purifier waste) and solid garbage with full MARPOL Annex I–V compliance. Complete Oil Record Book documentation.",
     "service2Title": "Ship provisions",
     "service2Body": "266+ products delivered onboard: fresh, frozen and dry provisions, bonded stores, potable water and technical gases. Order via online catalog, Excel template or your own list. 24 h response.",
-    "service3Title": "Technical supplies",
-    "service3Body": "Marine spare parts and materials catalog: electrical, mechanical, safety and deck equipment. Submit an item list or free-text description. Response in under 2 hours.",
-    "ctaSupplies": "Browse technical catalog",
     "ctaTitle": "Next port call in the DR? Get a quote in minutes.",
     "ctaSubtitle": "Closed-price response in under 2 hours.",
     "ctaProvisions": "Quote provisions",
@@ -166,292 +162,20 @@
   "contact": {
     "kicker": "Contact",
     "h1": "Let's talk",
-    "intro": "We handle operational requests 24/7. For quotes, please use our forms — they're faster and let us respond with closed pricing in under 2 hours.",
+    "intro": "We handle operational requests 24/7. For quotes, email us the vessel details and we will respond in under 2 hours.",
     "channelsTitle": "Direct channels",
     "labelOpsEmail": "Operations email",
     "labelInfoEmail": "Commercial email",
     "labelWhatsapp": "WhatsApp 24/7",
     "labelOffice": "Head office",
     "valueOfficeText": "Santo Domingo, Dominican Republic",
-    "ctaProvisions": "Quote provisions",
-    "ctaWaste": "Quote waste management"
-  },
-  "suministro": {
-    "badge": "Integrated supply",
-    "titleBefore": "Everything your vessel needs, ",
-    "titleEm": "in one place",
-    "titleAfter": "",
-    "description": "Select the service you need. Build your list, request a quote and receive a response in under 2 hours.",
-    "tecnicosTag": "Technical supplies",
-    "tecnicosTitle": "Industrial materials & supplies",
-    "tecnicosBody": "Electrical, hardware, coatings, refrigeration, plumbing, tools and more. Build your list and quote directly from the catalog.",
-    "tecnicosCta": "View catalog",
-    "provisionesTag": "Provisions",
-    "provisionesTitle": "Food & provisions onboard",
-    "provisionesBody": "Fresh, frozen, dry, bonded stores, fresh water and technical gases. Direct delivery to the vessel.",
-    "provisionesCta": "Request quote",
-    "desechosTag": "MARPOL & Technical Services",
-    "desechosTitle": "Oily residues & onboard technical support",
-    "desechosBody": "Certified MARPOL oily residue management plus onboard technical services: marine scrap, navigation electronics, electrical systems and refrigeration.",
-    "desechosCta": "View service"
-  },
-  "procurement": {
-    "badge": "Marine Procurement",
-    "title": "Industrial & Marine Supply Catalog",
-    "titleEm": "Industrial & Marine",
-    "description": "We manage the procurement of materials, equipment and supplies from certified local vendors — delivered directly to your vessel at any port in the Dominican Republic.",
-    "categories": "Categories",
-    "products": "Products",
-    "delivery": "Port delivery",
-    "deliveryTime": "24h",
-    "searchPlaceholder": "Search product... (e.g.: cable, paint, gloves)",
-    "expandAll": "Expand all",
-    "collapseAll": "Collapse",
-    "noResults": "No products found for",
-    "ctaTitle": "Need any of these supplies?",
-    "ctaDescription": "Send your material list and receive a quote in under 2 hours. Direct delivery to your vessel at all DR ports.",
-    "ctaButton": "Request Quote",
-    "ctaWhatsapp": "WhatsApp Direct",
-    "supplierNote": "Authorized supplier: Ferretería Ochoa S.A. — All products are original and backed by manufacturer warranty. Subject to availability. Prices provided upon quotation.",
-    "itemCount": "products"
+    "ctaEmailQuote": "Request a quote by email",
+    "mailSubject": "Quote request — MARPOL waste management",
+    "mailBody": "Hello,\n\nI would like to request a quote for MARPOL waste management.\n\nVessel:\nFlag:\nIMO:\nPort:\nETA / ETD:\nWaste type (oily water, sludge, garbage...):\nEstimated volume:\nAlongside or anchorage:\n\nName and role:\nPhone:\nCompany:\n"
   },
   "whatsappFloat": {
     "ariaLabel": "Contact us on WhatsApp",
     "prefilledMessage": "Hello, I'd like more information about your services."
-  },
-  "forms": {
-    "provisiones": {
-      "title": "Quote request — Provisions",
-      "subtitle": "Provide vessel details and required list. We'll respond within 2 hours with availability and pricing.",
-      "flow": {
-        "banner": "We recommend requesting 5 days before ETA. For urgent calls, reach us on WhatsApp.",
-        "bannerTip": "TIP",
-        "stepper": {
-          "vessel": "Vessel details",
-          "order": "Your order",
-          "review": "Review and send"
-        },
-        "methods": {
-          "eyebrow": "Step 02 · How would you like to order",
-          "title": "How would you like to place",
-          "titleEm": "your order",
-          "subtitle": "Pick the option that best fits your workflow. You can combine methods: upload your own list and add extra products from the catalog.",
-          "recommended": "Recommended",
-          "catalog": {
-            "title": "Online",
-            "titleEm": "catalog",
-            "subtitle": "Browse and select",
-            "desc": "Explore our catalog organized by categories. Search, filter and add products to your cart. Ideal if it's your first time or if you prefer to see options visually.",
-            "time": "3-10 minutes",
-            "cta": "Start selecting"
-          },
-          "template": {
-            "title": "Excel",
-            "titleEm": "template",
-            "subtitle": "Download and send",
-            "desc": "Download our professional template with all categories. Fill it offline at your own pace and upload when ready.",
-            "time": "Offline work",
-            "cta": "View template"
-          },
-          "upload": {
-            "title": "My own",
-            "titleEm": "list",
-            "subtitle": "Upload directly",
-            "desc": "Already have your list in Excel, PDF or any format? Upload it directly. For recurring customers who already manage their own system. Maximum speed.",
-            "time": "30 seconds",
-            "cta": "Upload my list"
-          },
-          "combineTitle": "Need to combine?",
-          "combineBody": "You can upload your own list and then add extra products from the catalog. Total flexibility is our priority."
-        },
-        "catalog": {
-          "eyebrow": "Catalog · {count} products",
-          "title": "Select",
-          "titleEm": "products",
-          "subtitle": "Browse by category or search what you need. Your cart is saved automatically.",
-          "searchPlaceholder": "Search product (e.g. 'beef', 'tomato', 'water')...",
-          "noResults": "No products found for",
-          "searchResults": "{count, plural, one {# result} other {# results}} across {cats, plural, one {# category} other {# categories}}",
-          "clearSearch": "Clear search",
-          "addedBadge": "Added",
-          "addBtn": "Add",
-          "removeBtn": "Remove",
-          "increment": "Increase quantity",
-          "decrement": "Decrease quantity",
-          "presetAria": "Set quantity to {n}",
-          "openCart": "View cart",
-          "closeCart": "Close",
-          "cartBtnAria": "Open cart ({n} products)",
-          "cart": {
-            "title": "Your",
-            "titleEm": "order",
-            "count": "{products} products · {categories} categories",
-            "emptyTitle": "Your order is empty",
-            "emptyBody": "Select products from the catalog. They'll be saved automatically.",
-            "total": "Total items",
-            "review": "Review and send",
-            "note": "You'll receive a quote within 24 hours"
-          }
-        },
-        "template": {
-          "eyebrow": "Method 02 · Excel template",
-          "title": "Work at your",
-          "titleEm": "own pace",
-          "subtitle": "Download our template, fill it offline and come back when ready.",
-          "cardTitle": "Provisions",
-          "cardTitleEm": "template",
-          "cardDesc": "Professional Excel with all our product categories. Clean design, easy to fill, ready to send back.",
-          "stats": {
-            "categories": "Categories",
-            "products": "Products",
-            "sheets": "Sheets"
-          },
-          "steps": {
-            "s1": "Download the Excel file to your computer.",
-            "s2": "Fill the QTY column for each product you need. Leave the rest blank.",
-            "s3": "Come back here and upload it. We'll respond with a quote in 24h."
-          },
-          "downloadBtn": "Download template",
-          "alreadyHaveBtn": "I have it, upload",
-          "comingSoon": "Template coming soon"
-        },
-        "upload": {
-          "eyebrow": "Method 03 · Your own list",
-          "title": "Upload your",
-          "titleEm": "file",
-          "subtitle": "Any list format accepted. We'll review it and prepare your quote.",
-          "dropzoneTitle": "Drag your",
-          "dropzoneTitleEm": "file",
-          "dropzoneSub": "or click to select",
-          "dropzoneLimit": "Maximum 10 MB",
-          "received": "Received successfully",
-          "changeBtn": "Change",
-          "removeBtn": "Remove",
-          "extrasTitle": "Additional comments (optional)",
-          "extrasPlaceholder": "Note brand preferences, special instructions, products that need review, etc.",
-          "combineTitle": "Need anything else from the catalog?",
-          "combineDesc": "Add extra products to your order — they'll be combined with your uploaded list.",
-          "combineBtn": "Add from catalog",
-          "fileTooLarge": "File too large. Maximum 10 MB.",
-          "fileRequired": "Please attach a file before continuing."
-        },
-        "restore": {
-          "title": "{count, plural, one {We saved # product} other {We saved # products}} from your last visit",
-          "body": "Your cart was kept automatically. Restore it or start fresh?",
-          "keep": "Keep",
-          "clear": "Clear"
-        },
-        "custom": {
-          "title": "Can't find a product?",
-          "desc": "Add it here with description, quantity and unit. We'll quote it alongside the rest of your order.",
-          "addBtn": "Add product",
-          "namePlaceholder": "E.g: White marine paint, M8 stainless screws...",
-          "qtyLabel": "Qty.",
-          "unitPlaceholder": "ud, m, kg...",
-          "removeLabel": "Remove",
-          "limitNote": "Maximum 20 custom products.",
-          "nameRequired": "Describe the product"
-        },
-        "review": {
-          "eyebrow": "Step 03 · Confirm",
-          "title": "Review and",
-          "titleEm": "send",
-          "subtitle": "Check the details before sending. We'll confirm by email within 24 hours.",
-          "vesselSection": "Vessel and contact details",
-          "orderSection": "Your order",
-          "methodLabel": "Method",
-          "methodCatalog": "Online catalog",
-          "methodTemplate": "Filled template",
-          "methodUpload": "Custom list",
-          "fileLabel": "File",
-          "itemsLabel": "Products",
-          "extraItemsLabel": "Extra products from catalog",
-          "customItemsLabel": "Custom products",
-          "currencyLabel": "Preferred currency",
-          "notesLabel": "Additional notes",
-          "noNotes": "—",
-          "editBtn": "Edit",
-          "successTitle": "Request received",
-          "successBody": "We've received your inquiry. A coordinator will respond within 24 hours to the email provided. For urgent matters, reach us on WhatsApp."
-        },
-        "common": {
-          "back": "Back",
-          "next": "Continue",
-          "changeMethod": "Change method",
-          "addCatalog": "Add from catalog",
-          "submit": "Send request",
-          "submitting": "Sending..."
-        }
-      }
-    },
-    "desechos": {
-      "title": "Quote request — Waste management",
-      "subtitle": "Indicate waste type, estimated volume and operating port. We'll coordinate vessel attention with full documentation."
-    },
-    "sections": {
-      "vessel": "Vessel details",
-      "portCall": "Port call",
-      "contact": "Contact",
-      "provisionsDetail": "Request details",
-      "wasteDetail": "Waste",
-      "techServicesDetail": "Technical services"
-    },
-    "fields": {
-      "vesselName": "Vessel name",
-      "flag": "Flag",
-      "imo": "IMO (optional)",
-      "vesselType": "Vessel type",
-      "port": "Port",
-      "eta": "ETA",
-      "etd": "ETD (optional)",
-      "contactName": "Contact name",
-      "role": "Role",
-      "email": "Email",
-      "phone": "Phone / WhatsApp (optional)",
-      "company": "Company (optional)",
-      "categories": "Required categories",
-      "notes": "Notes",
-      "notesPlaceholder": "Paste your provisions list or describe what you need...",
-      "currency": "Preferred currency",
-      "wasteTypes": "Waste type (optional)",
-      "techServices": "Technical services requested (optional)",
-      "volume": "Estimated volume",
-      "volumePlaceholder": "e.g. 5 m³",
-      "mode": "Mode",
-      "additionalNotes": "Additional notes (optional)",
-      "consent": "I accept my data being used to process this request"
-    },
-    "placeholders": {
-      "select": "Select…"
-    },
-    "actions": {
-      "submit": "Send request",
-      "submitting": "Sending…"
-    },
-    "success": {
-      "title": "✅ Request received",
-      "body": "We've received your inquiry. A coordinator will respond within 2 hours to the email provided. For urgent matters, reach us on WhatsApp."
-    },
-    "errors": {
-      "generic": "There was an error sending your request. Please try again.",
-      "validation": "Some fields are invalid. Please review the form.",
-      "network": "Network error. Check your connection and try again."
-    },
-    "unifiedCart": {
-      "drawerProvisionsNudge": {
-        "title": "Do you also need provisions?",
-        "body": "Add provisions to this same quote.",
-        "cta": "Go to provisions catalog"
-      },
-      "drawerProvisionsBadge": "{count} provisions products included",
-      "flowTechnicalBanner": {
-        "title": "You have {count} technical supplies in your quote",
-        "body": "When you submit, they will be included in the same request alongside your provisions."
-      },
-      "reviewTechnicalSection": "Technical Supplies",
-      "reviewProvisionsSection": "Provisions",
-      "reviewCombinedNote": "Combined quote — technical supplies and provisions are sent in a single request."
-    }
   },
   "ports_detail": {
     "kicker": "Ship Chandler at",
@@ -471,8 +195,6 @@
     "serviceProvisionesBody": "Fresh, frozen and dry provisions, bonded stores, potable water and technical gases. 266+ products delivered directly onboard.",
     "serviceDesechos": "MARPOL waste management",
     "serviceDesechosBody": "Certified collection and disposal of oily residues under MARPOL Annex I. Complete documentation for the Oil Record Book.",
-    "serviceTecnico": "Naval technical supplies",
-    "serviceTecnicoBody": "Spare parts and materials: electrical, hardware, safety, refrigeration and more. Direct delivery to the vessel.",
     "aboutKicker": "About the port",
     "aboutTitle": "Ship chandler at {port}: complete coverage",
     "faqKicker": "Frequently asked questions",

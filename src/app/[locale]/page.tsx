@@ -6,7 +6,6 @@ import {
   Clock,
   Trash2,
   Apple,
-  Wrench,
 } from "lucide-react";
 import { Hero } from "@/components/sections/Hero";
 import { BentoServiceCard } from "@/components/sections/BentoServiceCard";
@@ -43,9 +42,9 @@ export default async function HomePage({ params }: Props) {
         title={t("heroH1")}
         subtitle={t("heroSubtitle")}
         ctaPrimary={t("heroCtaPrimary")}
-        ctaPrimaryHref={link("/cotizar/provisiones")}
+        ctaPrimaryHref={link("/contacto")}
         ctaExtra={t("heroCtaDesechos")}
-        ctaExtraHref={link("/cotizar/desechos")}
+        ctaExtraHref={link("/contacto")}
         ctaSecondary={t("heroCtaSecondary")}
         ctaSecondaryHref={link("/puertos")}
       />
@@ -145,7 +144,7 @@ export default async function HomePage({ params }: Props) {
             </div>
             <FadeIn delay={0.2}>
               <div className="hidden md:flex items-center gap-3 text-[11px] uppercase tracking-[0.22em] text-charcoal/55">
-                <span>03</span>
+                <span>02</span>
                 <span className="h-px w-12 bg-navy/15" />
                 <span>servicios</span>
               </div>
@@ -168,7 +167,7 @@ export default async function HomePage({ params }: Props) {
                 className="h-full"
               />
             </StaggerItem>
-            <StaggerItem className="lg:col-span-5">
+            <StaggerItem className="lg:col-span-5 lg:row-span-2">
               <BentoServiceCard
                 title={t("service2Title")}
                 body={t("service2Body")}
@@ -182,19 +181,6 @@ export default async function HomePage({ params }: Props) {
                 className="h-full"
               />
             </StaggerItem>
-            <StaggerItem className="lg:col-span-5">
-              <BentoServiceCard
-                title={t("service3Title")}
-                body={t("service3Body")}
-                href={link("/procurement")}
-                ctaLabel={t("ctaSupplies")}
-                imageSrc="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1600&q=80&fm=avif"
-                imageAlt="Marine technical supplies"
-                icon={Wrench}
-                tag="Technical"
-                className="h-full"
-              />
-            </StaggerItem>
           </Stagger>
         </div>
       </section>
@@ -203,10 +189,10 @@ export default async function HomePage({ params }: Props) {
         title={t("ctaTitle")}
         subtitle={t("ctaSubtitle")}
         buttons={[
-          { label: t("ctaProvisions"), href: link("/cotizar/provisiones") },
+          { label: t("ctaProvisions"), href: link("/contacto") },
           {
             label: t("ctaWaste"),
-            href: link("/cotizar/desechos"),
+            href: link("/contacto"),
             variant: "outline",
           },
         ]}

@@ -205,7 +205,7 @@ export default async function GestionDesechosPage({ params }: Props) {
                 </ul>
 
                 <Link
-                  href={link("/cotizar/desechos")}
+                  href={link("/contacto")}
                   className="group inline-flex items-center gap-3 h-12 px-7 rounded-sm bg-gold text-navy hover:bg-gold-light transition-colors text-[12px] uppercase tracking-[0.18em] font-semibold"
                 >
                   {t("ctaText")}
@@ -260,7 +260,7 @@ export default async function GestionDesechosPage({ params }: Props) {
       <CTASection
         title={t("ctaText")}
         buttons={[
-          { label: t("ctaText"), href: link("/cotizar/desechos") },
+          { label: t("ctaText"), href: link("/contacto") },
         ]}
       />
     </>

@@ -72,7 +72,7 @@ export default async function PuertosPage({ params }: Props) {
       <CTASection
         title={t("ctaTitle")}
         buttons={[
-          { label: t("ctaText"), href: link("/cotizar/provisiones") },
+          { label: t("ctaText"), href: link("/contacto") },
         ]}
       />
     </>

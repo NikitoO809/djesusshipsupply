@@ -3,7 +3,6 @@
     "servicios": "Servicios",
     "provisiones": "Provisiones",
     "gestionDesechos": "Servicios",
-    "procurement": "Suministros",
     "puertos": "Puertos",
     "sobreNosotros": "Sobre Nosotros",
     "contacto": "Contacto",
@@ -54,9 +53,6 @@
     "service1Body": "Recolección y disposición certificada de residuos oleosos (sludge, sentina, purificadores) y basura sólida con cumplimiento MARPOL Anexos I–V. Documentación completa para el Oil Record Book.",
     "service2Title": "Provisiones marítimas",
     "service2Body": "Más de 266 productos a bordo: víveres frescos, congelados y secos, bonded stores, agua potable y gases técnicos. Catálogo online, plantilla Excel o lista propia. Respuesta en 24 h.",
-    "service3Title": "Suministros técnicos",
-    "service3Body": "Catálogo de repuestos y materiales navales: eléctricos, mecánicos, de seguridad y de cubierta. Solicitud online con lista de ítems o descripción libre. Respuesta en menos de 2 horas.",
-    "ctaSupplies": "Ver catálogo técnico",
     "ctaTitle": "¿Próxima escala en RD? Cotice en minutos.",
     "ctaSubtitle": "Respuesta en menos de 2 horas con precio cerrado.",
     "ctaProvisions": "Cotizar provisiones",
@@ -166,292 +162,20 @@
   "contact": {
     "kicker": "Contacto",
     "h1": "Hablemos",
-    "intro": "Atendemos solicitudes operativas 24/7. Para cotizaciones, prefiera nuestros formularios — son más rápidos y nos permiten responder con precio cerrado en menos de 2 horas.",
+    "intro": "Atendemos solicitudes operativas 24/7. Para cotizaciones, escríbanos por correo con los datos del buque y le respondemos en menos de 2 horas.",
     "channelsTitle": "Canales directos",
     "labelOpsEmail": "Email operaciones",
     "labelInfoEmail": "Email comercial",
     "labelWhatsapp": "WhatsApp 24/7",
     "labelOffice": "Oficina central",
     "valueOfficeText": "Santo Domingo, República Dominicana",
-    "ctaProvisions": "Cotizar provisiones",
-    "ctaWaste": "Cotizar gestión MARPOL"
-  },
-  "suministro": {
-    "badge": "Suministro integral",
-    "titleBefore": "Todo lo que su buque necesita, ",
-    "titleEm": "en un solo lugar",
-    "titleAfter": "",
-    "description": "Seleccione el servicio que necesita. Construya su lista, solicite cotización y reciba respuesta en menos de 2 horas.",
-    "tecnicosTag": "Suministros técnicos",
-    "tecnicosTitle": "Materiales e insumos industriales",
-    "tecnicosBody": "Eléctricos, ferretería, pintura, refrigeración, plomería, herramientas y más. Arme su lista y cotice directo desde el catálogo.",
-    "tecnicosCta": "Ver catálogo",
-    "provisionesTag": "Provisiones",
-    "provisionesTitle": "Víveres y provisiones a bordo",
-    "provisionesBody": "Frescos, congelados, secos, bonded stores, agua potable y gases técnicos. Entrega directa al buque.",
-    "provisionesCta": "Solicitar cotización",
-    "desechosTag": "MARPOL y Servicios Técnicos",
-    "desechosTitle": "Residuos oleosos y soporte técnico naval",
-    "desechosBody": "Gestión certificada de residuos oleosos MARPOL más servicios técnicos a bordo: chatarra naval, electrónica de navegación, sistemas eléctricos y refrigeración.",
-    "desechosCta": "Ver servicio"
-  },
-  "procurement": {
-    "badge": "Marine Procurement",
-    "title": "Catálogo de Suministros Industriales y Navales",
-    "titleEm": "Industriales y Navales",
-    "description": "Gestionamos la adquisición de materiales, equipos y suministros de proveedores locales certificados — entregados directamente a su embarcación en cualquier puerto de República Dominicana.",
-    "categories": "Categorías",
-    "products": "Productos",
-    "delivery": "Entrega en puerto",
-    "deliveryTime": "24h",
-    "searchPlaceholder": "Buscar producto... (ej: cable, pintura, guantes)",
-    "expandAll": "Expandir todo",
-    "collapseAll": "Colapsar",
-    "noResults": "No se encontraron productos para",
-    "ctaTitle": "¿Necesita alguno de estos suministros?",
-    "ctaDescription": "Envíe su lista de materiales y reciba una cotización en menos de 2 horas. Entrega directa al buque en todos los puertos de RD.",
-    "ctaButton": "Solicitar Cotización",
-    "ctaWhatsapp": "WhatsApp Directo",
-    "supplierNote": "Proveedor autorizado: Ferretería Ochoa S.A. — Todos los productos son originales y cuentan con garantía del fabricante. Disponibilidad sujeta a inventario. Precios proporcionados al momento de la cotización.",
-    "itemCount": "productos"
+    "ctaEmailQuote": "Solicitar cotización por correo",
+    "mailSubject": "Solicitud de cotización — Gestión de desechos MARPOL",
+    "mailBody": "Hola,\n\nSolicito cotización de gestión de desechos MARPOL.\n\nBuque:\nBandera:\nIMO:\nPuerto:\nETA / ETD:\nTipo de residuo (aguas oleosas, lodos, basura...):\nVolumen estimado:\nAtraque o fondeo:\n\nNombre y cargo:\nTeléfono:\nEmpresa:\n"
   },
   "whatsappFloat": {
     "ariaLabel": "Contactar por WhatsApp",
     "prefilledMessage": "Hola, me gustaría obtener más información sobre sus servicios."
-  },
-  "forms": {
-    "provisiones": {
-      "title": "Solicitud de cotización — Provisiones",
-      "subtitle": "Complete los datos del buque y el listado requerido. Le respondemos en menos de 2 horas con disponibilidad y precio.",
-      "flow": {
-        "banner": "Recomendamos solicitar con 5 días de anticipación al ETA. Para urgencias, contáctenos por WhatsApp.",
-        "bannerTip": "TIP",
-        "stepper": {
-          "vessel": "Datos del buque",
-          "order": "Tu pedido",
-          "review": "Revisar y enviar"
-        },
-        "methods": {
-          "eyebrow": "Paso 02 · Cómo prefieres pedir",
-          "title": "¿Cómo deseas hacer",
-          "titleEm": "tu pedido",
-          "subtitle": "Elige la opción que mejor se adapte a tu estilo de trabajo. Puedes combinar métodos: subir tu lista propia y añadir productos extra del catálogo.",
-          "recommended": "Recomendado",
-          "catalog": {
-            "title": "Catálogo",
-            "titleEm": "online",
-            "subtitle": "Navegar y seleccionar",
-            "desc": "Explora nuestro catálogo organizado por categorías. Busca, filtra y agrega productos al carrito. Ideal si es tu primera vez o si prefieres ver opciones visualmente.",
-            "time": "3-10 minutos",
-            "cta": "Empezar a seleccionar"
-          },
-          "template": {
-            "title": "Plantilla",
-            "titleEm": "Excel",
-            "subtitle": "Descargar y enviar",
-            "desc": "Descarga nuestra plantilla profesional con todas las categorías. Llénala offline a tu ritmo y súbela cuando esté lista.",
-            "time": "Trabajo offline",
-            "cta": "Ver plantilla"
-          },
-          "upload": {
-            "title": "Mi",
-            "titleEm": "lista propia",
-            "subtitle": "Subir directamente",
-            "desc": "¿Ya tienes tu lista en Excel, PDF o cualquier formato? Súbela directamente. Para clientes recurrentes que ya manejan su sistema. Velocidad máxima.",
-            "time": "30 segundos",
-            "cta": "Subir mi lista"
-          },
-          "combineTitle": "¿Necesitas combinar?",
-          "combineBody": "Puedes subir tu lista propia y luego añadir productos extra del catálogo. La flexibilidad total es nuestra prioridad."
-        },
-        "catalog": {
-          "eyebrow": "Catálogo · {count} productos",
-          "title": "Seleccionar",
-          "titleEm": "productos",
-          "subtitle": "Explora por categoría o busca lo que necesitas. Tu carrito se guarda automáticamente.",
-          "searchPlaceholder": "Buscar producto (ej: 'beef', 'tomato', 'water')...",
-          "noResults": "No se encontraron productos para",
-          "searchResults": "{count, plural, one {# resultado} other {# resultados}} en {cats, plural, one {# categoría} other {# categorías}}",
-          "clearSearch": "Limpiar búsqueda",
-          "addedBadge": "Agregado",
-          "addBtn": "Agregar",
-          "removeBtn": "Quitar",
-          "increment": "Aumentar cantidad",
-          "decrement": "Disminuir cantidad",
-          "presetAria": "Establecer cantidad a {n}",
-          "openCart": "Ver carrito",
-          "closeCart": "Cerrar",
-          "cartBtnAria": "Abrir carrito ({n} productos)",
-          "cart": {
-            "title": "Tu",
-            "titleEm": "pedido",
-            "count": "{products} productos · {categories} categorías",
-            "emptyTitle": "Tu pedido está vacío",
-            "emptyBody": "Selecciona productos del catálogo. Se guardarán automáticamente.",
-            "total": "Total ítems",
-            "review": "Revisar y enviar",
-            "note": "Recibirás cotización en menos de 24 horas"
-          }
-        },
-        "template": {
-          "eyebrow": "Vía 02 · Plantilla Excel",
-          "title": "Trabaja a tu",
-          "titleEm": "ritmo",
-          "subtitle": "Descarga nuestra plantilla, llénala offline y vuelve cuando esté lista.",
-          "cardTitle": "Plantilla de",
-          "cardTitleEm": "Provisiones",
-          "cardDesc": "Excel profesional con todas nuestras categorías de productos. Diseño limpio, fácil de llenar, listo para enviar de vuelta.",
-          "stats": {
-            "categories": "Categorías",
-            "products": "Productos",
-            "sheets": "Hojas"
-          },
-          "steps": {
-            "s1": "Descarga el archivo Excel a tu computadora.",
-            "s2": "Llena la columna QTY de cada producto que necesitas. Deja en blanco lo que no.",
-            "s3": "Vuelve aquí y súbela. Te respondemos con cotización en 24h."
-          },
-          "downloadBtn": "Descargar Plantilla",
-          "alreadyHaveBtn": "Ya la tengo, subir",
-          "comingSoon": "Plantilla próximamente disponible"
-        },
-        "upload": {
-          "eyebrow": "Vía 03 · Tu lista propia",
-          "title": "Sube tu",
-          "titleEm": "archivo",
-          "subtitle": "Acepta cualquier formato de lista. La revisaremos y prepararemos tu cotización.",
-          "dropzoneTitle": "Arrastra tu",
-          "dropzoneTitleEm": "archivo",
-          "dropzoneSub": "o haz clic para seleccionarlo",
-          "dropzoneLimit": "Máximo 10 MB",
-          "received": "Recibido correctamente",
-          "changeBtn": "Cambiar",
-          "removeBtn": "Eliminar",
-          "extrasTitle": "Comentarios adicionales (opcional)",
-          "extrasPlaceholder": "Indica preferencias de marca, instrucciones especiales, productos que requieren revisión, etc.",
-          "combineTitle": "¿Necesitas algo más del catálogo?",
-          "combineDesc": "Añade productos extra a tu pedido — se combinarán con tu lista subida.",
-          "combineBtn": "Agregar del catálogo",
-          "fileTooLarge": "Archivo demasiado grande. Máximo 10 MB.",
-          "fileRequired": "Por favor adjunta el archivo antes de continuar."
-        },
-        "restore": {
-          "title": "{count, plural, one {Recuperamos # producto} other {Recuperamos # productos}} de tu última visita",
-          "body": "Tu carrito se guardó automáticamente. ¿Lo mantenemos o empezamos de cero?",
-          "keep": "Mantener",
-          "clear": "Vaciar"
-        },
-        "custom": {
-          "title": "¿No encuentras un producto?",
-          "desc": "Agrégalo aquí con descripción, cantidad y unidad. Lo cotizamos junto al resto de tu pedido.",
-          "addBtn": "Agregar producto",
-          "namePlaceholder": "Ej: Pintura marina blanca, Tornillos M8 inox...",
-          "qtyLabel": "Cant.",
-          "unitPlaceholder": "ud, m, kg...",
-          "removeLabel": "Eliminar",
-          "limitNote": "Máximo 20 productos personalizados.",
-          "nameRequired": "Describe el producto"
-        },
-        "review": {
-          "eyebrow": "Paso 03 · Confirmar",
-          "title": "Revisar y",
-          "titleEm": "enviar",
-          "subtitle": "Verifica los datos antes de enviar. Te confirmamos por correo en menos de 24 horas.",
-          "vesselSection": "Datos del buque y contacto",
-          "orderSection": "Tu pedido",
-          "methodLabel": "Método",
-          "methodCatalog": "Catálogo online",
-          "methodTemplate": "Plantilla rellenada",
-          "methodUpload": "Lista propia",
-          "fileLabel": "Archivo",
-          "itemsLabel": "Productos",
-          "extraItemsLabel": "Productos extra del catálogo",
-          "customItemsLabel": "Productos personalizados",
-          "currencyLabel": "Moneda preferida",
-          "notesLabel": "Notas adicionales",
-          "noNotes": "—",
-          "editBtn": "Editar",
-          "successTitle": "Solicitud recibida",
-          "successBody": "Hemos recibido tu requerimiento. Un coordinador te responderá en menos de 24 horas al correo indicado. Para urgencias, contáctanos por WhatsApp."
-        },
-        "common": {
-          "back": "Atrás",
-          "next": "Continuar",
-          "changeMethod": "Cambiar método",
-          "addCatalog": "Agregar del catálogo",
-          "submit": "Enviar solicitud",
-          "submitting": "Enviando..."
-        }
-      }
-    },
-    "desechos": {
-      "title": "Solicitud de cotización — Gestión de desechos",
-      "subtitle": "Indique tipo de residuo, volumen estimado y puerto de operación. Coordinamos la atención al buque con documentación completa."
-    },
-    "sections": {
-      "vessel": "Datos del buque",
-      "portCall": "Escala",
-      "contact": "Contacto",
-      "provisionsDetail": "Detalle de la solicitud",
-      "wasteDetail": "Residuos",
-      "techServicesDetail": "Servicios técnicos"
-    },
-    "fields": {
-      "vesselName": "Nombre del buque",
-      "flag": "Bandera",
-      "imo": "IMO (opcional)",
-      "vesselType": "Tipo de buque",
-      "port": "Puerto",
-      "eta": "ETA",
-      "etd": "ETD (opcional)",
-      "contactName": "Nombre del solicitante",
-      "role": "Cargo",
-      "email": "Email",
-      "phone": "Teléfono / WhatsApp (opcional)",
-      "company": "Empresa (opcional)",
-      "categories": "Categorías requeridas",
-      "notes": "Listado",
-      "notesPlaceholder": "Pegue su lista de provisiones o describa lo que necesita...",
-      "currency": "Moneda preferida",
-      "wasteTypes": "Tipo de residuo (opcional)",
-      "techServices": "Servicios técnicos solicitados (opcional)",
-      "volume": "Volumen estimado",
-      "volumePlaceholder": "Ej: 5 m³",
-      "mode": "Modalidad",
-      "additionalNotes": "Notas adicionales (opcional)",
-      "consent": "Acepto que mis datos sean usados para procesar esta solicitud"
-    },
-    "placeholders": {
-      "select": "Seleccione…"
-    },
-    "actions": {
-      "submit": "Enviar solicitud",
-      "submitting": "Enviando…"
-    },
-    "success": {
-      "title": "✅ Solicitud recibida",
-      "body": "Hemos recibido su requerimiento. Un coordinador le responderá en menos de 2 horas al correo indicado. Para urgencias, contáctenos por WhatsApp."
-    },
-    "errors": {
-      "generic": "Ocurrió un error al enviar la solicitud. Intente nuevamente.",
-      "validation": "Hay campos inválidos. Revise el formulario.",
-      "network": "Error de red. Verifique su conexión e intente de nuevo."
-    },
-    "unifiedCart": {
-      "drawerProvisionsNudge": {
-        "title": "¿También necesitas provisiones?",
-        "body": "Agrega provisiones a esta misma cotización.",
-        "cta": "Ir al catálogo de provisiones"
-      },
-      "drawerProvisionsBadge": "{count} productos de provisiones incluidos",
-      "flowTechnicalBanner": {
-        "title": "Tienes {count} suministros técnicos en tu cotización",
-        "body": "Al enviar, se incluirán en la misma solicitud junto a tus provisiones."
-      },
-      "reviewTechnicalSection": "Suministros Técnicos",
-      "reviewProvisionsSection": "Provisiones",
-      "reviewCombinedNote": "Cotización combinada — suministros técnicos y provisiones se envían en una sola solicitud."
-    }
   },
   "ports_detail": {
     "kicker": "Ship Chandler en",
@@ -471,8 +195,6 @@
     "serviceProvisionesBody": "Víveres frescos, congelados y secos, bonded stores, agua potable y gases técnicos. Más de 266 productos entregados directamente a bordo.",
     "serviceDesechos": "Gestión de desechos MARPOL",
     "serviceDesechosBody": "Recolección y disposición certificada de residuos oleosos bajo MARPOL Anexo I. Documentación completa para el Oil Record Book.",
-    "serviceTecnico": "Suministros técnicos navales",
-    "serviceTecnicoBody": "Repuestos y materiales: eléctricos, ferretería, seguridad, refrigeración y más. Entrega directa al buque.",
     "aboutKicker": "Sobre el puerto",
     "aboutTitle": "Ship chandler en {port}: cobertura completa",
     "faqKicker": "Preguntas frecuentes",

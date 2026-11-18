@@ -127,19 +127,13 @@ export default async function PortDetailPage({ params }: Props) {
       title: t("serviceProvisiones"),
       body: t("serviceProvisionesBody"),
       href: link("/servicios/provisiones"),
-      cta: link("/cotizar/provisiones"),
+      cta: link("/contacto"),
     },
     {
       title: t("serviceDesechos"),
       body: t("serviceDesechosBody"),
       href: link("/servicios/gestion-desechos"),
-      cta: link("/cotizar/desechos"),
-    },
-    {
-      title: t("serviceTecnico"),
-      body: t("serviceTecnicoBody"),
-      href: link("/procurement"),
-      cta: link("/cotizar/provisiones"),
+      cta: link("/contacto"),
     },
   ];
 
@@ -356,14 +350,14 @@ export default async function PortDetailPage({ params }: Props) {
         buttons={[
           {
             label: locale === "es" ? "Cotizar provisiones" : "Quote provisions",
-            href: link("/cotizar/provisiones"),
+            href: link("/contacto"),
           },
           {
             label:
               locale === "es"
                 ? "Gestión de desechos MARPOL"
                 : "MARPOL waste management",
-            href: link("/cotizar/desechos"),
+            href: link("/contacto"),
             variant: "outline",
           },
         ]}
