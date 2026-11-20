@@ -9,6 +9,84 @@ export type Article = {
 
 export const articles: Article[] = [
   {
+    slug: "marpol-anexo-v-basura-buques-republica-dominicana",
+    datePublished: "2026-11-17",
+    author: "De Jesús Ship Supply",
+    imageUrl:
+      "https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&w=1200&q=80",
+    es: {
+      title:
+        "MARPOL Anexo V: cómo gestionar la basura del buque en los puertos de República Dominicana",
+      description:
+        "Qué se considera basura bajo MARPOL Anexo V, el Garbage Record Book y cómo coordinar el retiro de la basura de su buque durante la escala en República Dominicana.",
+      body: `El Anexo V del Convenio MARPOL regula la basura que genera el buque durante su operación normal. Su principio central es simple: la descarga de basura al mar está prohibida, salvo en los casos expresamente permitidos y a determinadas distancias de tierra. Para la mayoría de los buques, la forma práctica de cumplir es entregar la basura en puerto, y eso exige coordinar el retiro con anticipación.
+
+Bajo el Anexo V se considera basura, entre otros, los restos de comida, los residuos domésticos y de cocina, los plásticos de cualquier tipo, el aceite de cocina usado, las cenizas del incinerador, los residuos operacionales, los residuos de carga, los aparatos electrónicos, los artes de pesca y los cadáveres de animales. Los plásticos merecen atención especial porque su descarga al mar está prohibida en cualquier circunstancia.
+
+El Gran Caribe está designado como zona especial bajo el Anexo V, con restricciones de descarga más estrictas que en mar abierto. En la práctica, un buque que escala en República Dominicana debe conservar a bordo la mayor parte de su basura hasta entregarla en puerto. Conviene confirmar con el agente naviero la normativa vigente para la ruta y el tipo de buque.
+
+En cuanto a la documentación, los buques de cierto tamaño deben llevar un Plan de Gestión de Basura y un Libro de Registro de Basura (Garbage Record Book), donde se anotan las entregas a instalaciones de recepción y las descargas autorizadas. Como regla general, el Plan de Gestión se exige a buques de 100 GT o más y a los certificados para transportar 15 personas o más, y el Libro de Registro a buques de 400 GT o más y a los certificados para 15 personas o más. Los detalles y las excepciones dependen de la bandera y del tipo de buque, por lo que el capitán debe verificarlos.
+
+Qué conviene preparar antes de la escala: separar la basura por categorías (plásticos, orgánicos, aceite de cocina usado, residuos operacionales), estimar el volumen o el número de bolsas y contenedores, y avisar si el buque estará en muelle o en fondeo. Mientras más claro llegue el pedido, más rápido se confirma la operación.
+
+Así lo coordinamos en De Jesús Ship Supply: usted nos envía por correo o WhatsApp el nombre del buque, el número IMO, el puerto, la ETA y el tipo y volumen estimado de basura. Confirmamos disponibilidad y tarifa en menos de 2 horas, retiramos la basura en muelle o en fondeo y entregamos una constancia de la entrega que el capitán puede usar como soporte para el Garbage Record Book. Atendemos los 8 puertos principales del país. Encuentre el detalle del servicio en nuestra página de gestión de desechos MARPOL.`,
+    },
+    en: {
+      title:
+        "MARPOL Annex V: how to handle your vessel's garbage in Dominican Republic ports",
+      description:
+        "What counts as garbage under MARPOL Annex V, the Garbage Record Book, and how to arrange garbage removal for your vessel during a port call in the Dominican Republic.",
+      body: `Annex V of the MARPOL Convention regulates the garbage a vessel generates during normal operation. Its core principle is simple: discharging garbage into the sea is prohibited, except in expressly permitted cases and at certain distances from land. For most vessels, the practical way to comply is to deliver garbage ashore in port, and that requires arranging the removal in advance.
+
+Under Annex V, garbage includes food waste, domestic and galley waste, plastics of every kind, used cooking oil, incinerator ashes, operational waste, cargo residues, electronic equipment, fishing gear and animal carcasses. Plastics deserve special attention because discharging them into the sea is prohibited in all circumstances.
+
+The Wider Caribbean is designated a special area under Annex V, with stricter discharge restrictions than the open sea. In practice, a vessel calling at the Dominican Republic should keep most of its garbage on board until it is delivered in port. It is advisable to confirm the rules in force for the route and vessel type with the port agent.
+
+On documentation, vessels above a certain size must carry a Garbage Management Plan and a Garbage Record Book, where deliveries to reception facilities and permitted discharges are recorded. As a general rule, the Management Plan is required for ships of 100 GT and above and those certified to carry 15 persons or more, and the Record Book for ships of 400 GT and above and those certified for 15 persons or more. The details and exceptions depend on the flag and vessel type, so the master should verify them.
+
+What to prepare before the port call: sort the garbage by category (plastics, organic waste, used cooking oil, operational waste), estimate the volume or the number of bags and containers, and say whether the vessel will be alongside or at anchorage. The clearer the request, the faster the operation can be confirmed.
+
+This is how we coordinate it at De Jesús Ship Supply: you send us by email or WhatsApp the vessel name, IMO number, port, ETA and the type and estimated volume of garbage. We confirm availability and price in under 2 hours, collect the garbage alongside or at anchorage, and provide a delivery record the master can use as support for the Garbage Record Book. We serve the country's 8 main ports. You will find the service details on our MARPOL waste management page.`,
+    },
+  },
+  {
+    slug: "marpol-anexo-iv-aguas-sucias-buques-escala-republica-dominicana",
+    datePublished: "2026-11-17",
+    author: "De Jesús Ship Supply",
+    imageUrl:
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&q=80",
+    es: {
+      title:
+        "MARPOL Anexo IV: qué hacer con las aguas sucias del buque durante la escala en República Dominicana",
+      description:
+        "Qué regula el Anexo IV de MARPOL sobre aguas sucias (sewage), cuándo hay que entregarlas en puerto y cómo coordinar el retiro desde el tanque de retención en República Dominicana.",
+      body: `El Anexo IV del Convenio MARPOL regula las aguas sucias (sewage) de los buques: básicamente las aguas negras de inodoros y urinarios, las de la enfermería y las de espacios con animales vivos. La descarga de aguas sucias al mar está restringida y, en términos generales, solo se permite con un sistema de tratamiento aprobado, o bien triturada y desinfectada a más de 3 millas náuticas de la tierra más cercana, o sin tratar a más de 12 millas y con el buque navegando a una velocidad mínima.
+
+El Anexo IV se aplica, en general, a buques de 400 GT o más en viajes internacionales y a buques menores de 400 GT certificados para transportar más de 15 personas. Estos buques deben contar con el Certificado Internacional de Prevención de la Contaminación por Aguas Sucias, además de un sistema de tratamiento o un tanque de retención adecuado.
+
+En puerto la situación es distinta: cerca de la costa y dentro de las aguas portuarias no se puede descargar libremente, por lo que un buque con el tanque de retención lleno necesita entregar las aguas sucias para su tratamiento en tierra. En la práctica, esto se resuelve con el retiro mediante camión cisterna desde el muelle o con una coordinación específica cuando el buque está en fondeo.
+
+Para cotizar el servicio conviene tener a mano: nombre del buque y número IMO, puerto, ETA y ETD, volumen estimado en metros cúbicos, si el buque estará en muelle o en fondeo y cualquier restricción de tiempo de la escala. Coordinar con anticipación evita demoras, sobre todo cuando la estadía en puerto es corta.
+
+Así lo gestionamos en De Jesús Ship Supply: nos escribe por correo o WhatsApp con esos datos, confirmamos disponibilidad y tarifa en menos de 2 horas, retiramos las aguas sucias en muelle o en fondeo y entregamos una constancia de la entrega. Atendemos los 8 puertos principales del país y, en la misma escala, también podemos retirar los residuos oleosos (Anexo I) y la basura (Anexo V) con un solo contacto. Encuentre el detalle en nuestra página de gestión de desechos MARPOL.`,
+    },
+    en: {
+      title:
+        "MARPOL Annex IV: what to do with your vessel's sewage during a port call in the Dominican Republic",
+      description:
+        "What MARPOL Annex IV says about sewage, when it must be delivered ashore, and how to arrange removal from the holding tank in the Dominican Republic.",
+      body: `Annex IV of the MARPOL Convention regulates ship sewage: essentially black water from toilets and urinals, water from medical spaces and from spaces containing live animals. Discharging sewage into the sea is restricted and, in general terms, is only allowed with an approved treatment system, or comminuted and disinfected more than 3 nautical miles from the nearest land, or untreated more than 12 miles out while the vessel is under way at a minimum speed.
+
+Annex IV applies, in general, to ships of 400 GT and above on international voyages and to ships under 400 GT certified to carry more than 15 persons. These ships must hold the International Sewage Pollution Prevention Certificate, in addition to an adequate treatment system or holding tank.
+
+In port the situation is different: near the coast and within port waters sewage cannot be discharged freely, so a vessel with a full holding tank needs to deliver it for treatment ashore. In practice this is solved with removal by tanker truck from the quay, or a specific arrangement when the vessel is at anchorage.
+
+To quote the service it helps to have at hand: vessel name and IMO number, port, ETA and ETD, estimated volume in cubic metres, whether the vessel will be alongside or at anchorage, and any time restrictions of the port call. Coordinating in advance avoids delays, especially when the stay in port is short.
+
+This is how we handle it at De Jesús Ship Supply: you email or message us with those details, we confirm availability and price in under 2 hours, collect the sewage alongside or at anchorage and provide a record of the delivery. We serve the country's 8 main ports and, in the same call, we can also remove oily waste (Annex I) and garbage (Annex V) through a single contact. You will find the details on our MARPOL waste management page.`,
+    },
+  },
+  {
     slug: "guia-marpol-anexo-i-republica-dominicana",
     datePublished: "2026-01-15",
     author: "De Jesús Ship Supply",

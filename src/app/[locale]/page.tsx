@@ -12,6 +12,7 @@ import { BentoServiceCard } from "@/components/sections/BentoServiceCard";
 import { CTASection } from "@/components/sections/CTASection";
 import { FadeIn, Stagger, StaggerItem } from "@/components/sections/FadeIn";
 import { buildPageMetadata } from "@/lib/seo";
+import { mailtoUrl } from "@/lib/contact";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -26,8 +27,10 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("home");
+  const tc = await getTranslations("contact");
 
   const link = (path: string) => `/${locale}${path}`;
+  const mailtoQuote = mailtoUrl(tc("mailSubject"), tc("mailBody"));
 
   const advantages = [
     { icon: ShieldCheck, title: t("why1Title"), body: t("why1Body") },
@@ -42,9 +45,9 @@ export default async function HomePage({ params }: Props) {
         title={t("heroH1")}
         subtitle={t("heroSubtitle")}
         ctaPrimary={t("heroCtaPrimary")}
-        ctaPrimaryHref={link("/contacto")}
-        ctaExtra={t("heroCtaDesechos")}
-        ctaExtraHref={link("/contacto")}
+        ctaPrimaryHref={mailtoQuote}
+        ctaExtra={t("heroCtaProvisiones")}
+        ctaExtraHref={link("/servicios/provisiones")}
         ctaSecondary={t("heroCtaSecondary")}
         ctaSecondaryHref={link("/puertos")}
       />
@@ -189,9 +192,9 @@ export default async function HomePage({ params }: Props) {
         title={t("ctaTitle")}
         subtitle={t("ctaSubtitle")}
         buttons={[
-          { label: t("ctaProvisions"), href: link("/contacto") },
+          { label: t("ctaWaste"), href: mailtoQuote },
           {
-            label: t("ctaWaste"),
+            label: t("ctaProvisions"),
             href: link("/contacto"),
             variant: "outline",
           },

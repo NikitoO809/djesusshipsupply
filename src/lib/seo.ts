@@ -13,14 +13,14 @@ type Copy = { title: string; description: string };
 export const PAGE_SEO: Record<string, Record<Locale, Copy>> = {
   "/": {
     es: {
-      title: "Ship Chandler en RD — Provisiones y MARPOL en 8 puertos",
+      title: "Desechos MARPOL y Ship Chandler en RD — 8 puertos",
       description:
-        "Ship chandler dominicano: gestión de desechos MARPOL y provisiones marítimas en Caucedo, Río Haina, Punta Caucedo y los 8 puertos principales de RD. Respuesta 24/7.",
+        "Recolección de residuos oleosos, aguas sucias y basura de buques (MARPOL Anexos I, IV y V) y provisiones marítimas en Caucedo, Río Haina y los 8 puertos de RD. Respuesta 24/7.",
     },
     en: {
-      title: "Ship Chandler in DR — Provisions & MARPOL in 8 ports",
+      title: "MARPOL Waste & Ship Chandler in DR — 8 ports",
       description:
-        "Dominican ship chandler: MARPOL waste management and ship provisions across Caucedo, Río Haina and the 8 main ports of the Dominican Republic. 24/7 response.",
+        "Collection of oily waste, sewage and garbage from vessels (MARPOL Annex I, IV and V) and ship provisions at Caucedo, Río Haina and the 8 main ports of the Dominican Republic. 24/7 response.",
     },
   },
   "/sobre-nosotros": {
@@ -49,14 +49,14 @@ export const PAGE_SEO: Record<string, Record<Locale, Copy>> = {
   },
   "/servicios/gestion-desechos": {
     es: {
-      title: "Gestión de residuos oleosos MARPOL y servicios técnicos navales en RD",
+      title: "Desechos MARPOL en RD — Anexos I, IV y V",
       description:
-        "Recolección y disposición de residuos oleosos con cumplimiento MARPOL Anexo I. Servicios técnicos a bordo: chatarra naval, electrónica de navegación, sistemas eléctricos y refrigeración. 8 puertos en RD.",
+        "Recolección de residuos oleosos (sludge, sentinas), aguas sucias y basura de buques en los 8 puertos de RD. MARPOL Anexos I, IV y V, en muelle o fondeo. Cotización en menos de 2 horas.",
     },
     en: {
-      title: "MARPOL oily waste management & marine technical services in DR",
+      title: "MARPOL Waste Disposal in DR — Annex I, IV, V",
       description:
-        "Certified oily residue collection and MARPOL Annex I compliance. Onboard technical services: marine scrap, navigation electronics, electrical systems and refrigeration. 8 ports in the DR.",
+        "Oily waste (sludge, bilge), sewage and garbage collection for vessels at all 8 Dominican ports. MARPOL Annex I, IV and V, alongside or at anchorage. Quote in under 2 hours.",
     },
   },
   "/puertos": {
@@ -444,5 +444,26 @@ export function serviceJsonLd({
     provider: { "@id": `${SITE_URL}/#organization` },
     areaServed: { "@type": "Country", name: "Dominican Republic" },
     url: `${SITE_URL}/${supported}${path}`,
+    ...(serviceType === "marpol" && {
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: supported === "es" ? "Anexos MARPOL atendidos" : "MARPOL annexes covered",
+        itemListElement: (supported === "es"
+          ? [
+              "Residuos oleosos — MARPOL Anexo I",
+              "Aguas sucias — MARPOL Anexo IV",
+              "Basura de a bordo — MARPOL Anexo V",
+            ]
+          : [
+              "Oily waste — MARPOL Annex I",
+              "Sewage — MARPOL Annex IV",
+              "Onboard garbage — MARPOL Annex V",
+            ]
+        ).map((n) => ({
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: n },
+        })),
+      },
+    }),
   };
 }

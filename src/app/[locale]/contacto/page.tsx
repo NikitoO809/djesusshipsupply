@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/sections/PageHeader";
 import { ContactChannels } from "@/components/sections/ContactChannels";
 import { FadeIn } from "@/components/sections/FadeIn";
 import { buildPageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { mailtoUrl } from "@/lib/contact";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -23,9 +24,7 @@ export default async function ContactoPage({ params }: Props) {
 
   const link = (path: string) => `/${locale}${path}`;
 
-  const mailtoQuote = `mailto:ops@djshipsupply.com?subject=${encodeURIComponent(
-    t("mailSubject")
-  )}&body=${encodeURIComponent(t("mailBody"))}`;
+  const mailtoQuote = mailtoUrl(t("mailSubject"), t("mailBody"));
 
   const channels = [
     {

@@ -12,8 +12,8 @@ export async function Header() {
   const link = (path: string) => `/${locale}${path}`;
 
   const navItems = [
-    { label: t("provisiones"), href: link("/servicios/provisiones") },
     { label: t("gestionDesechos"), href: link("/servicios/gestion-desechos") },
+    { label: t("provisiones"), href: link("/servicios/provisiones") },
     { label: t("puertos"), href: link("/puertos") },
     { label: t("sobreNosotros"), href: link("/sobre-nosotros") },
     { label: t("contacto"), href: link("/contacto") },
